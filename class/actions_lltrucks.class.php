@@ -105,6 +105,6 @@ class Actionslltrucks
 			$conf->mc->entities['commande_fournisseur'] = $conf->mc->entities['supplier_order'];
 		}
 		
-		return 1;
+		return 0;
 	}
 }
