@@ -89,6 +89,7 @@ class modlltrucks extends DolibarrModules
 		//							'workflow' => array('WORKFLOW_MODULE1_YOURACTIONTYPE_MODULE2'=>array('enabled'=>'! empty($conf->module1->enabled) && ! empty($conf->module2->enabled)', 'picto'=>'yourpicto@lltrucks')) // Set here all workflow context managed by module
 		//                        );
 		$this->module_parts = array(
+				'triggers' => 1, 
 				'hooks' => array('all','restrictedArea'),
 		);
 
@@ -97,7 +98,7 @@ class modlltrucks extends DolibarrModules
 		$this->dirs = array();
 
 		// Config pages. Put here list of php page, stored into lltrucks/admin directory, to use to setup module.
-		//$this->config_page_url = array("2l_setup.php@2ltrucks");
+		$this->config_page_url = array("lltrucks_setup.php@lltrucks");
 
 		// Dependencies
 		$this->hidden = false;			// A condition to hide module
@@ -113,7 +114,7 @@ class modlltrucks extends DolibarrModules
 		// Example: $this->const=array(0=>array('MYMODULE_MYNEWCONST1','chaine','myvalue','This is a constant to add',1),
 		//                             1=>array('MYMODULE_MYNEWCONST2','chaine','myvalue','This is another constant to add',0, 'current', 1)
 		// );
-		$this->const = array();
+		$this->const = array('LLTRUCKS_PRICE_COEF');
 
 		// Array to add new pages in new tabs
 		// Example: $this->tabs = array('objecttype:+tabname1:Title1:mylangfile@lltrucks:$user->rights->lltrucks->read:/lltrucks/mynewtab1.php?id=__ID__',  	// To add a new tab identified by code tabname1
