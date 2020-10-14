@@ -17,8 +17,8 @@
  */
 
 /**
- *	\file		lib/listincsv.lib.php
- *	\ingroup	listincsv
+ *	\file		lib/lltrucks.lib.php
+ *	\ingroup	lltrucks
  *	\brief		This file is an example module library
  *				Put some comments here
  */

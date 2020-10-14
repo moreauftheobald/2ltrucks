@@ -18,20 +18,20 @@
  */
 
 /**
- * 	\defgroup   listincsv     Module ListInCSV
+ * 	\defgroup   lltrucks     Module lltrucks
  *  \brief      Example of a module descriptor.
- *				Such a file must be copied into htdocs/listincsv/core/modules directory.
- *  \file       htdocs/listincsv/core/modules/modListInCSV.class.php
- *  \ingroup    listincsv
- *  \brief      Description and activation file for module ListInCSV
+ *				Such a file must be copied into htdocs/lltrucks/core/modules directory.
+ *  \file       htdocs/lltrucks/core/modules/modlltrucks.class.php
+ *  \ingroup    lltrucks
+ *  \brief      Description and activation file for module lltrucks
  */
 include_once DOL_DOCUMENT_ROOT .'/core/modules/DolibarrModules.class.php';
 
 
 /**
- *  Description and activation class for module ListInCSV
+ *  Description and activation class for module lltrucks
  */
-class modll extends DolibarrModules
+class modlltrucks extends DolibarrModules
 {
 	/**
 	 *   Constructor. Define names, constants, directories, boxes, permissions
@@ -49,7 +49,7 @@ class modll extends DolibarrModules
 		// Use here a free id (See in Home -> System information -> Dolibarr for list of used modules id).
 		$this->numero = 101075; // 104000 to 104999 for ATM CONSULTING
 		// Key text used to identify module (for permissions, menus, etc...)
-		$this->rights_class = 'll';
+		$this->rights_class = 'lltrucks';
 
 		// Family can be 'crm','financial','hr','projects','products','ecm','technic','other'
 		// It is used to group modules in module setup page
@@ -61,18 +61,18 @@ class modll extends DolibarrModules
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
 		$this->version = '1.0.0';
 		// Key used in llx_const table to save module status enabled/disabled (where MYMODULE is value of property name of module in uppercase)
-		$this->const_name = 'MAIN_MODULE_2L';
+		$this->const_name = 'MAIN_MODULE_LLTRUCKS';
 		// Where to store the module in sLetup page (0=common,1=interface,2=others,3=very specific)
 		$this->special = 0;
 		// Name of image file used for this module.
 		// If file is in theme/yourtheme/img directory under name object_pictovalue.png, use this->picto='pictovalue'
 		// If file is in module/img directory under name object_pictovalue.png, use this->picto='pictovalue@module'
-		$this->picto='ll@lltrucks';
+		$this->picto='lltrucks@lltrucks';
 
 		// Defined all module parts (triggers, login, substitutions, menus, css, etc...)
-		// for default path (eg: /listincsv/core/xxxxx) (0=disable, 1=enable)
-		// for specific path of parts (eg: /listincsv/core/modules/barcode)
-		// for specific css file (eg: /listincsv/css/listincsv.css.php)
+		// for default path (eg: /lltrucks/core/xxxxx) (0=disable, 1=enable)
+		// for specific path of parts (eg: /lltrucks/core/modules/barcode)
+		// for specific css file (eg: /lltrucks/css/lltrucks.css.php)
 		//$this->module_parts = array(
 		//                        	'triggers' => 0,                                 	// Set this to 1 if module has its own trigger directory (core/triggers)
 		//							'login' => 0,                                    	// Set this to 1 if module has its own login method directory (core/login)
@@ -82,21 +82,21 @@ class modll extends DolibarrModules
 		//                        	'tpl' => 0,                                      	// Set this to 1 if module overwrite template dir (core/tpl)
 		//							'barcode' => 0,                                  	// Set this to 1 if module has its own barcode directory (core/modules/barcode)
 		//							'models' => 0,                                   	// Set this to 1 if module has its own models directory (core/modules/xxx)
-		//							'css' => array('/listincsv/css/listincsv.css.php'),	// Set this to relative path of css file if module has its own css file
-	 	//							'js' => array('/listincsv/js/listincsv.js'),          // Set this to relative path of js file if module must load a js on all pages
+		//							'css' => array('/lltrucks/css/lltrucks.css.php'),	// Set this to relative path of css file if module has its own css file
+	 	//							'js' => array('/lltrucks/js/lltrucks.js'),          // Set this to relative path of js file if module must load a js on all pages
 		//							'hooks' => array('hookcontext1','hookcontext2')  	// Set here all hooks context managed by module
 		//							'dir' => array('output' => 'othermodulename'),      // To force the default directories names
-		//							'workflow' => array('WORKFLOW_MODULE1_YOURACTIONTYPE_MODULE2'=>array('enabled'=>'! empty($conf->module1->enabled) && ! empty($conf->module2->enabled)', 'picto'=>'yourpicto@listincsv')) // Set here all workflow context managed by module
+		//							'workflow' => array('WORKFLOW_MODULE1_YOURACTIONTYPE_MODULE2'=>array('enabled'=>'! empty($conf->module1->enabled) && ! empty($conf->module2->enabled)', 'picto'=>'yourpicto@lltrucks')) // Set here all workflow context managed by module
 		//                        );
 		$this->module_parts = array(
-				'hooks' => array('all'),
+				'hooks' => array('all','restrictedArea'),
 		);
 
 		// Data directories to create when module is enabled.
-		// Example: this->dirs = array("/listincsv/temp");
+		// Example: this->dirs = array("/lltrucks/temp");
 		$this->dirs = array();
 
-		// Config pages. Put here list of php page, stored into listincsv/admin directory, to use to setup module.
+		// Config pages. Put here list of php page, stored into lltrucks/admin directory, to use to setup module.
 		//$this->config_page_url = array("2l_setup.php@2ltrucks");
 
 		// Dependencies
@@ -106,7 +106,7 @@ class modll extends DolibarrModules
 		$this->conflictwith = array();	// List of modules id this module is in conflict with
 		$this->phpmin = array(7,0);					// Minimum version of PHP required by module
 		$this->need_dolibarr_version = array(11,0);	// Minimum version of Dolibarr required by module
-		$this->langfiles = array("ll@lltrucks");
+		$this->langfiles = array("lltrucks@lltrucks");
 
 		// Constants
 		// List of particular constants to add when module is enabled (key, 'chaine', value, desc, visible, 'current' or 'allentities', deleteonunactive)
@@ -116,8 +116,8 @@ class modll extends DolibarrModules
 		$this->const = array();
 
 		// Array to add new pages in new tabs
-		// Example: $this->tabs = array('objecttype:+tabname1:Title1:mylangfile@listincsv:$user->rights->listincsv->read:/listincsv/mynewtab1.php?id=__ID__',  	// To add a new tab identified by code tabname1
-        //                              'objecttype:+tabname2:Title2:mylangfile@listincsv:$user->rights->othermodule->read:/listincsv/mynewtab2.php?id=__ID__',  	// To add another new tab identified by code tabname2
+		// Example: $this->tabs = array('objecttype:+tabname1:Title1:mylangfile@lltrucks:$user->rights->lltrucks->read:/lltrucks/mynewtab1.php?id=__ID__',  	// To add a new tab identified by code tabname1
+        //                              'objecttype:+tabname2:Title2:mylangfile@lltrucks:$user->rights->othermodule->read:/lltrucks/mynewtab2.php?id=__ID__',  	// To add another new tab identified by code tabname2
         //                              'objecttype:-tabname:NU:conditiontoremove');                                                     						// To remove an existing tab identified by code tabname
 		// where objecttype can be
 		// 'categories_x'	  to add a tab in category view (replace 'x' by type of category (0=product, 1=supplier, 2=customer, 3=member)
@@ -140,16 +140,16 @@ class modll extends DolibarrModules
 		// 'thirdparty'       to add a tab in third party view
 		// 'user'             to add a tab in user view
 		$this->tabs = array(
-				'ticketadmin:+multientitysharing:multientitysharing:ll@lltrucks:$conf->ticket->enabled:/lltrucks/tab/multicompany_ticket_sharing.php',
-				'supplierorder_admin:+multientitysharing:multientitysharing:ll@lltrucks:$conf->fournisseur->enabled:/lltrucks/tab/multicompany_cf_sharing.php'
+				'ticketadmin:+multientitysharing:multientitysharing:lltrucks@lltrucks:$conf->ticket->enabled:/lltrucks/tab/multicompany_ticket_sharing.php',
+				'supplierorder_admin:+multientitysharing:multientitysharing:lltrucks@lltrucks:$conf->fournisseur->enabled:/lltrucks/tab/multicompany_cf_sharing.php'
 		);
 
         // Dictionaries
 	    $this->dictionaries=array();
         /* Example:
-        if (! isset($conf->listincsv->enabled)) $conf->listincsv->enabled=0;	// This is to avoid warnings
+        if (! isset($conf->lltrucks->enabled)) $conf->lltrucks->enabled=0;	// This is to avoid warnings
         $this->dictionaries=array(
-            'langs'=>'mylangfile@listincsv',
+            'langs'=>'mylangfile@lltrucks',
             'tabname'=>array(MAIN_DB_PREFIX."table1",MAIN_DB_PREFIX."table2",MAIN_DB_PREFIX."table3"),		// List of tables we want to see into dictonnary editor
             'tablib'=>array("Table1","Table2","Table3"),													// Label of tables
             'tabsql'=>array('SELECT f.rowid as rowid, f.code, f.label, f.active FROM '.MAIN_DB_PREFIX.'table1 as f','SELECT f.rowid as rowid, f.code, f.label, f.active FROM '.MAIN_DB_PREFIX.'table2 as f','SELECT f.rowid as rowid, f.code, f.label, f.active FROM '.MAIN_DB_PREFIX.'table3 as f'),	// Request to select fields
@@ -158,7 +158,7 @@ class modll extends DolibarrModules
             'tabfieldvalue'=>array("code,label","code,label","code,label"),																				// List of fields (list of fields to edit a record)
             'tabfieldinsert'=>array("code,label","code,label","code,label"),																			// List of fields (list of fields for insert)
             'tabrowid'=>array("rowid","rowid","rowid"),																									// Name of columns with primary key (try to always name it 'rowid')
-            'tabcond'=>array($conf->listincsv->enabled,$conf->listincsv->enabled,$conf->listincsv->enabled)												// Condition to show each dictionary
+            'tabcond'=>array($conf->lltrucks->enabled,$conf->lltrucks->enabled,$conf->lltrucks->enabled)												// Condition to show each dictionary
         );
         */
 
@@ -191,14 +191,14 @@ class modll extends DolibarrModules
 		// Example to declare a new Top Menu entry and its Left menu entry:
 		// $this->menu[$r]=array(	'fk_menu'=>0,			                // Put 0 if this is a top menu
 		//							'type'=>'top',			                // This is a Top menu entry
-		//							'titre'=>'ListInCSV top menu',
-		//							'mainmenu'=>'listincsv',
-		//							'leftmenu'=>'listincsv',
-		//							'url'=>'/listincsv/pagetop.php',
-		//							'langs'=>'mylangfile@listincsv',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+		//							'titre'=>'lltrucks top menu',
+		//							'mainmenu'=>'lltrucks',
+		//							'leftmenu'=>'lltrucks',
+		//							'url'=>'/lltrucks/pagetop.php',
+		//							'langs'=>'mylangfile@lltrucks',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 		//							'position'=>100,
-		//							'enabled'=>'$conf->listincsv->enabled',	// Define condition to show or hide menu entry. Use '$conf->listincsv->enabled' if entry must be visible if module is enabled.
-		//							'perms'=>'1',			                // Use 'perms'=>'$user->rights->listincsv->level1->level2' if you want your menu with a permission rules
+		//							'enabled'=>'$conf->lltrucks->enabled',	// Define condition to show or hide menu entry. Use '$conf->lltrucks->enabled' if entry must be visible if module is enabled.
+		//							'perms'=>'1',			                // Use 'perms'=>'$user->rights->lltrucks->level1->level2' if you want your menu with a permission rules
 		//							'target'=>'',
 		//							'user'=>2);				                // 0=Menu for internal users, 1=external users, 2=both
 		// $r++;
@@ -206,14 +206,14 @@ class modll extends DolibarrModules
 		// Example to declare a Left Menu entry into an existing Top menu entry:
 		// $this->menu[$r]=array(	'fk_menu'=>'fk_mainmenu=xxx',		    // Use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 		//							'type'=>'left',			                // This is a Left menu entry
-		//							'titre'=>'ListInCSV left menu',
+		//							'titre'=>'lltrucks left menu',
 		//							'mainmenu'=>'xxx',
-		//							'leftmenu'=>'listincsv',
-		//							'url'=>'/listincsv/pagelevel2.php',
-		//							'langs'=>'mylangfile@listincsv',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+		//							'leftmenu'=>'lltrucks',
+		//							'url'=>'/lltrucks/pagelevel2.php',
+		//							'langs'=>'mylangfile@lltrucks',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 		//							'position'=>100,
-		//							'enabled'=>'$conf->listincsv->enabled',  // Define condition to show or hide menu entry. Use '$conf->listincsv->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-		//							'perms'=>'1',			                // Use 'perms'=>'$user->rights->listincsv->level1->level2' if you want your menu with a permission rules
+		//							'enabled'=>'$conf->lltrucks->enabled',  // Define condition to show or hide menu entry. Use '$conf->lltrucks->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
+		//							'perms'=>'1',			                // Use 'perms'=>'$user->rights->lltrucks->level1->level2' if you want your menu with a permission rules
 		//							'target'=>'',
 		//							'user'=>2);				                // 0=Menu for internal users, 1=external users, 2=both
 		// $r++;

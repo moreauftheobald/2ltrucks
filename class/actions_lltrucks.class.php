@@ -17,16 +17,16 @@
  */
 
 /**
- * \file	class/actions_listincsv.class.php
- * \ingroup listincsv
+ * \file	class/actions_lltrucks.class.php
+ * \ingroup lltrucks
  * \brief   This file is an example hook overload class file
  *		  Put some comments here
  */
 
 /**
- * Class ActionsListInCSV
+ * Class Actionslltrucks
  */
-class Actionsll
+class Actionslltrucks
 {
 	/**
 	 * @var array Hook results. Propagated to $hookmanager->resArray for later reuse
@@ -65,13 +65,39 @@ class Actionsll
 		
 	}
 	
-	Function restrictedArea($parameters){
+	/**
+	* Overloading the doActions function : replacing the parent's function with the one below
+	 *
+	 * @param array()         $parameters     Hook metadatas (context, etc...)
+	 * @param CommonObject $object      The object to process (an invoice if you are in invoice module, a propale in propale's module, etc...)
+	 * @param string       $action      Current action (if set). Generally create or edit or null
+	 * @param HookManager  $hookmanager Hook manager propagated to allow calling another hook
+	 * @return  int                             < 0 on error, 0 on success, 1 to replace standard code
+	 */
+	 public function doActions($parameters, &$object, &$action, $hookmanager)
+	 {
+	 }
+	
+	 /**
+	 * Overloading the doActions function : replacing the parent's function with the one below
+	 *
+	 * @param array()         $parameters     Hook metadatas (context, etc...)
+	 * @param CommonObject $object      The object to process (an invoice if you are in invoice module, a propale in propale's module, etc...)
+	 * @param string       $action      Current action (if set). Generally create or edit or null
+	 * @param HookManager  $hookmanager Hook manager propagated to allow calling another hook
+	 * @return  int                             < 0 on error, 0 on success, 1 to replace standard code
+	 */
+	 public function addMoreActionsButtons($parameters, &$object, &$action, $hookmanager)
+	 {
+	 	
+	 }
+	 
+	 
+	 
+	public Function restrictedArea($parameters){
 		global $conf, $langs, $user, $db;
 		
-		print 'ok';
-		exit;
-		
-		$langs->load('2l@2ltrucks');
+		$langs->load('ll@lltrucks');
 		
 		$feature = $parameters['features'];
 		
