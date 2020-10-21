@@ -32,6 +32,10 @@
 /**
  * Trigger class
  */
+
+require_once DOL_DOCUMENT_ROOT.'/core/triggers/dolibarrtriggers.class.php';
+
+
 class Interfacelltruckstrigger extends DolibarrTriggers
 {
 
