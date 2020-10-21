@@ -38,8 +38,8 @@ function lltrucksAdminPrepareHead()
 	$h++;
 	
 	$head[$h][0] = dol_buildpath("/lltrucks/admin/notify_plus_admin.php", 1);
-	$head[$h][1] = $langs->trans("ExtraFields");
-	$head[$h][2] = 'extrafields';
+	$head[$h][1] = $langs->trans("notifications");
+	$head[$h][2] = 'notify_plus';
 	$h++;
 	
 	
