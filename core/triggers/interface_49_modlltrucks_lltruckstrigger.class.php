@@ -118,11 +118,12 @@ class Interfacelltruckstrigger
         // Users
     	if (empty($conf->notification->enabled)) return 0; // Module not active, we do nothing
     	
-    	require_once DOL_DOCUMENT_ROOT.'/lltrucks/class/notify_plus.class.php';
+    	dol_include_once('lltrucks/class/notify_plus.class.php');
     	$notify = new Notify_plus($this->db);
     	
     	if (!in_array($action, $notify->arrayofnotifsupported)) return 0;
-    	
+    	print 'ok';
+    	exit;
     	dol_syslog("Trigger '".$this->name."' for action '$action' launched by ".__FILE__.". id=".$object->id);
     	
     	$notify->send($action, $object);
