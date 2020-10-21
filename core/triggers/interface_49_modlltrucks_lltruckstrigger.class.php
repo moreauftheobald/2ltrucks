@@ -86,116 +86,116 @@ class Interfacelltruckstrigger extends DolibarrTriggers
 //         $this->picto = 'lltrucks@lltrucks';
 //     }
 
-    /**
-     * Trigger name
-     *
-     * 	@return		string	Name of trigger file
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+//     /**
+//      * Trigger name
+//      *
+//      * 	@return		string	Name of trigger file
+//      */
+//     public function getName()
+//     {
+//         return $this->name;
+//     }
 
-    /**
-     * Trigger description
-     *
-     * 	@return		string	Description of trigger file
-     */
-    public function getDesc()
-    {
-        return $this->description;
-    }
+//     /**
+//      * Trigger description
+//      *
+//      * 	@return		string	Description of trigger file
+//      */
+//     public function getDesc()
+//     {
+//         return $this->description;
+//     }
 
-    /**
-     * Trigger version
-     *
-     * 	@return		string	Version of trigger file
-     */
-    public function getVersion()
-    {
-        global $langs;
-        $langs->load("admin");
+//     /**
+//      * Trigger version
+//      *
+//      * 	@return		string	Version of trigger file
+//      */
+//     public function getVersion()
+//     {
+//         global $langs;
+//         $langs->load("admin");
 
-        if ($this->version == 'development') {
-            return $langs->trans("Development");
-        } elseif ($this->version == 'experimental')
+//         if ($this->version == 'development') {
+//             return $langs->trans("Development");
+//         } elseif ($this->version == 'experimental')
 
-                return $langs->trans("Experimental");
-        elseif ($this->version == 'dolibarr') return DOL_VERSION;
-        elseif ($this->version) return $this->version;
-        else {
-            return $langs->trans("Unknown");
-        }
-    }
-
-
-	/**
-	 * Function called when a Dolibarrr business event is done.
-	 * All functions "run_trigger" are triggered if file is inside directory htdocs/core/triggers
-	 *
-	 * @param string $action code
-	 * @param Object $object
-	 * @param User $user user
-	 * @param Translate $langs langs
-	 * @param conf $conf conf
-	 * @return int <0 if KO, 0 if no triggered ran, >0 if OK
-	 */
-	function runTrigger($action, $object, $user, $langs, $conf) {
-		//For 8.0 remove warning
-		$result=$this->run_trigger($action, $object, $user, $langs, $conf);
-		return $result;
-	}
+//                 return $langs->trans("Experimental");
+//         elseif ($this->version == 'dolibarr') return DOL_VERSION;
+//         elseif ($this->version) return $this->version;
+//         else {
+//             return $langs->trans("Unknown");
+//         }
+//     }
 
 
-    /**
-     * Function called when a Dolibarrr business event is done.
-     * All functions "run_trigger" are triggered if file
-     * is inside directory core/triggers
-     *
-     * 	@param		string		$action		Event action code
-     * 	@param		Object		$object		Object
-     * 	@param		User		$user		Object user
-     * 	@param		Translate	$langs		Object langs
-     * 	@param		conf		$conf		Object conf
-     * 	@return		int						<0 if KO, 0 if no triggered ran, >0 if OK
-     */
-    public function run_trigger($action, $object, $user, $langs, $conf)
-    {
-        // Put here code you want to execute when a Dolibarr business events occurs.
-        // Data and type of action are stored into $object and $action
-        // Users
-    	if (empty($conf->notification->enabled)) return 0; // Module not active, we do nothing
+// 	/**
+// 	 * Function called when a Dolibarrr business event is done.
+// 	 * All functions "run_trigger" are triggered if file is inside directory htdocs/core/triggers
+// 	 *
+// 	 * @param string $action code
+// 	 * @param Object $object
+// 	 * @param User $user user
+// 	 * @param Translate $langs langs
+// 	 * @param conf $conf conf
+// 	 * @return int <0 if KO, 0 if no triggered ran, >0 if OK
+// 	 */
+// 	function runTrigger($action, $object, $user, $langs, $conf) {
+// 		//For 8.0 remove warning
+// 		$result=$this->run_trigger($action, $object, $user, $langs, $conf);
+// 		return $result;
+// 	}
+
+
+//     /**
+//      * Function called when a Dolibarrr business event is done.
+//      * All functions "run_trigger" are triggered if file
+//      * is inside directory core/triggers
+//      *
+//      * 	@param		string		$action		Event action code
+//      * 	@param		Object		$object		Object
+//      * 	@param		User		$user		Object user
+//      * 	@param		Translate	$langs		Object langs
+//      * 	@param		conf		$conf		Object conf
+//      * 	@return		int						<0 if KO, 0 if no triggered ran, >0 if OK
+//      */
+//     public function run_trigger($action, $object, $user, $langs, $conf)
+//     {
+//         // Put here code you want to execute when a Dolibarr business events occurs.
+//         // Data and type of action are stored into $object and $action
+//         // Users
+//     	if (empty($conf->notification->enabled)) return 0; // Module not active, we do nothing
     	
-    	require_once DOL_DOCUMENT_ROOT.'/lltrucks/class/notify_plus.class.php';
-    	$notify = new Notify_plus($this->db);
+//     	require_once DOL_DOCUMENT_ROOT.'/lltrucks/class/notify_plus.class.php';
+//     	$notify = new Notify_plus($this->db);
     	
-    	if (!in_array($action, $notify->arrayofnotifsupported)) return 0;
+//     	if (!in_array($action, $notify->arrayofnotifsupported)) return 0;
     	
-    	dol_syslog("Trigger '".$this->name."' for action '$action' launched by ".__FILE__.". id=".$object->id);
+//     	dol_syslog("Trigger '".$this->name."' for action '$action' launched by ".__FILE__.". id=".$object->id);
     	
-    	$notify->send($action, $object);
+//     	$notify->send($action, $object);
     	
     	
     	
 
-        if($action == 'SUPPLIER_PRODUCT_BUYPRICE_UPDATE' && $conf->entity == 1){
-        	global $user, $newprice;
-	        // THEO_PRICE_MAJORATION_PERCENT_ON_PRODUCT_PRICE_MODIFY
+//         if($action == 'SUPPLIER_PRODUCT_BUYPRICE_UPDATE' && $conf->entity == 1){
+//         	global $user, $newprice;
+// 	        // THEO_PRICE_MAJORATION_PERCENT_ON_PRODUCT_PRICE_MODIFY
 	        	        
-	        dol_include_once('/product/class/product.class.php');
-	        $produit = new Product($object->db);
-	        $res = $produit->fetch($object->fk_product);
-	        if($res>0){
-	        	$price = $newprice/($conf->global->LLTRUCKS_PRICE_COEF/100);
-	        	$produit->updatePrice($price, 'HT', $user);
-	        	$produit->call_trigger('PRODUCT_PRICE_MODIFY', $user);
-	        }
+// 	        dol_include_once('/product/class/product.class.php');
+// 	        $produit = new Product($object->db);
+// 	        $res = $produit->fetch($object->fk_product);
+// 	        if($res>0){
+// 	        	$price = $newprice/($conf->global->LLTRUCKS_PRICE_COEF/100);
+// 	        	$produit->updatePrice($price, 'HT', $user);
+// 	        	$produit->call_trigger('PRODUCT_PRICE_MODIFY', $user);
+// 	        }
 	        	
 	        
 	        
-			return 1;
-        }
-   	}
+// 			return 1;
+//         }
+//    	}
 }
 
 	
