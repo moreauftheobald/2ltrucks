@@ -132,24 +132,24 @@ print $langs->trans("NotificationsDescGlobal").'<br>';
 print '</span>';
 print '<br>';
 
-// print '<form method="post" action="'.$_SERVER["PHP_SELF"].'">';
-// print '<input type="hidden" name="token" value="'.newToken().'">';
-// print '<input type="hidden" name="action" value="setvalue">';
+print '<form method="post" action="'.$_SERVER["PHP_SELF"].'">';
+print '<input type="hidden" name="token" value="'.newToken().'">';
+print '<input type="hidden" name="action" value="setvalue">';
 
-// print '<table class="noborder centpercent">';
-// print '<tr class="liste_titre">';
-// print '<td>'.$langs->trans("Parameter").'</td>';
-// print '<td>'.$langs->trans("Value").'</td>';
-// print "</tr>\n";
+print '<table class="noborder centpercent">';
+print '<tr class="liste_titre">';
+print '<td>'.$langs->trans("Parameter").'</td>';
+print '<td>'.$langs->trans("Value").'</td>';
+print "</tr>\n";
 
-// print '<tr class="oddeven"><td>';
-// print $langs->trans("NotificationEMailFrom").'</td>';
-// print '<td>';
-// print '<input size="32" type="email" name="email_from" value="'.$conf->global->NOTIFICATION_EMAIL_FROM.'">';
-// if (!empty($conf->global->NOTIFICATION_EMAIL_FROM) && !isValidEmail($conf->global->NOTIFICATION_EMAIL_FROM)) print ' '.img_warning($langs->trans("ErrorBadEMail"));
-// print '</td>';
-// print '</tr>';
-// print '</table>';
+print '<tr class="oddeven"><td>';
+print $langs->trans("NotificationEMailFrom").'</td>';
+print '<td>';
+print '<input size="32" type="email" name="email_from" value="'.$conf->global->NOTIFICATION_EMAIL_FROM.'">';
+if (!empty($conf->global->NOTIFICATION_EMAIL_FROM) && !isValidEmail($conf->global->NOTIFICATION_EMAIL_FROM)) print ' '.img_warning($langs->trans("ErrorBadEMail"));
+print '</td>';
+print '</tr>';
+print '</table>';
 
 // print '<br><br>';
 
