@@ -174,121 +174,121 @@ print "</tr>\n";
 print '<tr class="oddeven">';
 print '<td>';
 
-// $i = 0;
-// foreach ($listofnotifiedevents as $notifiedevent)
-// {
-//     $label = $langs->trans("Notify_".$notifiedevent['code']); //!=$langs->trans("Notify_".$notifiedevent['code'])?$langs->trans("Notify_".$notifiedevent['code']):$notifiedevent['label'];
-//     $elementLabel = $langs->trans(ucfirst($notifiedevent['elementtype']));
+$i = 0;
+foreach ($listofnotifiedevents as $notifiedevent)
+{
+    $label = $langs->trans("Notify_".$notifiedevent['code']); //!=$langs->trans("Notify_".$notifiedevent['code'])?$langs->trans("Notify_".$notifiedevent['code']):$notifiedevent['label'];
+    $elementLabel = $langs->trans(ucfirst($notifiedevent['elementtype']));
 
-//     if ($notifiedevent['elementtype'] == 'order_supplier') $elementLabel = $langs->trans('SupplierOrder');
-//     elseif ($notifiedevent['elementtype'] == 'propal') $elementLabel = $langs->trans('Proposal');
-//     elseif ($notifiedevent['elementtype'] == 'facture') $elementLabel = $langs->trans('Bill');
-//     elseif ($notifiedevent['elementtype'] == 'commande') $elementLabel = $langs->trans('Order');
-//     elseif ($notifiedevent['elementtype'] == 'ficheinter') $elementLabel = $langs->trans('Intervention');
-//     elseif ($notifiedevent['elementtype'] == 'shipping') $elementLabel = $langs->trans('Shipping');
-//     elseif ($notifiedevent['elementtype'] == 'expensereport') $elementLabel = $langs->trans('ExpenseReport');
+    if ($notifiedevent['elementtype'] == 'order_supplier') $elementLabel = $langs->trans('SupplierOrder');
+    elseif ($notifiedevent['elementtype'] == 'propal') $elementLabel = $langs->trans('Proposal');
+    elseif ($notifiedevent['elementtype'] == 'facture') $elementLabel = $langs->trans('Bill');
+    elseif ($notifiedevent['elementtype'] == 'commande') $elementLabel = $langs->trans('Order');
+    elseif ($notifiedevent['elementtype'] == 'ficheinter') $elementLabel = $langs->trans('Intervention');
+    elseif ($notifiedevent['elementtype'] == 'shipping') $elementLabel = $langs->trans('Shipping');
+    elseif ($notifiedevent['elementtype'] == 'expensereport') $elementLabel = $langs->trans('ExpenseReport');
 
-//     if ($i) print ', ';
-//     print $label;
+    if ($i) print ', ';
+    print $label;
 
-//     $i++;
-// }
-// print '</td></tr>';
+    $i++;
+}
+print '</td></tr>';
 
-// print '</table>';
-// print '<div class="opacitymedium">';
-// print '* '.$langs->trans("GoOntoUserCardToAddMore").'<br>';
-// if (!empty($conf->societe->enabled)) print '** '.$langs->trans("GoOntoContactCardToAddMore").'<br>';
-// print '</div>';
-// print '<br><br>';
+print '</table>';
+print '<div class="opacitymedium">';
+print '* '.$langs->trans("GoOntoUserCardToAddMore").'<br>';
+if (!empty($conf->societe->enabled)) print '** '.$langs->trans("GoOntoContactCardToAddMore").'<br>';
+print '</div>';
+print '<br><br>';
 
 
-// print load_fiche_titre($langs->trans("ListOfFixedNotifications"), '', '');
+print load_fiche_titre($langs->trans("ListOfFixedNotifications"), '', '');
 
-// print '<table class="noborder centpercent">';
-// print '<tr class="liste_titre">';
-// print '<td>'.$langs->trans("Module").'</td>';
-// print '<td>'.$langs->trans("Code").'</td>';
-// print '<td>'.$langs->trans("Label").'</td>';
-// print '<td>'.$langs->trans("FixedEmailTarget").'</td>';
-// print '<td>'.$langs->trans("Threshold").'</td>';
-// print '<td>'.'</td>';
-// print "</tr>\n";
+print '<table class="noborder centpercent">';
+print '<tr class="liste_titre">';
+print '<td>'.$langs->trans("Module").'</td>';
+print '<td>'.$langs->trans("Code").'</td>';
+print '<td>'.$langs->trans("Label").'</td>';
+print '<td>'.$langs->trans("FixedEmailTarget").'</td>';
+print '<td>'.$langs->trans("Threshold").'</td>';
+print '<td>'.'</td>';
+print "</tr>\n";
 
-// // Load array of available notifications
-// $notificationtrigger = new InterfaceNotification($db);
-// $listofnotifiedevents = $notificationtrigger->getListOfManagedEvents();
+// Load array of available notifications
+$notificationtrigger = new InterfaceNotification($db);
+$listofnotifiedevents = $notificationtrigger->getListOfManagedEvents();
 
-// foreach ($listofnotifiedevents as $notifiedevent)
-// {
-//     $label = $langs->trans("Notify_".$notifiedevent['code']); //!=$langs->trans("Notify_".$notifiedevent['code'])?$langs->trans("Notify_".$notifiedevent['code']):$notifiedevent['label'];
+foreach ($listofnotifiedevents as $notifiedevent)
+{
+    $label = $langs->trans("Notify_".$notifiedevent['code']); //!=$langs->trans("Notify_".$notifiedevent['code'])?$langs->trans("Notify_".$notifiedevent['code']):$notifiedevent['label'];
 
-//     $elementLabel = $langs->trans(ucfirst($notifiedevent['elementtype']));
-// 	// Special cases
-//     if ($notifiedevent['elementtype'] == 'order_supplier') $elementLabel = $langs->trans('SupplierOrder');
-//     elseif ($notifiedevent['elementtype'] == 'propal') $elementLabel = $langs->trans('Proposal');
-//     elseif ($notifiedevent['elementtype'] == 'facture') $elementLabel = $langs->trans('Bill');
-//     elseif ($notifiedevent['elementtype'] == 'commande') $elementLabel = $langs->trans('Order');
-// 	elseif ($notifiedevent['elementtype'] == 'ficheinter') $elementLabel = $langs->trans('Intervention');
-// 	elseif ($notifiedevent['elementtype'] == 'shipping') $elementLabel = $langs->trans('Shipping');
-// 	elseif ($notifiedevent['elementtype'] == 'expensereport') $elementLabel = $langs->trans('ExpenseReport');
+    $elementLabel = $langs->trans(ucfirst($notifiedevent['elementtype']));
+	// Special cases
+    if ($notifiedevent['elementtype'] == 'order_supplier') $elementLabel = $langs->trans('SupplierOrder');
+    elseif ($notifiedevent['elementtype'] == 'propal') $elementLabel = $langs->trans('Proposal');
+    elseif ($notifiedevent['elementtype'] == 'facture') $elementLabel = $langs->trans('Bill');
+    elseif ($notifiedevent['elementtype'] == 'commande') $elementLabel = $langs->trans('Order');
+	elseif ($notifiedevent['elementtype'] == 'ficheinter') $elementLabel = $langs->trans('Intervention');
+	elseif ($notifiedevent['elementtype'] == 'shipping') $elementLabel = $langs->trans('Shipping');
+	elseif ($notifiedevent['elementtype'] == 'expensereport') $elementLabel = $langs->trans('ExpenseReport');
 
-//     print '<tr class="oddeven">';
-//     print '<td>'.$elementLabel.'</td>';
-//     print '<td>'.$notifiedevent['code'].'</td>';
-//     print '<td>'.$label.'</td>';
-//     print '<td>';
-//     // Notification with threshold
-//     foreach ($conf->global as $key => $val)
-//     {
-// 		if ($val == '' || !preg_match('/^NOTIFICATION_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_(.*)/', $key, $reg)) continue;
+    print '<tr class="oddeven">';
+    print '<td>'.$elementLabel.'</td>';
+    print '<td>'.$notifiedevent['code'].'</td>';
+    print '<td>'.$label.'</td>';
+    print '<td>';
+    // Notification with threshold
+    foreach ($conf->global as $key => $val)
+    {
+		if ($val == '' || !preg_match('/^NOTIFICATION_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_(.*)/', $key, $reg)) continue;
 
-// 	    $param = 'NOTIFICATION_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_'.$reg[1];
-//     	$value = GETPOST('NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_key') ?GETPOST('NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_key', 'alpha') : $conf->global->$param;
+	    $param = 'NOTIFICATION_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_'.$reg[1];
+    	$value = GETPOST('NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_key') ?GETPOST('NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_key', 'alpha') : $conf->global->$param;
 
-//     	$s = '<input type="text" size="32" name="NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_key" value="'.dol_escape_htmltag($value).'">'; // Do not use type="email" here, we must be able to enter a list of email with , separator.
-// 	    $arrayemail = explode(',', $value);
-// 		$showwarning = 0;
-// 		foreach ($arrayemail as $keydet => $valuedet)
-// 		{
-// 			$valuedet = trim($valuedet);
-// 			if (!empty($valuedet) && !isValidEmail($valuedet, 1)) $showwarning++;
-// 		}
-// 	    if ((!empty($conf->global->$param)) && $showwarning) $s .= ' '.img_warning($langs->trans("ErrorBadEMail"));
-// 	    print $form->textwithpicto($s, $langs->trans("YouCanUseCommaSeparatorForSeveralRecipients").'<br>'.$langs->trans("YouCanAlsoUseSupervisorKeyword"), 1, 'help', '', 0, 2);
-// 		print '<br>';
-//     }
-//     // New entry input fields
-//     $s = '<input type="text" size="32" name="NOTIF_'.$notifiedevent['code'].'_new_key" value="">'; // Do not use type="email" here, we must be able to enter a list of email with , separator.
-//     print $form->textwithpicto($s, $langs->trans("YouCanUseCommaSeparatorForSeveralRecipients").'<br>'.$langs->trans("YouCanAlsoUseSupervisorKeyword"), 1, 'help', '', 0, 2);
-//     print '</td>';
+    	$s = '<input type="text" size="32" name="NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_key" value="'.dol_escape_htmltag($value).'">'; // Do not use type="email" here, we must be able to enter a list of email with , separator.
+	    $arrayemail = explode(',', $value);
+		$showwarning = 0;
+		foreach ($arrayemail as $keydet => $valuedet)
+		{
+			$valuedet = trim($valuedet);
+			if (!empty($valuedet) && !isValidEmail($valuedet, 1)) $showwarning++;
+		}
+	    if ((!empty($conf->global->$param)) && $showwarning) $s .= ' '.img_warning($langs->trans("ErrorBadEMail"));
+	    print $form->textwithpicto($s, $langs->trans("YouCanUseCommaSeparatorForSeveralRecipients").'<br>'.$langs->trans("YouCanAlsoUseSupervisorKeyword"), 1, 'help', '', 0, 2);
+		print '<br>';
+    }
+    // New entry input fields
+    $s = '<input type="text" size="32" name="NOTIF_'.$notifiedevent['code'].'_new_key" value="">'; // Do not use type="email" here, we must be able to enter a list of email with , separator.
+    print $form->textwithpicto($s, $langs->trans("YouCanUseCommaSeparatorForSeveralRecipients").'<br>'.$langs->trans("YouCanAlsoUseSupervisorKeyword"), 1, 'help', '', 0, 2);
+    print '</td>';
 
-//     print '<td>';
-//     // Notification with threshold
-//     foreach ($conf->global as $key => $val)
-//     {
-// 		if ($val == '' || !preg_match('/^NOTIFICATION_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_(.*)/', $key, $reg)) continue;
+    print '<td>';
+    // Notification with threshold
+    foreach ($conf->global as $key => $val)
+    {
+		if ($val == '' || !preg_match('/^NOTIFICATION_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_(.*)/', $key, $reg)) continue;
 
-//     	print $langs->trans("AmountHT").' >= <input type="text" size="4" name="NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_amount" value="'.dol_escape_htmltag($reg[1]).'">';
-// 		print '<br>';
-//     }
-//     // New entry input fields
-// 	print $langs->trans("AmountHT").' >= <input type="text" size="4" name="NOTIF_'.$notifiedevent['code'].'_new_amount" value="">';
-// 	print '</td>';
+    	print $langs->trans("AmountHT").' >= <input type="text" size="4" name="NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_amount" value="'.dol_escape_htmltag($reg[1]).'">';
+		print '<br>';
+    }
+    // New entry input fields
+	print $langs->trans("AmountHT").' >= <input type="text" size="4" name="NOTIF_'.$notifiedevent['code'].'_new_amount" value="">';
+	print '</td>';
 
-//     print '<td>';
-// 	// TODO Add link to show message content
+    print '<td>';
+	// TODO Add link to show message content
 
-//     print '</td>';
-//     print '</tr>';
-// }
-// print '</table>';
+    print '</td>';
+    print '</tr>';
+}
+print '</table>';
 
-// print '<br>';
+print '<br>';
 
-// print '<div class="center"><input type="submit" class="button" value="'.$langs->trans("Save").'"></div>';
+print '<div class="center"><input type="submit" class="button" value="'.$langs->trans("Save").'"></div>';
 
-// print '</form>';
+print '</form>';
 
 // End of page
 llxFooter();
