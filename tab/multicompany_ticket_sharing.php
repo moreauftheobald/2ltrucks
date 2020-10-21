@@ -5,12 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$res = @include ("../../main.inc.php"); // For root directory
-if (!$res)
-	$res = @include ("../../../main.inc.php"); // For "custom" directory
-if (!$res)
-	die("Include of main fails");
-
+require '../config.php';
 require_once DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php";
 require_once DOL_DOCUMENT_ROOT."/core/lib/images.lib.php";
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formother.class.php';

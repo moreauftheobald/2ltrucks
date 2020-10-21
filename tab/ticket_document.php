@@ -25,7 +25,7 @@
  *  \brief      files linked to a ticket
  */
 
-require '../../../main.inc.php';
+require '../config.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/ticket.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/ticket/class/ticket.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';

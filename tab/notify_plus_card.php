@@ -25,7 +25,7 @@
  *		\brief      Tab for notifications of third party
  */
 
-require '../../main.inc.php';
+require '../config.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/notify.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/usergroups.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/user/class/user.class.php';
