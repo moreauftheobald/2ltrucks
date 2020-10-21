@@ -216,7 +216,7 @@ print '<td>'.'</td>';
 print "</tr>\n";
 
 // Load array of available notifications
-$notificationtrigger = new InterfaceNotification($db);
+$notificationtrigger = new Interfacelltruckstrigger($db);
 $listofnotifiedevents = $notificationtrigger->getListOfManagedEvents();
 
 foreach ($listofnotifiedevents as $notifiedevent)
