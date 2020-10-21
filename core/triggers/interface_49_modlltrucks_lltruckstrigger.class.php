@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once DOL_DOCUMENT_ROOT.'/core/triggers/dolibarrtriggers.class.php';
+
+
+
 /**
  * 	\file		core/triggers/interface_99_modMyodule_CliTheobaldtrigger.class.php
  * 	\ingroup	clitheobald
