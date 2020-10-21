@@ -85,115 +85,65 @@ $form = new Form($db);
 $help_url = '';
 llxHeader('', $langs->trans("TicketDocumentsLinked").' - '.$langs->trans("Files"), $help_url);
 
+$form = new Form($db);
+
+$title = $langs->trans("OperationOrder").' - '.$langs->trans("Files");
+$help_url = '';
+//$help_url='EN:Module_Third_Parties|FR:Module_Tiers|ES:Empresas';
+llxHeader('', $title, $help_url);
+
 if ($object->id)
 {
 	/*
 	 * Show tabs
 	 */
-    if ($socid > 0) {
-        $object->fetch_thirdparty();
-        $head = societe_prepare_head($object->thirdparty);
-        dol_fiche_head($head, 'ticket', $langs->trans("ThirdParty"), 0, 'company');
-        dol_banner_tab($object->thirdparty, 'socid', '', ($user->socid ? 0 : 1), 'rowid', 'nom');
-        dol_fiche_end();
-    }
-
-    if (!$user->socid && $conf->global->TICKET_LIMIT_VIEW_ASSIGNED_ONLY) {
-        $object->next_prev_filter = "te.fk_user_assign = '" . $user->id . "'";
-    } elseif ($user->socid > 0) {
-        $object->next_prev_filter = "te.fk_soc = '" . $user->socid . "'";
-    }
-
-    $head = ticket_prepare_head($object);
-
-    dol_fiche_head($head, 'tabTicketDocument', $langs->trans("Ticket"), 0, 'ticket');
-
-    $morehtmlref ='<div class="refidno">';
-    $morehtmlref.= $object->subject;
-    // Author
-    if ($object->fk_user_create > 0) {
-    	$morehtmlref .= '<br>' . $langs->trans("CreatedBy") . '  : ';
-
-    	$langs->load("users");
-    	$fuser = new User($db);
-    	$fuser->fetch($object->fk_user_create);
-    	$morehtmlref .= $fuser->getNomUrl(0);
-    }
-    if (!empty($object->origin_email)) {
-    	$morehtmlref .= '<br>' . $langs->trans("CreatedBy") . ' : ';
-    	$morehtmlref .= $object->origin_email . ' <small>(' . $langs->trans("TicketEmailOriginIssuer") . ')</small>';
-    }
-
-    // Thirdparty
-    if (! empty($conf->societe->enabled))
-    {
-    	$morehtmlref.='<br>'.$langs->trans('ThirdParty');
-    	/*if ($action != 'editcustomer' && $object->fk_statut < 8 && !$user->socid && $user->rights->ticket->write) {
-    		$morehtmlref.='<a class="editfielda" href="' . $url_page_current . '?action=editcustomer&amp;track_id=' . $object->track_id . '">' . img_edit($langs->transnoentitiesnoconv('Edit'), 1) . '</a>';
-    	}*/
-    	$morehtmlref.=' : ';
-    	if ($action == 'editcustomer') {
-    		$morehtmlref.=$form->form_thirdparty($url_page_current . '?track_id=' . $object->track_id, $object->socid, 'editcustomer', '', 1, 0, 0, array(), 1);
-    	} else {
-    		$morehtmlref.=$form->form_thirdparty($url_page_current . '?track_id=' . $object->track_id, $object->socid, 'none', '', 1, 0, 0, array(), 1);
-    	}
-    }
-
-    // Project
-    if (! empty($conf->projet->enabled))
-    {
-    	$langs->load("projects");
-    	$morehtmlref.='<br>'.$langs->trans('Project') . ' ';
-    	if ($user->rights->ticket->write)
-    	{
-    		if ($action != 'classify') {
-    			//$morehtmlref.='<a class="editfielda" href="' . $_SERVER['PHP_SELF'] . '?action=classify&amp;id=' . $object->id . '">' . img_edit($langs->transnoentitiesnoconv('SetProject')) . '</a>';
-				$morehtmlref.=' : ';
-			}
-    		if ($action == 'classify') {
-    			//$morehtmlref.=$form->form_project($_SERVER['PHP_SELF'] . '?id=' . $object->id, $object->socid, $object->fk_project, 'projectid', 0, 0, 1, 1);
-    			$morehtmlref.='<form method="post" action="'.$_SERVER['PHP_SELF'].'?id='.$object->id.'">';
-    			$morehtmlref.='<input type="hidden" name="action" value="classin">';
-    			$morehtmlref.='<input type="hidden" name="token" value="'.newToken().'">';
-    			$morehtmlref.=$formproject->select_projects($object->socid, $object->fk_project, 'projectid', 0, 0, 1, 0, 1, 0, 0, '', 1);
-    			$morehtmlref.='<input type="submit" class="button valignmiddle" value="'.$langs->trans("Modify").'">';
-    			$morehtmlref.='</form>';
-    		} else {
-    			$morehtmlref.=$form->form_project($_SERVER['PHP_SELF'] . '?id=' . $object->id, $object->socid, $object->fk_project, 'none', 0, 0, 0, 1);
-    		}
-    	} else {
-    		if (! empty($object->fk_project)) {
-    			$proj = new Project($db);
-    			$proj->fetch($object->fk_project);
-    			$morehtmlref.=$proj->getNomUrl(1);
-    		} else {
-    			$morehtmlref.='';
-    		}
-    	}
-    }
-
-    $morehtmlref.='</div>';
-
-    $linkback = '<a href="' . dol_buildpath('/ticket/list.php', 1) . '"><strong>' . $langs->trans("BackToList") . '</strong></a> ';
-
-    dol_banner_tab($object, 'ref', $linkback, ($user->socid ? 0 : 1), 'ref', 'ref', $morehtmlref, '', 0, '', '', 1);
-
-    dol_fiche_end();
-
-    // Build file list
-    $filearray = dol_dir_list($upload_dir, "files", 0, '', '\.meta$', $sortfield, (strtolower($sortorder) == 'desc' ? SORT_DESC : SORT_ASC), 1);
-    $totalsize = 0;
-    foreach ($filearray as $key => $file) {
-        $totalsize += $file['size'];
-    }
-
-    //$object->ref = $object->track_id;	// For compatibility we use track ID for directory
-    $modulepart = 'ticket';
-  	$permission = $user->rights->ticket->write;
-  	$permtoedit = $user->rights->ticket->write;
-  	$param = '&id='.$object->id;
-
-  	include_once DOL_DOCUMENT_ROOT.'/core/tpl/document_actions_post_headers.tpl.php';
+	$head = ticket_prepare_head($object);
+	
+	dol_fiche_head($head, 'documents', $langs->trans("Ticket"), 0, 'documents');
+	
+	
+	// Build file list
+	$filearray = dol_dir_list($upload_dir, "files", 0, '', '(\.meta|_preview.*\.png)$', $sortfield, (strtolower($sortorder) == 'desc' ?SORT_DESC:SORT_ASC), 1);
+	$totalsize = 0;
+	foreach ($filearray as $key => $file)
+	{
+		$totalsize += $file['size'];
+	}
+	
+	// Object card
+	// ------------------------------------------------------------
+	$linkback = '<a href="'.dol_buildpath('/ticket/list.php', 1).'?restore_lastsearch_values=1'.(!empty($socid) ? '&socid='.$socid : '').'">'.$langs->trans("BackToList").'</a>';
+	
+	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref);
+	
+	print '<div class="fichecenter">';
+	
+	print '<div class="underbanner clearboth"></div>';
+	print '<table class="border centpercent tableforfield">';
+	
+	// Number of files
+	print '<tr><td class="titlefield">'.$langs->trans("NbOfAttachedFiles").'</td><td colspan="3">'.count($filearray).'</td></tr>';
+	
+	// Total size
+	print '<tr><td>'.$langs->trans("TotalSizeOfAttachedFiles").'</td><td colspan="3">'.$totalsize.' '.$langs->trans("bytes").'</td></tr>';
+	
+	print '</table>';
+	
+	print '</div>';
+	
+	dol_fiche_end();
+	
+	$modulepart = 'ticket';
+	//$permission = $user->rights->operationorder->operationorder->write;
+	$permission = 1;
+	//$permtoedit = $user->rights->operationorder->operationorder->write;
+	$permtoedit = 1;
+	$param = '&id='.$object->id;
+	
+	//$relativepathwithnofile='operationorder/' . dol_sanitizeFileName($object->id).'/';
+	$relativepathwithnofile = 'ticket/'.dol_sanitizeFileName($object->ref).'/';
+	
+	include_once DOL_DOCUMENT_ROOT.'/core/tpl/document_actions_post_headers.tpl.php';
 }
 else
 {
