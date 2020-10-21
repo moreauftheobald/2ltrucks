@@ -89,8 +89,56 @@ class Actionslltrucks
 	 */
 	 public function addMoreActionsButtons($parameters, &$object, &$action, $hookmanager)
 	 {
+	 	global $langs, $conf, $user;
 	 	
-	 }
+	 	$langs->loadLangs(array('lltrucks@lltrucks'));
+	 	
+	 	$contextArray = explode(':', $parameters['context']);
+	 	
+	 	if (in_array('operationordercard', $contextArray ) && empty($action) && $object->objStatus->code == $conf->global->LLTRUCKS_STATUT_BEFORE_CHECK && !$object->array_options['options_ext'])
+	 	{
+	 		$sql = "SELECT rowid ";
+	 		$sql.= "FROM llx_operationorder_status ";
+	 		$sql.= "WHERE status = 1 " ;
+	 		$sql.= "AND entity = " . $object->entity . " ";
+	 		$sql.= "AND CODE = '" . $conf->global->LLTRUCKS_STATUT_AFTER_CHECK ."'";
+	 		
+	 		$resql = $this->db->query($sql);
+	 		if ($resql)
+	 		{
+	 			$obj = $this->db->fetch_object($resql);
+	 		}
+	 		
+	 		
+	 		print '<div class="inline-block divButAction"><a href="javascript:orcheck()" class="butAction">' . $langs->trans('orcheck') . '</a></div>';
+	 		if(!empty($obj)){
+	 			?>
+					<script type="text/javascript">
+					$(document).ready(function () {
+						$('a[href*="action=setStatus&fk_status=<?php print $obj->rowid ?>"].butAction').hide();
+					});
+					</script>
+				<?php
+	 		}
+			?>
+				<script type="text/javascript">
+				function orcheck() {
+					$div = $('<div id="orcheck"  title="<?php print $langs->trans('orcontrole'); ?>"><iframe width="100%" height="100%" frameborder="0" src="<?php print dol_buildpath('/lltrucks/tpl/orcheck.php?orid=' . $object->id, 1) ; ?>"></iframe></div>');
+					$div.dialog({
+						modal:true
+						,width:"1600px"
+						,height:$(window).height() - 200
+						,close:function() {document.location.reload(true);}
+					});
+				};
+
+				</script>
+				<?php
+		}
+
+		return 0;
+	}
+	 
 	 
 	 
 	 
