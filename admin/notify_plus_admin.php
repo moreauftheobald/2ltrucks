@@ -24,7 +24,7 @@
  *		\brief      Page to setup notification module
  */
 
-require '../../../main.inc.php';
+require '../config.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.form.class.php';
 dol_include_once('lltrucks/core/triggers/interface_49_modlltrucks_lltruckstrigger.class.php');

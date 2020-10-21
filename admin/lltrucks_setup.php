@@ -23,7 +23,7 @@
  *   \brief      Page to setup module clicktodial
  */
 
-require '../../../main.inc.php';
+require '../config.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.form.class.php';
 dol_include_once('lltrucks/lib/lltrucks.lib.php');
