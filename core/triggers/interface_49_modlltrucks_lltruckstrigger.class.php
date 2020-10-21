@@ -134,6 +134,19 @@ class Interfacelltruckstrigger
         // Put here code you want to execute when a Dolibarr business events occurs.
         // Data and type of action are stored into $object and $action
         // Users
+    	if (empty($conf->notification->enabled)) return 0; // Module not active, we do nothing
+    	
+    	require_once DOL_DOCUMENT_ROOT.'/core/class/notify.class.php';
+    	$notify = new Notify($this->db);
+    	
+    	if (!in_array($action, $notify->arrayofnotifsupported)) return 0;
+    	
+    	dol_syslog("Trigger '".$this->name."' for action '$action' launched by ".__FILE__.". id=".$object->id);
+    	
+    	$notify->send($action, $object);
+    	
+    	
+    	
 
         if($action == 'SUPPLIER_PRODUCT_BUYPRICE_UPDATE' && $conf->entity == 1){
         	global $user, $newprice;
@@ -151,6 +164,33 @@ class Interfacelltruckstrigger
 	        
 	        
 			return 1;
-		}
+        }
    	}
 }
+
+class InterfaceNotification extends InterfaceNotification
+{
+	public $listofmanagedevents = array(
+			'BILL_VALIDATE',
+			'BILL_PAYED',
+			'ORDER_VALIDATE',
+			'ORDER_CREATE',
+			'PROPAL_VALIDATE',
+			'PROPAL_CLOSE_SIGNED',
+			'FICHINTER_VALIDATE',
+			'FICHINTER_ADD_CONTACT',
+			'ORDER_SUPPLIER_VALIDATE',
+			'ORDER_SUPPLIER_APPROVE',
+			'ORDER_SUPPLIER_REFUSE',
+			'SHIPPING_VALIDATE',
+			'EXPENSE_REPORT_VALIDATE',
+			'EXPENSE_REPORT_APPROVE',
+			'HOLIDAY_VALIDATE',
+			'HOLIDAY_APPROVE',
+			'TICKET_MODIFY',
+			'TICKET_ASSIGNED',
+			'TICKET_SENTBYMAIL'
+	);
+}
+}
+	
