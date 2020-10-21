@@ -26,6 +26,7 @@
 
 require '../../../main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
+require_once DOL_DOCUMENT_ROOT.'/core/class/html.form.class.php';
 require_once DOL_DOCUMENT_ROOT.'lltrucks/core/triggers/interface_49_modlltrucks_lltruckstrigger.class.php';
 dol_include_once('lltrucks/lib/lltrucks.lib.php');
 dol_include_once('lltrucks/class/notify_plus.class.php');
