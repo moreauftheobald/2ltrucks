@@ -45,7 +45,22 @@ class Interfacelltruckstrigger extends DolibarrTriggers
     		'TICKET_MODIFY',
     		'TICKET_ASSIGNED',
     		'TICKET_CLOSE',
-    		'TICKET_SENTBYMAIL'
+    		'TICKET_SENTBYMAIL',
+    		'BILL_VALIDATE',
+    		'BILL_PAYED',
+    		'ORDER_VALIDATE',
+    		'PROPAL_VALIDATE',
+    		'PROPAL_CLOSE_SIGNED',
+    		'FICHINTER_VALIDATE',
+    		'FICHINTER_ADD_CONTACT',
+    		'ORDER_SUPPLIER_VALIDATE',
+    		'ORDER_SUPPLIER_APPROVE',
+    		'ORDER_SUPPLIER_REFUSE',
+    		'SHIPPING_VALIDATE',
+    		'EXPENSE_REPORT_VALIDATE',
+    		'EXPENSE_REPORT_APPROVE',
+    		'HOLIDAY_VALIDATE',
+    		'HOLIDAY_APPROVE'
     );
 
     /**

@@ -23,7 +23,7 @@
  *				Put some comments here
  */
 
-function operationorderAdminPrepareHead()
+function lltrucksAdminPrepareHead()
 {
 	global $langs, $conf;
 	
