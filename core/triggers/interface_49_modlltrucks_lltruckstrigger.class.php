@@ -33,39 +33,39 @@
  * Trigger class
  */
 
-require_once DOL_DOCUMENT_ROOT.'/core/triggers/dolibarrtriggers.class.php';
+// require_once DOL_DOCUMENT_ROOT.'/core/triggers/dolibarrtriggers.class.php';
 
 
 class Interfacelltruckstrigger extends DolibarrTriggers
 {
 
-    private $db;
+//     private $db;
     
     
-    public $picto = 'email';
+//     public $picto = 'email';
     
-    public $listofmanagedevents = array(
-    		'ORDER_CREATE',
-    		'TICKET_MODIFY',
-    		'TICKET_ASSIGNED',
-    		'TICKET_CLOSE',
-    		'TICKET_SENTBYMAIL',
-    		'BILL_VALIDATE',
-    		'BILL_PAYED',
-    		'ORDER_VALIDATE',
-    		'PROPAL_VALIDATE',
-    		'PROPAL_CLOSE_SIGNED',
-    		'FICHINTER_VALIDATE',
-    		'FICHINTER_ADD_CONTACT',
-    		'ORDER_SUPPLIER_VALIDATE',
-    		'ORDER_SUPPLIER_APPROVE',
-    		'ORDER_SUPPLIER_REFUSE',
-    		'SHIPPING_VALIDATE',
-    		'EXPENSE_REPORT_VALIDATE',
-    		'EXPENSE_REPORT_APPROVE',
-    		'HOLIDAY_VALIDATE',
-    		'HOLIDAY_APPROVE'
-    );
+//     public $listofmanagedevents = array(
+//     		'ORDER_CREATE',
+//     		'TICKET_MODIFY',
+//     		'TICKET_ASSIGNED',
+//     		'TICKET_CLOSE',
+//     		'TICKET_SENTBYMAIL',
+//     		'BILL_VALIDATE',
+//     		'BILL_PAYED',
+//     		'ORDER_VALIDATE',
+//     		'PROPAL_VALIDATE',
+//     		'PROPAL_CLOSE_SIGNED',
+//     		'FICHINTER_VALIDATE',
+//     		'FICHINTER_ADD_CONTACT',
+//     		'ORDER_SUPPLIER_VALIDATE',
+//     		'ORDER_SUPPLIER_APPROVE',
+//     		'ORDER_SUPPLIER_REFUSE',
+//     		'SHIPPING_VALIDATE',
+//     		'EXPENSE_REPORT_VALIDATE',
+//     		'EXPENSE_REPORT_APPROVE',
+//     		'HOLIDAY_VALIDATE',
+//     		'HOLIDAY_APPROVE'
+//     );
 
     /**
      * Constructor
