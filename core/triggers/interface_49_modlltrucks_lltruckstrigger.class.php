@@ -82,49 +82,6 @@ class Interfacelltruckstrigger
     }
 
     /**
-     * Trigger name
-     *
-     * 	@return		string	Name of trigger file
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Trigger description
-     *
-     * 	@return		string	Description of trigger file
-     */
-    public function getDesc()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Trigger version
-     *
-     * 	@return		string	Version of trigger file
-     */
-    public function getVersion()
-    {
-        global $langs;
-        $langs->load("admin");
-
-        if ($this->version == 'development') {
-            return $langs->trans("Development");
-        } elseif ($this->version == 'experimental')
-
-                return $langs->trans("Experimental");
-        elseif ($this->version == 'dolibarr') return DOL_VERSION;
-        elseif ($this->version) return $this->version;
-        else {
-            return $langs->trans("Unknown");
-        }
-    }
-
-
-	/**
 	 * Function called when a Dolibarrr business event is done.
 	 * All functions "run_trigger" are triggered if file is inside directory htdocs/core/triggers
 	 *
@@ -190,6 +147,56 @@ class Interfacelltruckstrigger
 	        
 			return 1;
         }
+   	}
+   	
+   	public function getListOfManagedEvents()
+   	{
+   		global $conf;
+   		
+   		$ret = array();
+   		
+   		$sql = "SELECT rowid, code, label, description, elementtype";
+   		$sql .= " FROM ".MAIN_DB_PREFIX."c_action_trigger";
+   		$sql .= $this->db->order("rang, elementtype, code");
+   		dol_syslog("getListOfManagedEvents Get list of notifications", LOG_DEBUG);
+   		$resql = $this->db->query($sql);
+   		if ($resql)
+   		{
+   			$num = $this->db->num_rows($resql);
+   			$i = 0;
+   			while ($i < $num)
+   			{
+   				$obj = $this->db->fetch_object($resql);
+   				
+   				$qualified = 0;
+   				// Check is this event is supported by notification module
+   				if (in_array($obj->code, $this->listofmanagedevents)) $qualified = 1;
+   				// Check if module for this event is active
+   				if ($qualified)
+   				{
+   					//print 'xx'.$obj->code;
+   					$element = $obj->elementtype;
+   					
+   					// Exclude events if related module is disabled
+   					if ($element == 'order_supplier' && empty($conf->fournisseur->enabled)) $qualified = 0;
+   					elseif ($element == 'invoice_supplier' && empty($conf->fournisseur->enabled)) $qualified = 0;
+   					elseif ($element == 'withdraw' && empty($conf->prelevement->enabled)) $qualified = 0;
+   					elseif ($element == 'shipping' && empty($conf->expedition->enabled)) $qualified = 0;
+   					elseif ($element == 'member' && empty($conf->adherent->enabled)) $qualified = 0;
+   					elseif (!in_array($element, array('order_supplier', 'invoice_supplier', 'withdraw', 'shipping', 'member', 'expensereport')) && empty($conf->$element->enabled)) $qualified = 0;
+   				}
+   				
+   				if ($qualified)
+   				{
+   					$ret[] = array('rowid'=>$obj->rowid, 'code'=>$obj->code, 'label'=>$obj->label, 'description'=>$obj->description, 'elementtype'=>$obj->elementtype);
+   				}
+   				
+   				$i++;
+   			}
+   		}
+   		else dol_print_error($this->db);
+   		
+   		return $ret;
    	}
 }
 
