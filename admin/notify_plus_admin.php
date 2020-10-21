@@ -151,28 +151,28 @@ print '</td>';
 print '</tr>';
 print '</table>';
 
-// print '<br><br>';
+print '<br><br>';
 
 
-// // Notification per contacts
-// $title = $langs->trans("ListOfNotificationsPerUser");
-// if (!empty($conf->societe->enabled)) $title = $langs->trans("ListOfNotificationsPerUserOrContact");
-// print load_fiche_titre($title, '', '');
+// Notification per contacts
+$title = $langs->trans("ListOfNotificationsPerUser");
+if (!empty($conf->societe->enabled)) $title = $langs->trans("ListOfNotificationsPerUserOrContact");
+print load_fiche_titre($title, '', '');
 
-// print '<table class="noborder centpercent">';
-// print '<tr class="liste_titre">';
-// print '<td>'.$langs->trans("Label").'</td>';
-// /*print '<td>'.$langs->trans("Code").'</td>';
+print '<table class="noborder centpercent">';
+print '<tr class="liste_titre">';
+print '<td>'.$langs->trans("Label").'</td>';
+//*print '<td>'.$langs->trans("Code").'</td>';
 //  print '<td>'.$langs->trans("Label").'</td>';*/
 // //print '<td class="right">'.$langs->trans("NbOfTargetedContacts").'</td>';
-// print "</tr>\n";
+print "</tr>\n";
 
 // // Load array of available notifications
 // $notificationtrigger = new InterfaceNotification($db);
 // $listofnotifiedevents = $notificationtrigger->getListOfManagedEvents();
 
-// print '<tr class="oddeven">';
-// print '<td>';
+print '<tr class="oddeven">';
+print '<td>';
 
 // $i = 0;
 // foreach ($listofnotifiedevents as $notifiedevent)
