@@ -124,13 +124,13 @@ dol_fiche_head(
 		"lltrucks@lltrucks"
 		);
 
-// print '<span class="opacitymedium">';
-// print $langs->trans("NotificationsDesc").'<br>';
-// print $langs->trans("NotificationsDescUser").'<br>';
-// if (!empty($conf->societe->enabled)) print $langs->trans("NotificationsDescContact").'<br>';
-// print $langs->trans("NotificationsDescGlobal").'<br>';
-// print '</span>';
-// print '<br>';
+print '<span class="opacitymedium">';
+print $langs->trans("NotificationsDesc").'<br>';
+print $langs->trans("NotificationsDescUser").'<br>';
+if (!empty($conf->societe->enabled)) print $langs->trans("NotificationsDescContact").'<br>';
+print $langs->trans("NotificationsDescGlobal").'<br>';
+print '</span>';
+print '<br>';
 
 // print '<form method="post" action="'.$_SERVER["PHP_SELF"].'">';
 // print '<input type="hidden" name="token" value="'.newToken().'">';
