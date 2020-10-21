@@ -64,7 +64,7 @@ $result = $object->fetch($id, $ref, $track_id);
 if ($result < 0) {
 	setEventMessages($object->error, $object->errors, 'errors');
 } else {
-	$upload_dir = $conf->ticket->multidir_output[$object->entity ? $object->entity : $conf->entity]."/ticket/".dol_sanitizeFileName($object->ref);
+	$upload_dir = $conf->ticket->dir_output = DOL_DATA_ROOT . "/ticket/".dol_sanitizeFileName($object->ref);
 }
 
 
