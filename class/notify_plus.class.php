@@ -334,6 +334,7 @@ class Notify_plus
 		dol_syslog(get_class($this)."::send notifcode=".$notifcode.", object=".$object->id);
 
 		$langs->load("other");
+		$langs->load("lltrucks@lltrucks");
 
 		// Define $urlwithroot
 		$urlwithouturlroot=preg_replace('/'.preg_quote(DOL_URL_ROOT, '/').'$/i', '', trim($dolibarr_main_url_root));
