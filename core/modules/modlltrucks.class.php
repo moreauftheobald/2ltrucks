@@ -148,7 +148,7 @@ class modlltrucks extends DolibarrModules
 		$this->tabs = array(
 				'ticketadmin:+multientitysharing:multientitysharing:lltrucks@lltrucks:$conf->ticket->enabled:/lltrucks/tab/multicompany_ticket_sharing.php',
 				'ticket:-tabTicketDocument:NU:1',
-				'ticket:+documents:documents:lltrucks@lltrucks:$conf->ticket->enabled:/lltrucks/tab/ticket_document.php',
+				'ticket:+documents:documents:lltrucks@lltrucks:$conf->ticket->enabled:/lltrucks/tab/ticket_document.php?id=_ID_',
 				'supplierorder_admin:+multientitysharing:multientitysharing:lltrucks@lltrucks:$conf->fournisseur->enabled:/lltrucks/tab/multicompany_cf_sharing.php'
 		);
 
