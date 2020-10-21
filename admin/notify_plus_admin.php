@@ -32,7 +32,7 @@ dol_include_once('lltrucks/lib/lltrucks.lib.php');
 dol_include_once('lltrucks/class/notify_plus.class.php');
 
 // Load translation files required by the page
-$langs->loadLangs(array('admin', 'other', 'orders', 'propal', 'bills', 'errors', 'mails'));
+$langs->loadLangs(array('admin', 'other', 'orders', 'propal', 'bills', 'errors', 'mails','ticket','lltrucks@lltrucks'));
 
 // Security check
 if (!$user->admin)
@@ -49,7 +49,7 @@ if ($action == 'setvalue' && $user->admin)
 {
 	$db->begin();
 
-	$result = dolibarr_set_const($db, "NOTIFICATION_EMAIL_FROM", $_POST["email_from"], 'chaine', 0, '', $conf->entity);
+	$result = dolibarr_set_const($db, "NOTIFY_PLUS_EMAIL_FROM", $_POST["email_from"], 'chaine', 0, '', $conf->entity);
     if ($result < 0) $error++;
 
     if (!$error && is_array($_POST))
@@ -67,16 +67,16 @@ if ($action == 'setvalue' && $user->admin)
 
 	    	if (preg_match('/^NOTIF_(.*)_old_(.*)_key/', $key, $reg))
 	    	{
-				dolibarr_del_const($db, 'NOTIFICATION_FIXEDEMAIL_'.$reg[1].'_THRESHOLD_HIGHER_'.$reg[2], $conf->entity);
+				dolibarr_del_const($db, 'NOTIFY_PLUS_FIXEDEMAIL_'.$reg[1].'_THRESHOLD_HIGHER_'.$reg[2], $conf->entity);
 
-				$newkey = 'NOTIFICATION_FIXEDEMAIL_'.$reg[1].'_THRESHOLD_HIGHER_'.((int) GETPOST($shortkey.'_amount'));
+				$newkey = 'NOTIFY_PLUS_FIXEDEMAIL_'.$reg[1].'_THRESHOLD_HIGHER_'.((int) GETPOST($shortkey.'_amount'));
 				$newval = GETPOST($shortkey.'_key');
 				//print $newkey.' - '.$newval.'<br>';
 	    	}
 	    	elseif (preg_match('/^NOTIF_(.*)_new_key/', $key, $reg))
 	    	{
 		    	// Add a new entry
-	    		$newkey = 'NOTIFICATION_FIXEDEMAIL_'.$reg[1].'_THRESHOLD_HIGHER_'.((int) GETPOST($shortkey.'_amount'));
+	    		$newkey = 'NOTIFY_PLUS_FIXEDEMAIL_'.$reg[1].'_THRESHOLD_HIGHER_'.((int) GETPOST($shortkey.'_amount'));
 	    		$newval = GETPOST($shortkey.'_key');
 	    	}
 
@@ -145,8 +145,8 @@ print "</tr>\n";
 print '<tr class="oddeven"><td>';
 print $langs->trans("NotificationEMailFrom").'</td>';
 print '<td>';
-print '<input size="32" type="email" name="email_from" value="'.$conf->global->NOTIFICATION_EMAIL_FROM.'">';
-if (!empty($conf->global->NOTIFICATION_EMAIL_FROM) && !isValidEmail($conf->global->NOTIFICATION_EMAIL_FROM)) print ' '.img_warning($langs->trans("ErrorBadEMail"));
+print '<input size="32" type="email" name="email_from" value="'.$conf->global->NOTIFY_PLUS_EMAIL_FROM.'">';
+if (!empty($conf->global->NOTIFY_PLUS_EMAIL_FROM) && !isValidEmail($conf->global->NOTIFY_PLUS_EMAIL_FROM)) print ' '.img_warning($langs->trans("ErrorBadEMail"));
 print '</td>';
 print '</tr>';
 print '</table>';
@@ -241,9 +241,9 @@ foreach ($listofnotifiedevents as $notifiedevent)
     // Notification with threshold
     foreach ($conf->global as $key => $val)
     {
-		if ($val == '' || !preg_match('/^NOTIFICATION_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_(.*)/', $key, $reg)) continue;
+		if ($val == '' || !preg_match('/^NOTIFY_PLUS_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_(.*)/', $key, $reg)) continue;
 
-	    $param = 'NOTIFICATION_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_'.$reg[1];
+	    $param = 'NOTIFY_PLUS_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_'.$reg[1];
     	$value = GETPOST('NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_key') ?GETPOST('NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_key', 'alpha') : $conf->global->$param;
 
     	$s = '<input type="text" size="32" name="NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_key" value="'.dol_escape_htmltag($value).'">'; // Do not use type="email" here, we must be able to enter a list of email with , separator.
@@ -267,7 +267,7 @@ foreach ($listofnotifiedevents as $notifiedevent)
     // Notification with threshold
     foreach ($conf->global as $key => $val)
     {
-		if ($val == '' || !preg_match('/^NOTIFICATION_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_(.*)/', $key, $reg)) continue;
+		if ($val == '' || !preg_match('/^NOTIFY_PLUS_FIXEDEMAIL_'.$notifiedevent['code'].'_THRESHOLD_HIGHER_(.*)/', $key, $reg)) continue;
 
     	print $langs->trans("AmountHT").' >= <input type="text" size="4" name="NOTIF_'.$notifiedevent['code'].'_old_'.$reg[1].'_amount" value="'.dol_escape_htmltag($reg[1]).'">';
 		print '<br>';
