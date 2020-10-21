@@ -168,7 +168,7 @@ print '<td>'.$langs->trans("Label").'</td>';
 print "</tr>\n";
 
 // // Load array of available notifications
-$notificationtrigger = new InterfaceNotification($db);
+$notificationtrigger = new Interfacelltruckstrigger($db);
 $listofnotifiedevents = $notificationtrigger->getListOfManagedEvents();
 
 print '<tr class="oddeven">';
