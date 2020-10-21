@@ -149,7 +149,9 @@ class modlltrucks extends DolibarrModules
 				'ticketadmin:+multientitysharing:multientitysharing:lltrucks@lltrucks:$conf->ticket->enabled:/lltrucks/tab/multicompany_ticket_sharing.php',
 				'ticket:-tabTicketDocument:NU:1',
 				'ticket:+documents:documents:lltrucks@lltrucks:$conf->ticket->enabled:/lltrucks/tab/ticket_document.php?id=__ID__',
-				'supplierorder_admin:+multientitysharing:multientitysharing:lltrucks@lltrucks:$conf->fournisseur->enabled:/lltrucks/tab/multicompany_cf_sharing.php'
+				'supplierorder_admin:+multientitysharing:multientitysharing:lltrucks@lltrucks:$conf->fournisseur->enabled:/lltrucks/tab/multicompany_cf_sharing.php',
+				'user:-notify:NU::1',
+				'user:+notifyplus:notifyplus:lltrucks@lltrucks:$conf->lltrucks->enabled:/lltrucks/tab/notify_plus_card.php?id=__ID__',
 		);
 
         // Dictionaries

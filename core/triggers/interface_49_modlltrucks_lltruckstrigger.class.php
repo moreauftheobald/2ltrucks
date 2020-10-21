@@ -183,6 +183,7 @@ class Interfacelltruckstrigger
    					elseif ($element == 'withdraw' && empty($conf->prelevement->enabled)) $qualified = 0;
    					elseif ($element == 'shipping' && empty($conf->expedition->enabled)) $qualified = 0;
    					elseif ($element == 'member' && empty($conf->adherent->enabled)) $qualified = 0;
+   					elseif ($element == 'ticket' && empty($conf->ticket->enabled)) $qualified = 0;
    					elseif (!in_array($element, array('order_supplier', 'invoice_supplier', 'withdraw', 'shipping', 'member', 'expensereport')) && empty($conf->$element->enabled)) $qualified = 0;
    				}
    				
