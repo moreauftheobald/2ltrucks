@@ -72,19 +72,19 @@ class Interfacelltruckstrigger extends DolibarrTriggers
      *
      * 	@param		DoliDB		$db		Database handler
      */
-    public function __construct($db)
-    {
-        $this->db = $db;
+//     public function __construct($db)
+//     {
+//         $this->db = $db;
 
-        $this->name = preg_replace('/^Interface/i', '', get_class($this));
-        $this->family = "demo";
-        $this->description = "Triggers of this module are empty functions."
-            . "They have no effect."
-            . "They are provided for tutorial purpose only.";
-        // 'development', 'experimental', 'dolibarr' or version
-        $this->version = 'development';
-        $this->picto = 'lltrucks@lltrucks';
-    }
+//         $this->name = preg_replace('/^Interface/i', '', get_class($this));
+//         $this->family = "demo";
+//         $this->description = "Triggers of this module are empty functions."
+//             . "They have no effect."
+//             . "They are provided for tutorial purpose only.";
+//         // 'development', 'experimental', 'dolibarr' or version
+//         $this->version = 'development';
+//         $this->picto = 'lltrucks@lltrucks';
+//     }
 
     /**
      * Trigger name
