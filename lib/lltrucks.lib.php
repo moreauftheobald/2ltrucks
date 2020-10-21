@@ -23,3 +23,35 @@
  *				Put some comments here
  */
 
+function operationorderAdminPrepareHead()
+{
+	global $langs, $conf;
+	
+	$langs->load('operationorder@operationorder');
+	
+	$h = 0;
+	$head = array();
+	
+	$head[$h][0] = dol_buildpath("/lltrucks/admin/lltrucks_setup.php", 1);
+	$head[$h][1] = $langs->trans("Parameters");
+	$head[$h][2] = 'settings';
+	$h++;
+	
+	$head[$h][0] = dol_buildpath("/lltrucks/admin/notify_plus_admin.php", 1);
+	$head[$h][1] = $langs->trans("ExtraFields");
+	$head[$h][2] = 'extrafields';
+	$h++;
+	
+	
+	// Show more tabs from modules
+	// Entries must be declared in modules descriptor with line
+	//$this->tabs = array(
+	//	'entity:+tabname:Title:@operationorder:/operationorder/mypage.php?id=__ID__'
+	//); // to add new tab
+	//$this->tabs = array(
+	//	'entity:-tabname:Title:@operationorder:/operationorder/mypage.php?id=__ID__'
+	//); // to remove a tab
+	complete_head_from_modules($conf, $langs, $object, $head, $h, 'operationorder');
+	
+	return $head;
+}

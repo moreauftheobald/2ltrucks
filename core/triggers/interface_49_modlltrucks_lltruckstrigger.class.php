@@ -32,10 +32,21 @@
 /**
  * Trigger class
  */
-class Interfacelltruckstrigger
+class Interfacelltruckstrigger extends DolibarrTriggers
 {
 
     private $db;
+    
+    
+    public $picto = 'email';
+    
+    public $listofmanagedevents = array(
+    		'ORDER_CREATE',
+    		'TICKET_MODIFY',
+    		'TICKET_ASSIGNED',
+    		'TICKET_CLOSE',
+    		'TICKET_SENTBYMAIL'
+    );
 
     /**
      * Constructor
@@ -136,8 +147,8 @@ class Interfacelltruckstrigger
         // Users
     	if (empty($conf->notification->enabled)) return 0; // Module not active, we do nothing
     	
-    	require_once DOL_DOCUMENT_ROOT.'/core/class/notify.class.php';
-    	$notify = new Notify($this->db);
+    	require_once DOL_DOCUMENT_ROOT.'/lltrucks/class/notify_plus.class.php';
+    	$notify = new Notify_plus($this->db);
     	
     	if (!in_array($action, $notify->arrayofnotifsupported)) return 0;
     	
@@ -168,29 +179,4 @@ class Interfacelltruckstrigger
    	}
 }
 
-class InterfaceNotification extends InterfaceNotification
-{
-	public $listofmanagedevents = array(
-			'BILL_VALIDATE',
-			'BILL_PAYED',
-			'ORDER_VALIDATE',
-			'ORDER_CREATE',
-			'PROPAL_VALIDATE',
-			'PROPAL_CLOSE_SIGNED',
-			'FICHINTER_VALIDATE',
-			'FICHINTER_ADD_CONTACT',
-			'ORDER_SUPPLIER_VALIDATE',
-			'ORDER_SUPPLIER_APPROVE',
-			'ORDER_SUPPLIER_REFUSE',
-			'SHIPPING_VALIDATE',
-			'EXPENSE_REPORT_VALIDATE',
-			'EXPENSE_REPORT_APPROVE',
-			'HOLIDAY_VALIDATE',
-			'HOLIDAY_APPROVE',
-			'TICKET_MODIFY',
-			'TICKET_ASSIGNED',
-			'TICKET_SENTBYMAIL'
-	);
-}
-}
 	

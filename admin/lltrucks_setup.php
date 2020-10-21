@@ -25,16 +25,20 @@
 
 require '../../../main.inc.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
+require_once DOL_DOCUMENT_ROOT.'/core/class/html.form.class.php';
+dol_include_once('lltrucks/lib/lltrucks.lib.php');
 
-global $sonf;
+global $sonf, $db;
 
 // Load translation files required by the page
 $langs->load("admin");
+$langs->load("lltrucks@lltrucks");
 
 if (!$user->admin) accessforbidden();
 
 $action = GETPOST('action', 'aZ09');
 
+$form = New Form($db);
 
 /*
  *	Actions
@@ -42,20 +46,41 @@ $action = GETPOST('action', 'aZ09');
 
 if ($action == 'setvalue' && $user->admin)
 {
-    $result1=dolibarr_set_const($db, "LLTRUCKS_PRICE_COEF", GETPOST("LLTRUCKS_PRICE_COEF"), 'chaine', 0, '', $conf->entity);
+    dolibarr_set_const($db, "LLTRUCKS_PRICE_COEF", GETPOST("LLTRUCKS_PRICE_COEF"), 'chaine', 0, '', $conf->entity);
+    dolibarr_set_const($db, "LLTRUCKS_STATUT_BEFORE_CHECK", GETPOST("LLTRUCKS_STATUT_BEFORE_CHECK"), 'chaine', 0, '', $conf->entity);
+    dolibarr_set_const($db, "LLTRUCKS_STATUT_AFTER_CHECK", GETPOST("LLTRUCKS_STATUT_AFTER_CHECK"), 'chaine', 0, '', $conf->entity);
 }
 
+$sql = "SELECT code, label "; 
+$sql.= "FROM llx_operationorder_status "; 
+$sql.= "WHERE status = 1 " ;
+$sql.= "AND entity = " . $conf->entity;
 
+
+$resql = $db->query($sql);
+if ($resql)
+{
+	while ($obj = $db->fetch_object($resql))
+	{
+		$TOR[$obj->code] = $obj->label;
+	}
+}
 /*
  * View
  */
-
 llxHeader('', $langs->trans("admin2ltrucks"), '');
 
 $linkback='<a href="'.DOL_URL_ROOT.'/admin/modules.php?restore_lastsearch_values=1">'.$langs->trans("BackToModuleList").'</a>';
 print load_fiche_titre($langs->trans("admin2ltrucks"), $linkback, 'title_setup');
 
-print '<span class="opacitymedium">'.$langs->trans("ClickToDialDesc")."</span><br>\n";
+$head = perationorderAdminPrepareHead();
+dol_fiche_head(
+		$head,
+		'settings',
+		'administration du module 2ltrucks',
+		-1,
+		"lltrucks@lltrucks"
+		);
 
 print '<br>';
 print '<form method="post" action="lltrucks_setup.php">';
@@ -70,8 +95,16 @@ print "</tr>\n";
 
 
 print '<tr class="oddeven">';
-print '<td width="20px">'.$langs->trans("pricecoef").'</td>';
-print '<td><input class="right maxwidth75" type="number" name="LLTRUCKS_PRICE_COEF" value="'.$conf->global->LLTRUCKS_PRICE_COEF.'"></td></tr>';
+print '<td width="300px">'.$langs->trans("pricecoef").'</td>';
+print '<td><input class="right maxwidth=300" type="number" name="LLTRUCKS_PRICE_COEF" value="'.$conf->global->LLTRUCKS_PRICE_COEF.'"></td></tr>';
+
+print '<tr class="oddeven">';
+print '<td width="300px">'.$langs->trans("statusbeforeorcheck").'</td>';
+print '<td>' . $form->selectArray('LLTRUCKS_STATUT_BEFORE_CHECK', $TOR, $conf->global->LLTRUCKS_STATUT_BEFORE_CHECK, 0,0,0,'',0,0,0,'','',1) . '</td></tr>';
+
+print '<tr class="oddeven">';
+print '<td width="300px">'.$langs->trans("Statusafterorcheck").'</td>';
+print '<td>' . $form->selectArray('LLTRUCKS_STATUT_AFTER_CHECK', $TOR, $conf->global->LLTRUCKS_STATUT_AFTER_CHECK, 0,0,0,'',0,0,0,'','',1) . '</td></tr>';
 
 print '</table>';
 
