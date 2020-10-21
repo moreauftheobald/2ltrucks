@@ -47,7 +47,7 @@ class modlltrucks extends DolibarrModules
 		$this->editor_name = 'Theobald';
 		// Id for module (must be unique).
 		// Use here a free id (See in Home -> System information -> Dolibarr for list of used modules id).
-		$this->numero = 101075; // 104000 to 104999 for ATM CONSULTING
+		$this->numero = 101076; // 104000 to 104999 for ATM CONSULTING
 		// Key text used to identify module (for permissions, menus, etc...)
 		$this->rights_class = 'lltrucks';
 
@@ -55,13 +55,13 @@ class modlltrucks extends DolibarrModules
 		// It is used to group modules in module setup page
 		$this->family = "other";
 		// Module label (no space allowed), used if translation string 'ModuleXXXName' not found (where XXX is value of numeric property 'numero' of module)
-		$this->name = 'Module 2L trucks';
+		$this->name = preg_replace('/^mod/i', '', get_class($this));
 		// Module description, used if translation string 'ModuleXXXDesc' not found (where XXX is value of numeric property 'numero' of module)
 		$this->description = "Module Fonctionnel Spécifique  2L trucks";
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
 		$this->version = '1.0.0';
 		// Key used in llx_const table to save module status enabled/disabled (where MYMODULE is value of property name of module in uppercase)
-		$this->const_name = 'MAIN_MODULE_LLTRUCKS';
+		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		// Where to store the module in sLetup page (0=common,1=interface,2=others,3=very specific)
 		$this->special = 0;
 		// Name of image file used for this module.
@@ -105,16 +105,21 @@ class modlltrucks extends DolibarrModules
 		$this->depends = array();		// List of modules id that must be enabled if this module is enabled
 		$this->requiredby = array();	// List of modules id to disable if this one is disabled
 		$this->conflictwith = array();	// List of modules id this module is in conflict with
-		$this->phpmin = array(7,0);					// Minimum version of PHP required by module
-		$this->need_dolibarr_version = array(11,0);	// Minimum version of Dolibarr required by module
+		$this->phpmin = array(5,0);					// Minimum version of PHP required by module
+		$this->need_dolibarr_version = array(10,0);	// Minimum version of Dolibarr required by module
 		$this->langfiles = array("lltrucks@lltrucks");
 
 		// Constants
 		// List of particular constants to add when module is enabled (key, 'chaine', value, desc, visible, 'current' or 'allentities', deleteonunactive)
-		// Example: $this->const=array(0=>array('MYMODULE_MYNEWCONST1','chaine','myvalue','This is a constant to add',1),
+		// Example: $this->const=array(0=>array('MYMODULE_MYNEWCONST1','chaine','myvalue','This is a constant to add',1,'current'),
 		//                             1=>array('MYMODULE_MYNEWCONST2','chaine','myvalue','This is another constant to add',0, 'current', 1)
 		// );
-		$this->const = array('LLTRUCKS_PRICE_COEF');
+		$this->const = array(
+				0=>array('LLTRUCKS_PRICE_COEF','chaine','myvalue','This is a constant to add',1,'current'),
+				1=>array('LLTRUCKS_STATUT_BEFORE_CHECK','chaine','myvalue','This is a constant to add',1,'current'),
+				2=>array('LLTRUCKS_STATUT_AFTER_CHECK','chaine','myvalue','This is a constant to add',1,'current')
+		);
+		
 
 		// Array to add new pages in new tabs
 		// Example: $this->tabs = array('objecttype:+tabname1:Title1:mylangfile@lltrucks:$user->rights->lltrucks->read:/lltrucks/mynewtab1.php?id=__ID__',  	// To add a new tab identified by code tabname1
@@ -142,6 +147,8 @@ class modlltrucks extends DolibarrModules
 		// 'user'             to add a tab in user view
 		$this->tabs = array(
 				'ticketadmin:+multientitysharing:multientitysharing:lltrucks@lltrucks:$conf->ticket->enabled:/lltrucks/tab/multicompany_ticket_sharing.php',
+				'ticket:-tabTicketDocument:NU:1',
+				'ticket:+documents:documents:lltrucks@lltrucks:$conf->ticket->enabled:/lltrucks/tab/ticket_document.php',
 				'supplierorder_admin:+multientitysharing:multientitysharing:lltrucks@lltrucks:$conf->fournisseur->enabled:/lltrucks/tab/multicompany_cf_sharing.php'
 		);
 
@@ -249,8 +256,9 @@ class modlltrucks extends DolibarrModules
 	function init($options='')
 	{
 		$sql = array();
+		define('INC_FROM_DOLIBARR', true);
 
-		$result=$this->_load_tables('/lltrucks/sql/');
+		//$result=$this->_load_tables('/lltrucks/sql/');
 
 		return $this->_init($sql, $options);
 	}
