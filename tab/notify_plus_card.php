@@ -75,11 +75,11 @@ if ($action == 'add')
     {
         $db->begin();
 
-        $sql = "DELETE FROM ".MAIN_DB_PREFIX."notify_def";
+        $sql = "DELETE FROM ".MAIN_DB_PREFIX.$object->element. "_def";
         $sql .= " WHERE fk_user=".$id." AND fk_action=".$actionid;
         if ($db->query($sql))
         {
-            $sql = "INSERT INTO ".MAIN_DB_PREFIX."notify_def (datec,fk_user, fk_action)";
+            $sql = "INSERT INTO ".MAIN_DB_PREFIX. $object->element . "_def (datec,fk_user, fk_action)";
             $sql .= " VALUES ('".$db->idate($now)."',".$id.",".$actionid.")";
 
             if (! $db->query($sql))
@@ -107,7 +107,7 @@ if ($action == 'add')
 // Remove a notification
 if ($action == 'delete')
 {
-    $sql = "DELETE FROM ".MAIN_DB_PREFIX."notify_def where rowid=".GETPOST("actid", "int");
+    $sql = "DELETE FROM ".MAIN_DB_PREFIX.$object->element . "_def where rowid=".GETPOST("actid", "int");
     $db->query($sql);
 }
 
@@ -249,7 +249,7 @@ if ($result > 0)
     $sql.= " a.code, a.label,";
     $sql.= " c.rowid as userid, c.lastname, c.firstname, c.email";
     $sql.= " FROM ".MAIN_DB_PREFIX."c_action_trigger as a,";
-    $sql.= " ".MAIN_DB_PREFIX."notify_def as n,";
+    $sql.= " ".MAIN_DB_PREFIX.$object->element ."_def as n,";
     $sql.= " ".MAIN_DB_PREFIX."user c";
     $sql.= " WHERE a.rowid = n.fk_action";
     $sql.= " AND c.rowid = n.fk_user";
@@ -334,7 +334,7 @@ if ($result > 0)
     $sql.= " c.rowid as id, c.lastname, c.firstname, c.email as contactemail,";
     $sql.= " a.code, a.label";
     $sql.= " FROM ".MAIN_DB_PREFIX."c_action_trigger as a,";
-    $sql.= " ".MAIN_DB_PREFIX."notify as n";
+    $sql.= " ".MAIN_DB_PREFIX.$object->element ." as n";
     $sql.= " LEFT JOIN ".MAIN_DB_PREFIX."user as c ON n.fk_user = c.rowid";
     $sql.= " WHERE a.rowid = n.fk_action";
     $sql.= " AND n.fk_user = ".$object->id;
