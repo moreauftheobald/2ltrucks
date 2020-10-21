@@ -26,13 +26,13 @@
  */
 
 require '../config.php';
-require_once DOL_DOCUMENT_ROOT.'/core/class/notify.class.php';
+dol_include_once('lltrucks/class/notify_plus.class.php');
 require_once DOL_DOCUMENT_ROOT.'/core/lib/usergroups.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/user/class/user.class.php';
-require_once DOL_DOCUMENT_ROOT.'/core/triggers/interface_50_modNotification_Notification.class.php';
+require_once DOL_DOCUMENT_ROOT.'/custom/lltrucks/core/triggers/interface_49_modlltrucks_lltruckstrigger.class.php';
 
 // Load translation files required by page
-$langs->loadLangs(array('companies', 'mails', 'admin', 'other'));
+$langs->loadLangs(array('admin', 'other', 'orders', 'propal', 'bills', 'errors', 'mails','ticket','lltrucks@lltrucks'));
 
 $id = GETPOST("id", 'int');
 $action = GETPOST('action', 'aZ09');
@@ -158,18 +158,6 @@ if ($result > 0)
     }
     print '</tr>'."\n";
 
-    /*print '<tr><td class="titlefield">'.$langs->trans("NbOfActiveNotifications").'</td>';   // Notification for this thirdparty
-    print '<td colspan="3">';
-    $nbofrecipientemails=0;
-    $notify=new Notify($db);
-    $tmparray = $notify->getNotificationsArray('', 0, null, $object->id, array('user'));
-    foreach($tmparray as $tmpkey => $tmpval)
-    {
-        $nbofrecipientemails++;
-    }
-    print $nbofrecipientemails;
-    print '</td></tr>';*/
-
     print '</table>';
 
     print '</div>';
@@ -214,7 +202,7 @@ if ($result > 0)
         $actions=array();
 
         // Load array of available notifications
-        $notificationtrigger=new InterfaceNotification($db);
+        $notificationtrigger=new Interfacelltruckstrigger($db);
         $listofnotifiedevents=$notificationtrigger->getListOfManagedEvents();
 
         foreach($listofnotifiedevents as $notifiedevent)
@@ -335,56 +323,6 @@ if ($result > 0)
     }
 
 
-    // List of notifications enabled for fixed email
-    /*
-    foreach($conf->global as $key => $val)
-    {
-    	if (! preg_match('/^NOTIFICATION_FIXEDEMAIL_(.*)/', $key, $reg)) continue;
-    	$var = ! $var;
-		print '<tr class="oddeven"><td>';
-		$listtmp=explode(',',$val);
-		$first=1;
-		foreach($listtmp as $keyemail => $valemail)
-		{
-			if (! $first) print ', ';
-			$first=0;
-			$valemail=trim($valemail);
-    		//print $keyemail.' - '.$valemail.' - '.$reg[1].'<br>';
-			if (isValidEmail($valemail, 1))
-			{
-				if ($valemail == '__SUPERVISOREMAIL__') print $valemail;
-				else print ' &lt;'.$valemail.'&gt;';
-			}
-			else
-			{
-				print ' '.img_warning().' '.$langs->trans("ErrorBadEMail",$valemail);
-			}
-		}
-		print '</td>';
-		print '<td>';
-		$notifcode=preg_replace('/_THRESHOLD_.*$/','',$reg[1]);
-		$notifcodecond=preg_replace('/^.*_(THRESHOLD_)/','$1',$reg[1]);
-		$label=($langs->trans("Notify_".$notifcode)!="Notify_".$notifcode?$langs->trans("Notify_".$notifcode):$notifcode);
-		print $label;
-		if (preg_match('/^THRESHOLD_HIGHER_(.*)$/',$notifcodecond,$regcond) && ($regcond[1] > 0))
-		{
-			print ' - '.$langs->trans("IfAmountHigherThan",$regcond[1]);
-		}
-		print '</td>';
-		print '<td>';
-		print $langs->trans("Email");
-		print '</td>';
-		print '<td class="right">'.$langs->trans("SeeModuleSetup", $langs->transnoentitiesnoconv("Module600Name")).'</td>';
-		print '</tr>';
-    }*/
-    /*if ($user->admin)
-    {
-	    $var = ! $var;
-		print '<tr class="oddeven"><td colspan="4">';
-		print '+ <a href="'.DOL_URL_ROOT.'/admin/notification.php">'.$langs->trans("SeeModuleSetup", $langs->transnoentitiesnoconv("Module600Name")).'</a>';
-		print '</td></tr>';
-    }*/
-
     print '</table>';
 
 
@@ -449,7 +387,6 @@ if ($result > 0)
     print_liste_field_titre("Target", $_SERVER["PHP_SELF"], "c.lastname,c.firstname", '', $param, '', $sortfield, $sortorder);
     print_liste_field_titre("Action", $_SERVER["PHP_SELF"], "", '', $param, '', $sortfield, $sortorder);
     print_liste_field_titre("Type", $_SERVER["PHP_SELF"], "n.type", '', $param, '', $sortfield, $sortorder);
-    //print_liste_field_titre("Object",$_SERVER["PHP_SELF"],"",'',$param,'"',$sortfield,$sortorder);
     print_liste_field_titre("Date", $_SERVER["PHP_SELF"], "n.daten", '', $param, '', $sortfield, $sortorder, 'right ');
     print '</tr>';
 
@@ -485,16 +422,6 @@ if ($result > 0)
             if ($obj->type == 'email') print $langs->trans("Email");
             if ($obj->type == 'sms') print $langs->trans("Sms");
             print '</td>';
-            // TODO Add link to object here for other types
-            /*print '<td>';
-            if ($obj->object_type == 'order')
-            {
-				$orderstatic->id=$obj->object_id;
-				$orderstatic->ref=...
-				print $orderstatic->getNomUrl(1);
-            }
-           	print '</td>';*/
-            // print
             print'<td class="right">'.dol_print_date($db->jdate($obj->daten), 'dayhour').'</td>';
             print '</tr>';
             $i++;
