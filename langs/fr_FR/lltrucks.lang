@@ -30,3 +30,7 @@ Notify_TICKET_MODIFY = Ticket modifié
 Notify_TICKET_ASSIGNED = Ticket assigé
 Notify_TICKET_CLOSE = ticket fermé
 Notify_ORDER_CREATE = Commande Client crée
+EMailTextordercreatde= La Commande client %s vous concernant a été crée
+EMailticketmodify= Le Ticket %s a été modifié
+EMailticketassigned= Le Ticket %s vous a été assigné
+EMailticketcloseed= Le ticket %s a été fermé.
