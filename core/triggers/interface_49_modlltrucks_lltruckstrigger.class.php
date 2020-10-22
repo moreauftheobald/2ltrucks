@@ -45,28 +45,7 @@ class Interfacelltruckstrigger
     
     public $picto = 'email';
     
-    public $listofmanagedevents = array(
-    		'ORDER_CREATE',
-    		'TICKET_MODIFY',
-    		'TICKET_ASSIGNED',
-    		'TICKET_CLOSE',
-    		'TICKET_SENTBYMAIL',
-    		'BILL_VALIDATE',
-    		'BILL_PAYED',
-    		'ORDER_VALIDATE',
-    		'PROPAL_VALIDATE',
-    		'PROPAL_CLOSE_SIGNED',
-    		'FICHINTER_VALIDATE',
-    		'FICHINTER_ADD_CONTACT',
-    		'ORDER_SUPPLIER_VALIDATE',
-    		'ORDER_SUPPLIER_APPROVE',
-    		'ORDER_SUPPLIER_REFUSE',
-    		'SHIPPING_VALIDATE',
-    		'EXPENSE_REPORT_VALIDATE',
-    		'EXPENSE_REPORT_APPROVE',
-    		'HOLIDAY_VALIDATE',
-    		'HOLIDAY_APPROVE'
-    );
+    public $listofmanagedevents = array();
 
     /**
      * Constructor
@@ -75,8 +54,9 @@ class Interfacelltruckstrigger
      */
     public function __construct($db)
     {
+    	global $conf;
         $this->db = $db;
-
+        $this->listofmanagedevents = explode(',',$conf->global->NOTIFY_PLUS_EVENT_FETCH);
         $this->name = preg_replace('/^Interface/i', '', get_class($this));
         $this->picto = 'lltrucks@lltrucks';
     }
