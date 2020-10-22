@@ -306,10 +306,6 @@ class Notify_plus
 						$dir_output = $conf->$object_type->dir_output;
 						$mesg= $outputlangs->transnoentitiesnoconv("EMailText".$notifcode, $link);
 						
-						print 'ok_la';
-						exit;
-
-
 						$ref = dol_sanitizeFileName($newref);
 						$pdf_path = $dir_output."/".$ref."/".$ref.".pdf";
 						if (!dol_is_file($pdf_path))
