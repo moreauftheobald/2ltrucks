@@ -41,7 +41,7 @@ $action = GETPOST('action', 'aZ09');
 $form = New Form($db);
 
 /*
- *	Actions
+ *	Actions NOTIFY_PLUS_EMAIL_FROM
  */
 
 if ($action == 'setvalue' && $user->admin)
@@ -49,6 +49,7 @@ if ($action == 'setvalue' && $user->admin)
     dolibarr_set_const($db, "LLTRUCKS_PRICE_COEF", GETPOST("LLTRUCKS_PRICE_COEF"), 'chaine', 0, '', $conf->entity);
     dolibarr_set_const($db, "LLTRUCKS_STATUT_BEFORE_CHECK", GETPOST("LLTRUCKS_STATUT_BEFORE_CHECK"), 'chaine', 0, '', $conf->entity);
     dolibarr_set_const($db, "LLTRUCKS_STATUT_AFTER_CHECK", GETPOST("LLTRUCKS_STATUT_AFTER_CHECK"), 'chaine', 0, '', $conf->entity);
+    dolibarr_set_const($db, "NOTIFY_PLUS_EMAIL_FROM", GETPOST("LLTRUCKS_STATUT_AFTER_CHECK"), 'chaine', 0, '', 0);
 }
 
 $sql = "SELECT code, label "; 
@@ -105,6 +106,11 @@ print '<td>' . $form->selectArray('LLTRUCKS_STATUT_BEFORE_CHECK', $TOR, $conf->g
 print '<tr class="oddeven">';
 print '<td width="300px">'.$langs->trans("Statusafterorcheck").'</td>';
 print '<td>' . $form->selectArray('LLTRUCKS_STATUT_AFTER_CHECK', $TOR, $conf->global->LLTRUCKS_STATUT_AFTER_CHECK, 0,0,0,'',0,0,0,'','',1) . '</td></tr>';
+
+print '<tr class="oddeven">';
+print '<td width="300px">'.$langs->trans("defaultmailadress").'</td>';
+print '<td><input class="right maxwidth=300" type="number" name="NOTIFY_PLUS_EMAIL_FROM" value="'.$conf->global->NOTIFY_PLUS_EMAIL_FROM.'"></td></tr>';
+
 
 print '</table>';
 

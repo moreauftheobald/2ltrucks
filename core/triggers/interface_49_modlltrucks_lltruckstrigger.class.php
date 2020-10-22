@@ -142,7 +142,7 @@ class Interfacelltruckstrigger
         	$message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
         	$message.=  $user->firstname . ' ' . $user->lastname;
         	$message.= ' vous a transféré la responsabilité d’un ticket d’assistance&nbsp;:';
-        	$message.= $object->getNomUrl();
+        	$message.= DOL_URL_ROOT . $object->getNomUrl();
         	$message.= '<o:p></o:p></p>';
         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
         	$message.= $user->signature;
@@ -218,7 +218,7 @@ class Interfacelltruckstrigger
 	   		$message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
    			$message.=  $user->firstname . ' ' . $user->lastname;
    			$message.= ' Viens de créer une commande client a votre intention&nbsp;:';
-	   		$message.= $object->getNomUrl();
+	   		$message.= DOL_URL_ROOT . $object->getNomUrl();
    			$message.= '<o:p></o:p></p>';
    			$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
 	   		$message.= $user->signature;
