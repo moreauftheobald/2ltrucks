@@ -206,15 +206,15 @@ class Interfacelltruckstrigger
    			
    			$res = $this->db->query($sql);
    			$obj = $this->db->fetch_object($res);
-   			 
-   			print 'ok la';
-   			exit;
-   			
+   			  			
    		 	$userto = new User($this->db);
    		 	$userto->fetch($obj->fk_user_ticket);
    			$sendto = $userto->email;
    			if(empty($sendto)) return 0;
-   		
+			
+   			print 'ok la';
+   			exit;
+   			  			
 	   		$message = '<div class=WordSection1>';
    			$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
    			$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
