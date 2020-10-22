@@ -295,12 +295,13 @@ class Notify_plus
 
 						$subject = '['.$mysoc->name.'] '.$outputlangs->transnoentitiesnoconv("DolibarrNotification").($projtitle ? ' '.$projtitle : '');
 						
-						var_dump($object->getnomurl(1));
-						exit;
+												
+						if(method_exists($object,' getNomUrl')){
+							$link=$object->getnomurl(1);
+						}
 						
-						//if(method_exist($object,' getNomUrl')){
-						//	$link=$object->getnomurl(1);
-						//}
+						print'ok la';
+						exit;
 						
 						$dir_output = $conf->$object->element->dir_output;
 						$object_type = $object->element;
