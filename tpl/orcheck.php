@@ -224,7 +224,7 @@ if($res>0){
 			$TLastLinesByProduct = $object->getLastLinesByProduct();
 			$qtyUsed = price($line->getQtyUsed($TLineQtyUsed, $TLastLinesByProduct));
 			
-			$coef_part = round(($line->qty-$qtyUsed)*100,2);
+			$coef_part = round(($qtyUsed-$line->qty)*100,2);
 			
 			$qtyadjust = 0;
 			if($qtyUsed<$line->qty){
