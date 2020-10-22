@@ -252,6 +252,15 @@ class Interfacelltruckstrigger
    				return 0;
    			}
    		}
+   		
+   		if($action == 'OPERATIONORDERDET_CREATE'||$action == 'OPERATIONORDERDET_MODIFY'||$action == 'OPERATIONORDERDET_DELETE'||$action == 'OPERATIONORDER_MODIFY'){
+   			global $mysoc;
+   			
+   			print 'ok la';
+   			exit;
+   			
+   			return 1;
+   		}
 	}
 }
 
