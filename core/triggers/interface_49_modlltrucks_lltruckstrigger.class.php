@@ -212,7 +212,7 @@ class Interfacelltruckstrigger
    			$sendto = $userto->email;
    			if(empty($sendto)) return 0;
 			
-   			print 'ok la';
+   			print $sendto;
    			exit;
    			  			
 	   		$message = '<div class=WordSection1>';
