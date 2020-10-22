@@ -47,6 +47,7 @@ $action = GETPOST('action', 'aZ09');
 if ($action == 'setvalue' && $user->admin)
 {
 	$result = dolibarr_set_const($db, "NOTIFY_PLUS_EMAIL_FROM", $_POST["email_from"], 'chaine', 0, '', $conf->entity);
+	$result = dolibarr_set_const($db, "NOTIFY_PLUS_EVENT_FETCH", $_POST["email_from"], 'chaine', 0, '', 0);
     if ($result < 0) $error++;
     
   	if (!$error)
@@ -102,10 +103,18 @@ print "</tr>\n";
 print '<tr class="oddeven"><td>';
 print $langs->trans("NotificationEMailFrom").'</td>';
 print '<td>';
-print '<input size="32" type="email" name="email_from" value="'.$conf->global->NOTIFY_PLUS_EMAIL_FROM.'">';
+print '<input size="32" type="email" name="NOTIFY_PLUS_EMAIL_FROM" value="'.$conf->global->NOTIFY_PLUS_EMAIL_FROM.'">';
 if (!empty($conf->global->NOTIFY_PLUS_EMAIL_FROM) && !isValidEmail($conf->global->NOTIFY_PLUS_EMAIL_FROM)) print ' '.img_warning($langs->trans("ErrorBadEMail"));
+
+print '<tr class="oddeven"><td>';
+print $langs->trans("eventfetched").'</td>';
+print '<td>';
+print '<input size="200" type="string" name="NOTIFY_PLUS_EVENT_FETCH" value="'.$conf->global->NOTIFY_PLUS_EVENT_FETCH.'">';
 print '</td>';
 print '</tr>';
+
+
+
 print '</table>';
 
 print '<br><br>';

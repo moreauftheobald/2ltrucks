@@ -162,145 +162,46 @@ class Notify_plus
 		$valueforthreshold = 0;
 		if (is_object($object)) $valueforthreshold = $object->total_ht;
 
-		if (!$error)
+		if ($userid >= 0 && in_array('user', $scope))
 		{
-			if ($socid >= 0 && in_array('thirdparty', $scope))
+			$sql = "SELECT a.code, c.email, c.rowid";
+			$sql .= " FROM ".MAIN_DB_PREFIX.$this->element . "_def as n,";
+			$sql .= " ".MAIN_DB_PREFIX."user as c,";
+			$sql .= " ".MAIN_DB_PREFIX."c_action_trigger as a";
+			$sql .= " WHERE n.fk_user = c.rowid";
+			$sql .= " AND a.rowid = n.fk_action";
+			if ($notifcode)
 			{
-				$sql = "SELECT a.code, c.email, c.rowid";
-				$sql .= " FROM ".MAIN_DB_PREFIX.$element . "_def as n,";
-				$sql .= " ".MAIN_DB_PREFIX."socpeople as c,";
-				$sql .= " ".MAIN_DB_PREFIX."c_action_trigger as a,";
-				$sql .= " ".MAIN_DB_PREFIX."societe as s";
-				$sql .= " WHERE n.fk_contact = c.rowid";
-				$sql .= " AND a.rowid = n.fk_action";
-				$sql .= " AND n.fk_soc = s.rowid";
-				if ($notifcode)
-				{
-					if (is_numeric($notifcode)) $sql .= " AND n.fk_action = ".$notifcode; // Old usage
-					else $sql .= " AND a.code = '".$notifcode."'"; // New usage
-				}
-				$sql .= " AND s.entity IN (".getEntity('societe').")";
-				if ($socid > 0) $sql .= " AND s.rowid = ".$socid;
+				if (is_numeric($notifcode)) $sql .= " AND n.fk_action = ".$notifcode; // Old usage
+				else $sql .= " AND a.code = '".$notifcode."'"; // New usage
+			}
+			$sql .= " AND c.entity IN (".getEntity('user').")";
+			if ($userid > 0) $sql .= " AND c.rowid = ".$userid;
 
-				dol_syslog(__METHOD__." ".$notifcode.", ".$socid."", LOG_DEBUG);
+			dol_syslog(__METHOD__." ".$notifcode.", ".$socid."", LOG_DEBUG);
 
-				$resql = $this->db->query($sql);
-				if ($resql)
+			$resql = $this->db->query($sql);
+			if ($resql)
+			{
+				$num = $this->db->num_rows($resql);
+				$i = 0;
+				while ($i < $num)
 				{
-					$num = $this->db->num_rows($resql);
-					$i = 0;
-					while ($i < $num)
+					$obj = $this->db->fetch_object($resql);
+					if ($obj)
 					{
-						$obj = $this->db->fetch_object($resql);
-						if ($obj)
-						{
-							$newval2 = trim($obj->email);
-							$isvalid = isValidEmail($newval2);
-							if (empty($resarray[$newval2])) $resarray[$newval2] = array('type'=> 'tocontact', 'code'=>trim($obj->code), 'emaildesc'=>'Contact id '.$obj->rowid, 'email'=>$newval2, 'contactid'=>$obj->rowid, 'isemailvalid'=>$isvalid);
-						}
-						$i++;
+						$newval2 = trim($obj->email);
+						$isvalid = isValidEmail($newval2);
+						if (empty($resarray[$newval2])) $resarray[$newval2] = array('type'=> 'touser', 'code'=>trim($obj->code), 'emaildesc'=>'User id '.$obj->rowid, 'email'=>$newval2, 'userid'=>$obj->rowid, 'isemailvalid'=>$isvalid);
 					}
+					$i++;
 				}
-				else
-				{
-					$error++;
-					$this->error = $this->db->lasterror();
-				}
+			}else{
+				$error++;
+				$this->error = $this->db->lasterror();
 			}
 		}
-
-		if (!$error)
-		{
-			if ($userid >= 0 && in_array('user', $scope))
-			{
-				$sql = "SELECT a.code, c.email, c.rowid";
-				$sql .= " FROM ".MAIN_DB_PREFIX.$this->element . "_def as n,";
-				$sql .= " ".MAIN_DB_PREFIX."user as c,";
-				$sql .= " ".MAIN_DB_PREFIX."c_action_trigger as a";
-				$sql .= " WHERE n.fk_user = c.rowid";
-				$sql .= " AND a.rowid = n.fk_action";
-				if ($notifcode)
-				{
-					if (is_numeric($notifcode)) $sql .= " AND n.fk_action = ".$notifcode; // Old usage
-					else $sql .= " AND a.code = '".$notifcode."'"; // New usage
-				}
-				$sql .= " AND c.entity IN (".getEntity('user').")";
-				if ($userid > 0) $sql .= " AND c.rowid = ".$userid;
-
-				dol_syslog(__METHOD__." ".$notifcode.", ".$socid."", LOG_DEBUG);
-
-				$resql = $this->db->query($sql);
-				if ($resql)
-				{
-					$num = $this->db->num_rows($resql);
-					$i = 0;
-					while ($i < $num)
-					{
-						$obj = $this->db->fetch_object($resql);
-						if ($obj)
-						{
-							$newval2 = trim($obj->email);
-							$isvalid = isValidEmail($newval2);
-							if (empty($resarray[$newval2])) $resarray[$newval2] = array('type'=> 'touser', 'code'=>trim($obj->code), 'emaildesc'=>'User id '.$obj->rowid, 'email'=>$newval2, 'userid'=>$obj->rowid, 'isemailvalid'=>$isvalid);
-						}
-						$i++;
-					}
-				}
-				else
-				{
-					$error++;
-					$this->error = $this->db->lasterror();
-				}
-			}
-		}
-
-		if (!$error)
-		{
-			if (in_array('global', $scope))
-			{
-				// List of notifications enabled for fixed email
-				foreach ($conf->global as $key => $val)
-				{
-					if ($notifcode)
-					{
-						if ($val == '' || !preg_match('/^NOTIFICATION_FIXEDEMAIL_'.$notifcode.'_THRESHOLD_HIGHER_(.*)$/', $key, $reg)) continue;
-					}
-					else
-					{
-						if ($val == '' || !preg_match('/^NOTIFICATION_FIXEDEMAIL_.*_THRESHOLD_HIGHER_(.*)$/', $key, $reg)) continue;
-					}
-
-					$threshold = (float) $reg[1];
-					if ($valueforthreshold < $threshold) continue;
-
-					$tmpemail = explode(',', $val);
-					foreach ($tmpemail as $key2 => $val2)
-					{
-						$newval2 = trim($val2);
-						if ($newval2 == '__SUPERVISOREMAIL__')
-						{
-							if ($user->fk_user > 0)
-							{
-								$tmpuser = new User($this->db);
-								$tmpuser->fetch($user->fk_user);
-								if ($tmpuser->email) $newval2 = trim($tmpuser->email);
-								else $newval2 = '';
-							}
-							else $newval2 = '';
-						}
-						if ($newval2)
-						{
-							$isvalid = isValidEmail($newval2, 0);
-							if (empty($resarray[$newval2])) $resarray[$newval2] = array('type'=> 'tofixedemail', 'code'=>trim($key), 'emaildesc'=>trim($val2), 'email'=>$newval2, 'isemailvalid'=>$isvalid);
-						}
-					}
-				}
-			}
-		}
-
 		if ($error) return -1;
-
-		//var_dump($resarray);
 		return $resarray;
 	}
 
@@ -356,25 +257,7 @@ class Notify_plus
 
 		$sql = '';
 
-		// Check notification per third party
-		if ($object->socid > 0)
-		{
-			$sql.= "SELECT 'tocontactid' as type_target, c.email, c.rowid as cid, c.lastname, c.firstname, c.default_lang,";
-			$sql.= " a.rowid as adid, a.label, a.code, n.rowid, n.type";
-			$sql.= " FROM ".MAIN_DB_PREFIX."socpeople as c,";
-			$sql.= " ".MAIN_DB_PREFIX."c_action_trigger as a,";
-			$sql.= " ".MAIN_DB_PREFIX. $this->element. "_def as n,";
-			$sql.= " ".MAIN_DB_PREFIX."societe as s";
-			$sql.= " WHERE n.fk_contact = c.rowid AND a.rowid = n.fk_action";
-			$sql.= " AND n.fk_soc = s.rowid";
-			$sql.= " AND c.statut = 1";
-			if (is_numeric($notifcode)) $sql.= " AND n.fk_action = ".$notifcode;	// Old usage
-			else $sql.= " AND a.code = '".$notifcode."'";	// New usage
-			$sql .= " AND s.rowid = ".$object->socid;
-
-			$sql.= "\nUNION\n";
-		}
-
+				
 		// Check notification per user
 		$sql.= "SELECT 'touserid' as type_target, c.email, c.rowid as cid, c.lastname, c.firstname, c.lang as default_lang,";
 		$sql.= " a.rowid as adid, a.label, a.code, n.rowid, n.type";
