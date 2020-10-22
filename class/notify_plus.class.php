@@ -296,17 +296,18 @@ class Notify_plus
 						$subject = '['.$mysoc->name.'] '.$outputlangs->transnoentitiesnoconv("DolibarrNotification").($projtitle ? ' '.$projtitle : '');
 						
 												
-						if(method_exists($object,' getNomUrl')){
+						if(method_exists($object,'getNomUrl')){
 							$link=$object->getnomurl(1);
 						}
 						
+						print 'ok_la';
+						exit;
 											
 						$dir_output = $conf->$object->element->dir_output;
 						$object_type = $object->element;
 						$mesg= $outputlangs->transnoentitiesnoconv("EMailText".$notifcode, $link);
 						
-						print 'ok_la';
-						exit;
+						
 
 
 						$ref = dol_sanitizeFileName($newref);
