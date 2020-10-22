@@ -130,7 +130,7 @@ class Interfacelltruckstrigger
         	$replyto = $user->email;
         	if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
 	        
-        	var_dump($object);
+        	var_dump($object->fk_user_assign);
         	exit;
         	
         	
