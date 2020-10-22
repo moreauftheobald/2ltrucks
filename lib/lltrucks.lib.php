@@ -37,12 +37,6 @@ function lltrucksAdminPrepareHead()
 	$head[$h][2] = 'settings';
 	$h++;
 	
-	$head[$h][0] = dol_buildpath("/lltrucks/admin/notify_plus_admin.php", 1);
-	$head[$h][1] = $langs->trans("notifications");
-	$head[$h][2] = 'notify_plus';
-	$h++;
-	
-	
 	// Show more tabs from modules
 	// Entries must be declared in modules descriptor with line
 	//$this->tabs = array(

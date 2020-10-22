@@ -141,9 +141,7 @@ class Interfacelltruckstrigger
         	$userto->fetch($object->fk_user_assign);
         	$sendto = $userto->email;
         	if(empty($sendto)) return 0;
-        	
-        	$filearray = dol_dir_list($upload_dir, "files", 0, '', '\.meta$', $sortfield, (strtolower($sortorder) == 'desc' ? SORT_DESC : SORT_ASC), 1);
-        	
+        	       	    	
         	$message = '<div class=WordSection1>';
         	$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
