@@ -79,7 +79,8 @@ class Notify_plus
 	{
 		global $conf;
 		$this->db = $db;
-		$this->arrayofnotifsupported =  explode(',',$conf->global->NOTIFY_PLUS_EVENT_FETCH);
+		$txt = str_replace( array( '<br>', '<br />', "\n", "\r" ), array( '', '', '', '' ), $conf->global->NOTIFY_PLUS_EVENT_FETCH);
+		$this->arrayofnotifsupported =  explode(',',$txt);
 	}
 
 
