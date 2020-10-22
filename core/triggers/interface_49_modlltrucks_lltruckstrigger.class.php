@@ -188,6 +188,9 @@ class Interfacelltruckstrigger
         if($action == 'ORDER_CREATE' && $object->lines[0]->origin == 'supplierorderdet'){
    			global $mysoc;
    			
+   			print 'ok la';
+   			exit;
+   			
    			dol_include_once('/core/class/CMailFile.class.php');
    			dol_include_once('/core/lib/files.lib.php');
    			dol_include_once('/user/class/user.class.php');
