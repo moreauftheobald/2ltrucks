@@ -142,6 +142,15 @@ if($res>0){
 			setEventMessages($object->error, $object->errors, 'errors');
 		}
 	}elseif ($action == 'valid'){
+		$object->array_options['options_orcheck']= 1;
+		$object->update($user);
+		$now=dol_now();
+		
+		$sql = "INSERT INTO llx_operationorderhistory(date_creation,fk_operationorder,title, description, fk_user_creat, entity) VALUES ('";
+		$sql.= $object->db->idate($now) ."'," .$object->id . ", 'Check OR',''" . $user->id . "," . $object->entity . ")";
+		
+		$object->db->query($sql);
+		
 		?>
 		<script type="text/javascript">
 			$(document).ready(function () {
@@ -347,7 +356,7 @@ if($res>0){
 	}else{
 		$chekor = 0;
 	}
-	$chekor = 1;
+	
 	$actionUrl = $_SERVER["PHP_SELF"].'?orid='.$orid.'&amp;action=';
 	
 	print '<div class="tabsAction">'."\n";
