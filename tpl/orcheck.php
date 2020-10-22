@@ -215,13 +215,16 @@ if($res>0){
 	print '<td>'.$langs->trans("mouvstock").'</td>';
 	print '<td>'.$langs->trans("action").'</td>';
 	print "</tr>\n";
-		
+	
+	$pt_stat = 1;
 	foreach ($object->lines as $line){
 		
 		if($line->product->type == 0){
 			$TLineQtyUsed = $object->getAlreadyUsedQtyLines();
 			$TLastLinesByProduct = $object->getLastLinesByProduct();
 			$qtyUsed = price($line->getQtyUsed($TLineQtyUsed, $TLastLinesByProduct));
+			
+			$coef_part = round(($line->qty-$qtyUsed)*100,2);
 			
 			$qtyadjust = 0;
 			if($qtyUsed<$line->qty){
@@ -238,20 +241,26 @@ if($res>0){
 			print '<td>'.$qtyUsed .'</td>';
 			print '<td>'.price($line->price) .'</td>';
 			print '<td>' .price($line->total_ht) . '</td>';
-			print '<td>';
-			print '<div class="center">';
-			print '<input class="right maxwidth=30" type="text" name="debit" value="'.$qtyadjust.'">';
-			print  '<input type="submit" class="button" value="'.$langs->trans("debit").'" formaction="orcheck.php?action=debit-stock">';
-			print '</td>';
-			print '<td>';
-			if($qtyUsed==0){
-				print '<input type="submit" class="button" value="'.$langs->trans("notdone").'" formaction="orcheck.php?action=deletline-piece"></div>';
-			}Else{
-				print 'impossible de supprimerune ligne avec des piece débitées';
+			if($conf->global->LLTRUCKS_PT_COEF_MIN<$coef_part && $coef_par<$conf->global->LLTRUCKS_PT_COEF_MAX){
+				print '<td colspan="2"> controle piece OK </td>';
+				$pt_stat = 0;
+			}else{
+				$pt_stat++;
+				print '<td>';
+				print '<div class="center">';
+				print '<input class="right maxwidth=30" type="text" name="debit" value="'.$qtyadjust.'">';
+				print  '<input type="submit" class="button" value="'.$langs->trans("debit").'" formaction="orcheck.php?action=debit-stock">';
+				print '</td>';
+				print '<td>';
+				if($qtyUsed==0){
+					print '<input type="submit" class="button" value="'.$langs->trans("notdone").'" formaction="orcheck.php?action=deletline-piece"></div>';
+				}Else{
+					print 'impossible de supprimerune ligne avec des piece débitées';
+				}
+				print '</td>';
+				print '</tr>';
+				print '</form>';
 			}
-			print '</td>';
-			print '</tr>';
-			print '</form>';
 		}
 	}
 
