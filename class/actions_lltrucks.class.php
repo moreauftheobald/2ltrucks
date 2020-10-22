@@ -95,7 +95,7 @@ class Actionslltrucks
 	 	
 	 	$contextArray = explode(':', $parameters['context']);
 	 	
-	 	if (in_array('operationordercard', $contextArray ) && empty($action) && $object->objStatus->code == $conf->global->LLTRUCKS_STATUT_BEFORE_CHECK && !$object->array_options['options_ext'])
+	 	if (in_array('operationordercard', $contextArray ) && empty($action) && $object->objStatus->code == $conf->global->LLTRUCKS_STATUT_BEFORE_CHECK && !$object->array_options['options_orcheck'])
 	 	{
 	 		$sql = "SELECT rowid ";
 	 		$sql.= "FROM llx_operationorder_status ";
