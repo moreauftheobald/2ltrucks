@@ -56,9 +56,10 @@ class Interfacelltruckstrigger
     {
     	global $conf;
         $this->db = $db;
-        $this->listofmanagedevents = explode(',',$conf->global->NOTIFY_PLUS_EVENT_FETCH);
-        print_r($this->listofmanagedevents);
-        Exit;
+        $txt = str_replace( array( '<br>', '<br />', "\n", "\r" ), array( '', '', '', '' ), $conf->global->NOTIFY_PLUS_EVENT_FETCH);
+        $this->listofmanagedevents = explode(',',$txt);
+        //print_r($this->listofmanagedevents);
+        //Exit;
         $this->name = preg_replace('/^Interface/i', '', get_class($this));
         $this->picto = 'lltrucks@lltrucks';
     }
