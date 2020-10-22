@@ -134,9 +134,9 @@ class Interfacelltruckstrigger
         	
         	dol_include_once('/user/class/user.class.php');
         	$userto = new User($this->db);
+        	$userto->fetch($object->fk_user_assign);
         	var_dump($message);
         	exit;
-        	$userto->fetch($object->fk_user_assign);
         	$sendto = $userto->email;
         	if(empty($sendto)) return 0;
         	
