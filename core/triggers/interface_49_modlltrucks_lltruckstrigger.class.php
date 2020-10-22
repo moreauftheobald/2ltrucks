@@ -205,11 +205,13 @@ class Interfacelltruckstrigger
    		
    			$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("ordercreated");
 			
-   			print 'ok_la';
-   			exit;
+   			
    			
    			$multi = new DaoMulticompany($db);
    			$multi->fetch(1);
+   			
+   			print 'ok_la';
+   			exit;
    			
    		 	$userto = new User($this->db);
 	   		$userto->fetch($multi->array_options['options_	fk_user_ticket']);
