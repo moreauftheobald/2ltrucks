@@ -261,8 +261,6 @@ class modlltrucks extends DolibarrModules
 		define('INC_FROM_DOLIBARR', true);
 
 		$result=$this->_load_tables('/lltrucks/sql/');
-		print $result;
-		exit;
 		return $this->_init($sql, $options);
 	}
 
