@@ -49,7 +49,7 @@ if ($action == 'setvalue' && $user->admin)
     dolibarr_set_const($db, "LLTRUCKS_PRICE_COEF", GETPOST("LLTRUCKS_PRICE_COEF"), 'chaine', 0, '', $conf->entity);
     dolibarr_set_const($db, "LLTRUCKS_STATUT_BEFORE_CHECK", GETPOST("LLTRUCKS_STATUT_BEFORE_CHECK"), 'chaine', 0, '', $conf->entity);
     dolibarr_set_const($db, "LLTRUCKS_STATUT_AFTER_CHECK", GETPOST("LLTRUCKS_STATUT_AFTER_CHECK"), 'chaine', 0, '', $conf->entity);
-    dolibarr_set_const($db, "NOTIFY_PLUS_EMAIL_FROM", GETPOST("OTIFY_PLUS_EMAIL_FROM"), 'chaine', 0, '', 0);
+    dolibarr_set_const($db, "NOTIFY_PLUS_EMAIL_FROM", GETPOST("NOTIFY_PLUS_EMAIL_FROM"), 'chaine', 0, '', 0);
 }
 
 $sql = "SELECT code, label "; 
