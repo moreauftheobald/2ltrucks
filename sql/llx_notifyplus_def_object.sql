@@ -17,7 +17,7 @@
 -- Table to declare notifications (per object)
 -- ========================================================================
 
-create table llx_notifyplus_def_object
+create table IF NOT EXISTS llx_notifyplus_def_object
 (
   id				integer AUTO_INCREMENT PRIMARY KEY,
   entity			integer DEFAULT 1 NOT NULL,		-- multi company id

@@ -18,7 +18,7 @@
 -- Table to declare permanent notifications (per workflow event)
 -- ===================================================================
 
-create table llx_notifyplus_def
+create table IF NOT EXISTS llx_notifyplus_def
 (
   rowid           integer AUTO_INCREMENT PRIMARY KEY,
   tms             timestamp,
@@ -28,5 +28,5 @@ create table llx_notifyplus_def
   fk_contact      integer,
   fk_user		  integer,
   type            varchar(16) DEFAULT 'email',	-- 'browser', 'email', 'sms', 'webservice', ...
-  sql			  varchar(16) DEFAULT NULL
+  filter		  varchar(16) DEFAULT NULL
 )ENGINE=innodb;

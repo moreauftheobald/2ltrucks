@@ -19,7 +19,7 @@
 -- Table of notification done
 -- ===================================================================
 
-create table llx_notifyplus
+create table IF NOT EXISTS llx_notifyplus
 (
   rowid           integer AUTO_INCREMENT PRIMARY KEY,
   tms             timestamp,
