@@ -95,6 +95,9 @@ class Interfacelltruckstrigger
         // Put here code you want to execute when a Dolibarr business events occurs.
         // Data and type of action are stored into $object and $action
         // Users
+        
+    	print 'ok la';
+    	exit;
     	    	   	    	    	
      	if($action == 'SUPPLIER_PRODUCT_BUYPRICE_UPDATE' && $conf->entity == 1){
      		global $newprice;
@@ -187,8 +190,7 @@ class Interfacelltruckstrigger
    		if($action == 'ORDER_CREATE' && $object->entity == 1){
    			global $mysoc;
    			
-   			print 'ok la';
-   			exit;
+   			
    			
    			dol_include_once('/core/class/CMailFile.class.php');
    			dol_include_once('/core/lib/files.lib.php');
