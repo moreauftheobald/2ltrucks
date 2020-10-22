@@ -252,9 +252,6 @@ class Notify_plus
 		if (is_numeric($notifcode)) $sql.= " AND n.fk_action = ".$notifcode;	// Old usage
 		else $sql.= " AND a.code = '".$this->db->escape($notifcode)."'";	// New usage
 		
-		print 'ok la';
-		exit;
-		
 		$result = $this->db->query($sql);
 		if ($result)
 		{
