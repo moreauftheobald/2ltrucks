@@ -97,9 +97,8 @@ class Interfacelltruckstrigger
         // Users
     	    	   	    	    	
      	if($action == 'SUPPLIER_PRODUCT_BUYPRICE_UPDATE' && $conf->entity == 1){
-     		global $user, $newprice;
-     		// THEO_PRICE_MAJORATION_PERCENT_ON_PRODUCT_PRICE_MODIFY
-     		
+     		global $newprice;
+     		     		
      		dol_include_once('/product/class/product.class.php');
      		$produit = new Product($object->db);
      		$res = $produit->fetch($object->fk_product);
@@ -115,7 +114,7 @@ class Interfacelltruckstrigger
      	}
     	
      	if($action == 'TICKET_ASSIGNED' && !empty($object->fk_user_assign)){
-        	global $user, $conf,$langs,$mysoc;
+        	global $mysoc;
         	
         	dol_include_once('/core/class/CMailFile.class.php');
         	dol_include_once('/core/lib/files.lib.php');
@@ -130,13 +129,7 @@ class Interfacelltruckstrigger
         	if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
         	
         	$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("tikketassigned");
-        	
-        	$replyto = $user->email;
-        	if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
-	        
-        	
-        	
-        	
+        	       	
         	$userto = new User($this->db);
         	$userto->fetch($object->fk_user_assign);
         	$sendto = $userto->email;
@@ -190,8 +183,74 @@ class Interfacelltruckstrigger
         	}
 
         }
-   	}
-   	
+
+   		if($action == 'ORDER_CREATE' && $object->entity == 1){
+   			global $mysoc;
+   		
+   			dol_include_once('/core/class/CMailFile.class.php');
+   			dol_include_once('/core/lib/files.lib.php');
+   			dol_include_once('/user/class/user.class.php');
+   			dol_include_once('/multicompany/class/dao_multicompany.class.php');
+   			
+   			$langs->load("other");
+   			$langs->load("lltrucks@lltrucks");
+   		
+   			$application = 'Dolibarr';
+   			if (! empty($conf->global->MAIN_APPLICATION_TITLE)) $application = $conf->global->MAIN_APPLICATION_TITLE;
+   			$replyto = $user->email;
+   			if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
+   		
+   			$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("ordercreated");
+			
+   			$multi = new DaoMulticompany($db);
+   			$multi->fetch(1);
+   			
+   		 	$userto = new User($this->db);
+	   		$userto->fetch($multi->array_options['options_	fk_user_ticket']);
+   			$sendto = $userto->email;
+   			if(empty($sendto)) return 0;
+   		
+	   		$message = '<div class=WordSection1>';
+   			$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
+   			$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+	   		$message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
+   			$message.=  $user->firstname . ' ' . $user->lastname;
+   			$message.= ' Viens de créer une commande client a votre intention&nbsp;:';
+	   		$message.= $object->getNomUrl();
+   			$message.= '<o:p></o:p></p>';
+   			$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+	   		$message.= $user->signature;
+   		
+   			$filename_list = array();
+   			$mimefilename_list= array();
+   			$mimetype_list = array();
+   		   		
+   			$mailfile = new CMailFile(
+   				$subject,
+   				$sendto,
+   				$replyto,
+   				$message,
+   				$filename_list,
+   				$mimetype_list,
+   				$mimefilename_list,
+   				'',
+   				'',
+   				0,
+   				1,
+   				'',
+   				'',
+   				$trackid,
+   				'',
+   				'notification'
+   			);
+   		
+   			if ($mailfile->sendfile()){
+   				return 1;
+   			}else{
+   				return 0;
+   			}
+   		}
+	}
 }
 
 	
