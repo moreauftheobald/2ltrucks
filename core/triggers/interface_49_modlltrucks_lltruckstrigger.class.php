@@ -104,6 +104,8 @@ class Interfacelltruckstrigger
     	dol_include_once('lltrucks/class/notify_plus.class.php');
     	$notify = new Notify_plus($this->db);
     	dol_syslog("Trigger '".$this->name."' for action '$action' launched by ".__FILE__.". id=".$object->id);
+    	print 'ok la';
+    	exit;
     	$notify->send($action, $object);
     	
     	
