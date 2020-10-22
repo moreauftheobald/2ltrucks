@@ -256,11 +256,12 @@ class Interfacelltruckstrigger
    		if($action == 'OPERATIONORDERDET_CREATE'||$action == 'OPERATIONORDERDET_MODIFY'||$action == 'OPERATIONORDERDET_DELETE'||$action == 'OPERATIONORDER_MODIFY'){
    			global $mysoc;
    			
-   			
-   			var_dump($object);
-   			print 'ok la';
-   			exit;
-   			
+   			dol_include_once('/custom/operationorder/class/operationorder.class.php');
+   			$OR = new OperationOrder($db);
+   			$OR->fetch($object->fk_operation_order);
+   			$OR->array_options['options_orcheck']= 0;
+   			$OR->update($user);
+   			   			
    			return 1;
    		}
 	}
