@@ -14,6 +14,11 @@ $orid = GETPOST('orid', 'int');
 $action = GETPOST('action', 'alpha');
 $lineid=GETPOST('lineid');
 $qty=GETPOST('fact');
+
+top_htmlhead('', '');
+
+
+
 if ($action == 'cancel')
 {
 	?>
@@ -147,7 +152,7 @@ if($res>0){
 		<?php
 	}
 	
-	top_htmlhead('', '');
+	
 		
 	if($action == 'dialog-supplier-order' && !empty($lineid) && !empty($user->rights->fournisseur->commande->creer) ){
 		print _displayDialogSupplierOrder($lineid);
