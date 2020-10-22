@@ -58,7 +58,8 @@ class Interfacelltruckstrigger
     		'ORDER_SUPPLIER_APPROVE',
     		'ORDER_SUPPLIER_REFUSE',
     		'HOLIDAY_VALIDATE',
-    		'HOLIDAY_APPROVE'
+    		'HOLIDAY_APPROVE',
+    		'toto ca marche'
     );
 
     /**
