@@ -278,7 +278,7 @@ class Notify_plus
 					if(!empty($obj->moreparam)){
 						$filter = explode(':',$obj->moreparam);
 						switch ($filter[2]) {
-							case '__USERID':
+							case '__USERID__':
 								$filter[2] = $user->id;
 								break;
 							case '__ID__':
