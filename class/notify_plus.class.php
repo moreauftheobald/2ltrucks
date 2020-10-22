@@ -277,8 +277,16 @@ class Notify_plus
 					$obj = $this->db->fetch_object($result);
 					if(!empty($obj->moreparam)){
 						$filter = explode(':',$obj->moreparam);
-						var_dump($filter);
-						exit;
+						switch ($filter[2]) {
+							case '__USERID':
+								$filter[2] = $user->id;
+								break;
+							case '__ID__':
+								$filter[2] = $object->id;
+								break;
+							}
+							Var_dump(eval($filter[0] . $filter[1]. $filter[0]));
+							if($object->$filter[0] == $fileter[1]) $cont =1;  
 					}
 
 					$sendto = dolGetFirstLastname($obj->firstname, $obj->lastname) . " <".$obj->email.">";

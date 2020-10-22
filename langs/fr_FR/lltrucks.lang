@@ -34,5 +34,5 @@ EMailTextordercreatde= La Commande client %s vous concernant a été crée
 EMailticketmodify= Le Ticket %s a été modifié
 EMailTextTICKET_ASSIGNED = Le Ticket %s vous a été assigné
 EMailticketcloseed= Le ticket %s a été fermé.
-nitufyplus = Notifications
+notifyplus = Notifications
 eventfetched = Liste des TRIGGERS interceptés
