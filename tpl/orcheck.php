@@ -364,8 +364,6 @@ if($res>0){
 	print dolGetButtonAction($langs->trans("valid"), '', 'default', $actionUrl . 'valid', '', $chekor == 1);
 	print '</div>'."\n";
 	
-	print $chekor;
-	
 	llxFooter();
 }
 ?>
