@@ -65,7 +65,8 @@ $now=dol_now();
 if ($action == 'add')
 {
     $error=0;
-
+	print $actionid;
+	
     if ($actionid <= 0)
     {
 	    setEventMessages($langs->trans("ErrorFieldRequired", $langs->transnoentitiesnoconv("Action")), null, 'errors');
