@@ -285,7 +285,7 @@ class Notify_plus
 								$filter[2] = $object->id;
 								break;
 							}
-							Var_dump($filter[0] . $filter[1]. $filter[0]);
+							Var_dump($object->$filter[0] . $filter[1]. $filter[2]);
 							exit;
 							if($object->$filter[0] == $filter[1]) $cont =1;  
 					}
