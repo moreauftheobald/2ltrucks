@@ -14,7 +14,10 @@ $orid = GETPOST('orid', 'int');
 $action = GETPOST('action', 'alpha');
 $lineid=GETPOST('lineid');
 $qty=GETPOST('fact');
-
+if ($action == 'cancel')
+{
+	print 'action cancel ok';
+}
 $lineupdated = new operationorderdet($db);
 $object = new OperationOrder($db);
 
@@ -126,6 +129,8 @@ if($res>0){
 		{
 			setEventMessages($object->error, $object->errors, 'errors');
 		}
+	}elseif ($action == 'valid'){
+		print 'action valid ok';
 	}
 	
 	top_htmlhead('', '');
@@ -323,6 +328,13 @@ if($res>0){
 	}else{
 		$chekor = 0;
 	}
+	
+	$actionUrl = $_SERVER["PHP_SELF"].'?orid='.$orid.'&amp;action=';
+	
+	print '<div class="tabsAction">'."\n";
+	print dolGetButtonAction($langs->trans("Cancel"), '', 'default', $actionUrl . 'cancel', '', 1);
+	print dolGetButtonAction($langs->trans("valid"), '', 'default', $actionUrl . 'valid', '', $chekor == 1);
+	print '</div>'."\n";
 	
 	print $chekor;
 	
