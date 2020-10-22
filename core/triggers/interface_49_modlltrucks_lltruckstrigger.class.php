@@ -185,7 +185,7 @@ class Interfacelltruckstrigger
 
         }
 
-   		if($action == 'ORDER_CREATE'){
+   		if($action == 'ORDER_CREATE' && $object->entity ==1){
    			global $mysoc;
    			
    			dol_include_once('/core/class/CMailFile.class.php');
@@ -207,11 +207,6 @@ class Interfacelltruckstrigger
 			
    			
    			
-   			$multi = new DaoMulticompany($db);
-   			
-   			$multi->fetch($object->id);
-   			print 'ok_la';
-   			exit;
    			
    			
    		 	$userto = new User($this->db);
