@@ -56,8 +56,6 @@ class Interfacelltruckstrigger
     {
     	global $conf;
         $this->db = $db;
-        $txt = str_replace( array( '<br>', '<br />', "\n", "\r" ), array( '', '', '', '' ), $conf->global->NOTIFY_PLUS_EVENT_FETCH);
-        $this->listofmanagedevents = explode(',',$txt);
         $this->name = preg_replace('/^Interface/i', '', get_class($this));
         $this->picto = 'lltrucks@lltrucks';
     }
@@ -97,89 +95,74 @@ class Interfacelltruckstrigger
         // Put here code you want to execute when a Dolibarr business events occurs.
         // Data and type of action are stored into $object and $action
         // Users
-    	   	
+    	    	   	    	    	
+     	if($action == 'SUPPLIER_PRODUCT_BUYPRICE_UPDATE' && $conf->entity == 1){
+     		global $user, $newprice;
+     		// THEO_PRICE_MAJORATION_PERCENT_ON_PRODUCT_PRICE_MODIFY
+     		
+     		dol_include_once('/product/class/product.class.php');
+     		$produit = new Product($object->db);
+     		$res = $produit->fetch($object->fk_product);
+     		if($res>0){
+     			$price = $newprice/($conf->global->LLTRUCKS_PRICE_COEF/100);
+     			$produit->updatePrice($price, 'HT', $user);
+     			$produit->call_trigger('PRODUCT_PRICE_MODIFY', $user);
+     		}
+     		
+     		
+     		
+     		return 1;
+     	}
     	
-    	    	
-     	if (!in_array($action, $this->listofmanagedevents)) return 0;
-     	
-     	dol_include_once('lltrucks/class/notify_plus.class.php');
-     	$notify = new Notify_plus($this->db);
-     	dol_syslog("Trigger '".$this->name."' for action '$action' launched by ".__FILE__.". id=".$object->id);
-     	
-     	$notify->send($action, $object);
-    	
-    	
-    	
+        if($action == 'TICKET_ASSIGNED'){
+        	global $user, $conf,$langs,$mysoc;
+        	
+        	$langs->load("other");
+        	$langs->load("lltrucks@lltrucks");
+	        
+        	$application = 'Dolibarr';
+        	if (! empty($conf->global->MAIN_APPLICATION_TITLE)) $application = $conf->global->MAIN_APPLICATION_TITLE;
+        	$replyto = $user->email;
+        	if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
+        	
+        	$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("tikketassigned");
+        	
+        	$replyto = $user->email;
+        	if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
+	        
+        	var_dump($object);
+        	exit;
+        	
+        	
+        	require_once DOL_DOCUMENT_ROOT.'/core/class/CMailFile.class.php';
+        	$mailfile = new CMailFile(
+        			$subject,
+        			$sendto,
+        			$replyto,
+        			$message,
+        			$filename_list,
+        			$mimetype_list,
+        			$mimefilename_list,
+        			'',
+        			'',
+        			0,
+        			1,
+        			'',
+        			'',
+        			$trackid,
+        			'',
+        			'notification' 
+        			);
+	        
+        	if ($mailfile->sendfile()){
+        		return 1;
+        	}else{
+        		return 0;
+        	}
 
-        if($action == 'SUPPLIER_PRODUCT_BUYPRICE_UPDATE' && $conf->entity == 1){
-        	global $user, $newprice;
-	        // THEO_PRICE_MAJORATION_PERCENT_ON_PRODUCT_PRICE_MODIFY
-	        	        
-	        dol_include_once('/product/class/product.class.php');
-	        $produit = new Product($object->db);
-	        $res = $produit->fetch($object->fk_product);
-	        if($res>0){
-	        	$price = $newprice/($conf->global->LLTRUCKS_PRICE_COEF/100);
-	        	$produit->updatePrice($price, 'HT', $user);
-	        	$produit->call_trigger('PRODUCT_PRICE_MODIFY', $user);
-	        }
-	        	
-	        
-	        
-			return 1;
         }
    	}
    	
-   	public function getListOfManagedEvents()
-   	{
-   		global $conf;
-   		
-   		$ret = array();
-   		
-   		$sql = "SELECT rowid, code, label, description, elementtype";
-   		$sql .= " FROM ".MAIN_DB_PREFIX."c_action_trigger";
-   		$sql .= $this->db->order("rang, elementtype, code");
-   		dol_syslog("getListOfManagedEvents Get list of notifications", LOG_DEBUG);
-   		$resql = $this->db->query($sql);
-   		if ($resql)
-   		{
-   			$num = $this->db->num_rows($resql);
-   			$i = 0;
-   			while ($i < $num)
-   			{
-   				$obj = $this->db->fetch_object($resql);
-   				
-   				$qualified = 0;
-   				// Check is this event is supported by notification module
-   				if (in_array($obj->code, $this->listofmanagedevents)) $qualified = 1;
-   				// Check if module for this event is active
-   				if ($qualified)
-   				{
-   					//print 'xx'.$obj->code;
-   					$element = $obj->elementtype;
-   					
-   					// Exclude events if related module is disabled
-   					if ($element == 'order_supplier' && empty($conf->fournisseur->enabled)) $qualified = 0;
-   					elseif ($element == 'invoice_supplier' && empty($conf->fournisseur->enabled)) $qualified = 0;
-   					elseif ($element == 'withdraw' && empty($conf->prelevement->enabled)) $qualified = 0;
-   					elseif ($element == 'shipping' && empty($conf->expedition->enabled)) $qualified = 0;
-   					elseif ($element == 'member' && empty($conf->adherent->enabled)) $qualified = 0;
-   					elseif ($element == 'ticket' && empty($conf->ticket->enabled)) $qualified = 0;
-   					elseif (!in_array($element, array('order_supplier', 'invoice_supplier', 'withdraw', 'shipping', 'member', 'expensereport')) && empty($conf->$element->enabled)) $qualified = 0;
-   				}
-   				
-   				if ($qualified)
-   				{
-   					$ret[] = array('rowid'=>$obj->rowid, 'code'=>$obj->code, 'label'=>$obj->label, 'description'=>$obj->description, 'elementtype'=>$obj->elementtype);
-   				}
-   				
-   				$i++;
-   			}
-   		}
-   		else dol_print_error($this->db);
-   		
-   		return $ret;
-   	}
 }
 
 	
