@@ -130,6 +130,9 @@ class Interfacelltruckstrigger
         	$replyto = $user->email;
         	if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
 	        
+        	var_dump($message);
+        	exit;
+        	
         	dol_include_once('/user/class/user.class.php');
         	$userto = new User($this->db);
         	$userto->fetch($object->fk_user_assign);
@@ -147,8 +150,7 @@ class Interfacelltruckstrigger
         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
         	$message.= $user->signature;
         	
-        	var_dump($message);
-        	exit;
+        	
         	
         	
         	require_once DOL_DOCUMENT_ROOT.'/core/class/CMailFile.class.php';
