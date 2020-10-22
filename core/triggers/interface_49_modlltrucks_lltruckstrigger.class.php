@@ -100,7 +100,7 @@ class Interfacelltruckstrigger
     	   	
     	
     	    	
-     	if (in_array($action, $this->listofmanagedevents)) return 0;
+     	if (!in_array($action, $this->listofmanagedevents)) return 0;
      	
      	dol_include_once('lltrucks/class/notify_plus.class.php');
      	$notify = new Notify_plus($this->db);
