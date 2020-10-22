@@ -275,6 +275,11 @@ class Notify_plus
 					
 					
 					$obj = $this->db->fetch_object($result);
+					if(!empty($obj->moreparam)){
+						$filter = explode(':',$obj->moreparam);
+						var_dump($filter);
+						exit;
+					}
 
 					$sendto = dolGetFirstLastname($obj->firstname, $obj->lastname) . " <".$obj->email.">";
 					$notifcodedefid = $obj->adid;
@@ -297,7 +302,7 @@ class Notify_plus
 						
 												
 						if(method_exists($object,'getNomUrl')){
-							$link=$object->getnomurl(1);
+							$link=$object->getnomurl();
 						}
 						
 						
