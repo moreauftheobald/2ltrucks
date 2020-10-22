@@ -231,7 +231,7 @@ if ($result > 0)
         print $form->selectarray("typeid", $type);
         print '</td>';
         print '<td><input size="32" name="moreparam" value="">';
-        print '<td class="right"><input type="submit" class="button" value=""></td>';
+        print '<td class="right"><input type="submit" class="button" value="'.$langs->trans("Add").'"></td>';
         print '</tr>';
     }
     else
@@ -247,7 +247,7 @@ if ($result > 0)
     print '<br>';
 
     // List of notifications enabled for contacts
-    $sql = "SELECT n.rowid, n.type,";
+    $sql = "SELECT n.rowid, n.type,n.moreparam,";
     $sql.= " a.code, a.label,";
     $sql.= " c.rowid as userid, c.lastname, c.firstname, c.email";
     $sql.= " FROM ".MAIN_DB_PREFIX."c_action_trigger as a,";
