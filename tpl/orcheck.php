@@ -186,10 +186,10 @@ if($res>0){
 	$mo_stat_label = 'MO a controler';
 	
 	$coef_mo = round((($totfact-$totplaned)/$totplaned) *100,2);
-	if($conf->global->LLTRUCKS_MO_COEF_MIN<$coef_mo<$conf->global->LLTRUCKS_MO_COEF_MAX){
-		$mo_stat = 1;
-		$mo_stat_label = 'Check OR MO OK';
-	}
+	//if($conf->global->LLTRUCKS_MO_COEF_MIN<$coef_mo<$conf->global->LLTRUCKS_MO_COEF_MAX){
+	//	$mo_stat = 1;
+	//	$mo_stat_label = 'Check OR MO OK';
+	//}
 	print '<tr class="liste_titre">';
 	print '<td>'.$langs->trans("totmo").'</td>';
 	print '<td>'.price($totqty).'</td>';
