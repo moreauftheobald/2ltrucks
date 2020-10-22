@@ -251,15 +251,15 @@ class Notify_plus
 		$sql.= " AND c.statut = 1";
 		if (is_numeric($notifcode)) $sql.= " AND n.fk_action = ".$notifcode;	// Old usage
 		else $sql.= " AND a.code = '".$this->db->escape($notifcode)."'";	// New usage
-		print $sql;
-		exit;
-		
-		
+	
 		$result = $this->db->query($sql);
+		
 		if ($result)
 		{
 			$num = $this->db->num_rows($result);
 			$projtitle='';
+			print 'ok la';
+			exit;
 			if (! empty($object->fk_project))
 			{
 				require_once DOL_DOCUMENT_ROOT.'/projet/class/project.class.php';
