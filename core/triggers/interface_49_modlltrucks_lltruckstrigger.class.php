@@ -205,7 +205,7 @@ class Interfacelltruckstrigger
    			$sql = 'SELECT ef.fk_user_ticket FROM ' . MAIN_DB_PREFIX . 'entity AS e INNER JOIN ' . MAIN_DB_PREFIX . 'entity_extrafields as ef on ef.fk_object = e.rowid WHERE e.rowid = 1';
    			
    			$res = $this->db->query($sql);
-   			$obj = $db->fetch_object($res);
+   			$obj = $this->db->fetch_object($res);
    			   			
    		 	$userto = new User($this->db);
    		 	$userto->fetch($obj->fk_user_ticket);
