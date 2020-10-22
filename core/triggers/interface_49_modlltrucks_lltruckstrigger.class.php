@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//require_once DOL_DOCUMENT_ROOT.'/core/triggers/dolibarrtriggers.class.php';
+require_once DOL_DOCUMENT_ROOT.'/core/triggers/dolibarrtriggers.class.php';
 
 
 
@@ -100,14 +100,14 @@ class Interfacelltruckstrigger
     	   	
     	
     	    	
-    	if (in_array($action, $$this->listofmanagedevents)) return 0;
-    	print 'ok la';
-    	exit;
-    	dol_include_once('lltrucks/class/notify_plus.class.php');
-    	$notify = new Notify_plus($this->db);
-    	dol_syslog("Trigger '".$this->name."' for action '$action' launched by ".__FILE__.". id=".$object->id);
+//     	if (in_array($action, $$this->listofmanagedevents)) return 0;
+//     	print 'ok la';
+//     	exit;
+//     	dol_include_once('lltrucks/class/notify_plus.class.php');
+//     	$notify = new Notify_plus($this->db);
+//     	dol_syslog("Trigger '".$this->name."' for action '$action' launched by ".__FILE__.". id=".$object->id);
     	
-    	$notify->send($action, $object);
+//     	$notify->send($action, $object);
     	
     	
     	
