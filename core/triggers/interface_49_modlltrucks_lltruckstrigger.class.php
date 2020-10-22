@@ -212,10 +212,7 @@ class Interfacelltruckstrigger
    			$sendto = $userto->email;
    			if(empty($sendto)) return 0;
 			
-   			print $sendto;
-   			exit;
-   			  			
-	   		$message = '<div class=WordSection1>';
+   			$message = '<div class=WordSection1>';
    			$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
    			$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
 	   		$message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
