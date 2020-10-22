@@ -273,8 +273,7 @@ class Notify_plus
 				while ($i < $num && ! $error)	// For each notification couple defined (third party/actioncode)
 				{
 					
-					print 'ok la';
-					exit;
+					
 					$obj = $this->db->fetch_object($result);
 
 					$sendto = dolGetFirstLastname($obj->firstname, $obj->lastname) . " <".$obj->email.">";
@@ -295,7 +294,8 @@ class Notify_plus
 						}
 
 						$subject = '['.$mysoc->name.'] '.$outputlangs->transnoentitiesnoconv("DolibarrNotification").($projtitle ? ' '.$projtitle : '');
-						
+						print 'ok la';
+						exit;
 						if(method_exist($object,' getNomUrl')){
 							$link=$object->getnomurl(1);
 						}
