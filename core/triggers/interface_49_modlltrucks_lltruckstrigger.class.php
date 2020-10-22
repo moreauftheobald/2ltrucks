@@ -135,10 +135,11 @@ class Interfacelltruckstrigger
         	dol_include_once('/user/class/user.class.php');
         	$userto = new User($this->db);
         	$userto->fetch($object->fk_user_assign);
-        	var_dump($message);
-        	exit;
         	$sendto = $userto->email;
         	if(empty($sendto)) return 0;
+        	
+        	var_dump($message);
+        	exit;
         	
         	$message = '<div class=WordSection1>';
         	$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
