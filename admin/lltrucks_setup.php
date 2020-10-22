@@ -52,6 +52,8 @@ if ($action == 'setvalue' && $user->admin)
     dolibarr_set_const($db, "NOTIFY_PLUS_EMAIL_FROM", GETPOST("NOTIFY_PLUS_EMAIL_FROM"), 'chaine', 0, '', 0);
     dolibarr_set_const($db, "LLTRUCKS_MO_COEF_MIN", GETPOST("LLTRUCKS_MO_COEF_MIN"), 'chaine', 0, '', $conf->entity);
     dolibarr_set_const($db, "LLTRUCKS_MO_COEF_MAX", GETPOST("LLTRUCKS_MO_COEF_MAX"), 'chaine', 0, '', $conf->entity);
+    dolibarr_set_const($db, "LLTRUCKS_PT_COEF_MIN", GETPOST("LLTRUCKS_PT_COEF_MIN"), 'chaine', 0, '', $conf->entity);
+    dolibarr_set_const($db, "LLTRUCKS_PT_COEF_MAX", GETPOST("LLTRUCKS_PT_COEF_MAX"), 'chaine', 0, '', $conf->entity);
 }
 
 $sql = "SELECT code, label "; 
@@ -118,6 +120,10 @@ print '<td width="300px">'.$langs->trans("mofactvar").'</td>';
 print '<td><input class="right maxwidth=510" type="number" name="LLTRUCKS_MO_COEF_MIN" value="'.$conf->global->LLTRUCKS_MO_COEF_MIN.'"> ';
 print '<input class="right maxwidth=510" type="number" name="LLTRUCKS_MO_COEF_MAX" value="'.$conf->global->LLTRUCKS_MO_COEF_MAX.'"></td></tr>';
 
+print '<tr class="oddeven">';
+print '<td width="300px">'.$langs->trans("ptfactvar").'</td>';
+print '<td><input class="right maxwidth=510" type="number" name="LLTRUCKS_PT_COEF_MIN" value="'.$conf->global->LLTRUCKS_PT_COEF_MIN.'"> ';
+print '<input class="right maxwidth=510" type="number" name="LLTRUCKS_PT_COEF_MAX" value="'.$conf->global->LLTRUCKS_PT_COEF_MAX.'"></td></tr>';
 
 print '</table>';
 
