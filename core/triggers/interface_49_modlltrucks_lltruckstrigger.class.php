@@ -193,8 +193,7 @@ class Interfacelltruckstrigger
    			dol_include_once('/user/class/user.class.php');
    			dol_include_once('/multicompany/class/dao_multicompany.class.php');
    			
-   			print 'ok_la';
-   			exit;
+   			
    			
    			$langs->load("other");
    			$langs->load("lltrucks@lltrucks");
@@ -206,6 +205,9 @@ class Interfacelltruckstrigger
    		
    			$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("ordercreated");
 			
+   			print 'ok_la';
+   			exit;
+   			
    			$multi = new DaoMulticompany($db);
    			$multi->fetch(1);
    			
