@@ -185,16 +185,13 @@ class Interfacelltruckstrigger
 
         }
 
-   		if($action == 'ORDER_CREATE' && $object->entity ==1){
+        if($action == 'ORDER_CREATE' && $object->lines[0]->origin == 'supplierorderdet'){
    			global $mysoc;
    			
    			dol_include_once('/core/class/CMailFile.class.php');
    			dol_include_once('/core/lib/files.lib.php');
    			dol_include_once('/user/class/user.class.php');
-   			dol_include_once('/multicompany/class/dao_multicompany.class.php');
-   			
-   			
-   			
+   			   			
    			$langs->load("other");
    			$langs->load("lltrucks@lltrucks");
    		
@@ -205,12 +202,13 @@ class Interfacelltruckstrigger
    		
    			$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("ordercreated");
 			
+   			$sql = 'SELECT ef.fk_user_ticket FROM ' . MAIN_DB_PREFIX . 'entity AS e INNER JOIN ' . MAIN_DB_PREFIX . 'entity_extrafields as ef on ef.fk_object = e.rowid WHERE e.rowid = 1';
    			
-   			
-   			
-   			
+   			$res = $this->db->query($sql);
+   			$obj = $db->fetch_object($res);
+   			   			
    		 	$userto = new User($this->db);
-	   		$userto->fetch($multi->array_options['options_	fk_user_ticket']);
+   		 	$userto->fetch($obj->fk_user_ticket);
    			$sendto = $userto->email;
    			if(empty($sendto)) return 0;
    		
