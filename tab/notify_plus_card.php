@@ -37,7 +37,7 @@ $langs->loadLangs(array('admin', 'other', 'orders', 'propal', 'bills', 'errors',
 $id = GETPOST("id", 'int');
 $action = GETPOST('action', 'aZ09');
 $actionid=GETPOST('actionid');
-$actionid=GETPOST('moreparam');
+$moreparam=GETPOST('moreparam');
 
 // Security check
 if ($user->socid) $id=$user->socid;
@@ -64,9 +64,7 @@ $now=dol_now();
 // Add a notification
 if ($action == 'add')
 {
-    $error=0;
-	print $actionid;
-	
+   	
     if ($actionid <= 0)
     {
 	    setEventMessages($langs->trans("ErrorFieldRequired", $langs->transnoentitiesnoconv("Action")), null, 'errors');
