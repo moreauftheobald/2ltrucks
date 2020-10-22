@@ -334,7 +334,7 @@ if ($result > 0)
     $sql.= " c.rowid as id, c.lastname, c.firstname, c.email as contactemail,";
     $sql.= " a.code, a.label";
     $sql.= " FROM ".MAIN_DB_PREFIX."c_action_trigger as a,";
-    $sql.= " ".MAIN_DB_PREFIX."notiplus as n";
+    $sql.= " ".MAIN_DB_PREFIX."notifyplus as n";
     $sql.= " LEFT JOIN ".MAIN_DB_PREFIX."user as c ON n.fk_user = c.rowid";
     $sql.= " WHERE a.rowid = n.fk_action";
     $sql.= " AND n.fk_user = ".$object->id;
