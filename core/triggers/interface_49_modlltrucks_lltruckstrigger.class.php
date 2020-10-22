@@ -193,6 +193,9 @@ class Interfacelltruckstrigger
    			dol_include_once('/user/class/user.class.php');
    			dol_include_once('/multicompany/class/dao_multicompany.class.php');
    			
+   			print 'ok_la';
+   			exit;
+   			
    			$langs->load("other");
    			$langs->load("lltrucks@lltrucks");
    		
