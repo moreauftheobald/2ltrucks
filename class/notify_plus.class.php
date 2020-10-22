@@ -285,8 +285,9 @@ class Notify_plus
 								$filter[2] = $object->id;
 								break;
 							}
-							Var_dump(eval($filter[0] . $filter[1]. $filter[0]));
-							if($object->$filter[0] == $fileter[1]) $cont =1;  
+							Var_dump($filter[0] . $filter[1]. $filter[0]);
+							exit;
+							if($object->$filter[0] == $filter[1]) $cont =1;  
 					}
 
 					$sendto = dolGetFirstLastname($obj->firstname, $obj->lastname) . " <".$obj->email.">";
