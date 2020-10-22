@@ -257,7 +257,7 @@ class Interfacelltruckstrigger
    			global $mysoc;
    			
    			dol_include_once('/custom/operationorder/class/operationorder.class.php');
-   			$OR = new OperationOrder($db);
+   			$OR = new OperationOrder($object->db);
    			$OR->fetch($object->fk_operation_order);
    			$OR->array_options['options_orcheck']= 0;
    			$OR->update($user);
