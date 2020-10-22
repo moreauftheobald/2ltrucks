@@ -16,7 +16,14 @@ $lineid=GETPOST('lineid');
 $qty=GETPOST('fact');
 if ($action == 'cancel')
 {
-	print 'action cancel ok';
+	?>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			window.parent.$('#orcheck').dialog('close');
+			window.parent.$('#orcheck').remove();
+		});
+	</script>
+	<?php
 }
 $lineupdated = new operationorderdet($db);
 $object = new OperationOrder($db);
@@ -130,7 +137,14 @@ if($res>0){
 			setEventMessages($object->error, $object->errors, 'errors');
 		}
 	}elseif ($action == 'valid'){
-		print 'action valid ok';
+		?>
+		<script type="text/javascript">
+			$(document).ready(function () {
+			window.parent.$('#orcheck').dialog('close');
+			window.parent.$('#orcheck').remove();
+			});
+		</script>
+		<?php
 	}
 	
 	top_htmlhead('', '');
