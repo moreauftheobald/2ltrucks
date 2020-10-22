@@ -117,6 +117,10 @@ class Interfacelltruckstrigger
      	if($action == 'TICKET_ASSIGNED' && !empty($object->fk_user_assign)){
         	global $user, $conf,$langs,$mysoc;
         	
+        	dol_include_once('/core/class/CMailFile.class.php');
+        	dol_include_once('/core/lib/files.lib.php');
+        	dol_include_once('/user/class/user.class.php');
+        	
         	$langs->load("other");
         	$langs->load("lltrucks@lltrucks");
 	        
@@ -132,32 +136,32 @@ class Interfacelltruckstrigger
 	        
         	
         	
-        	dol_include_once('/user/class/user.class.php');
+        	
         	$userto = new User($this->db);
         	$userto->fetch($object->fk_user_assign);
         	$sendto = $userto->email;
         	if(empty($sendto)) return 0;
         	
-        	
+        	$filearray = dol_dir_list($upload_dir, "files", 0, '', '\.meta$', $sortfield, (strtolower($sortorder) == 'desc' ? SORT_DESC : SORT_ASC), 1);
         	
         	$message = '<div class=WordSection1>';
         	$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
-        	$message.= '<p class=MsoNormal>Vous recevez ce message car ';
-        	$message.= $user->lastname . ' ' . $user->firstname;
-        	$message.= 'vous a transféré la responsabilité d’un ticket d’assistance&nbsp;:';
+        	$message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
+        	$message.=  $user->firstname . ' ' . $user->lastname;
+        	$message.= ' vous a transféré la responsabilité d’un ticket d’assistance&nbsp;:';
         	$message.= $object->getNomUrl();
         	$message.= '<o:p></o:p></p>';
         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
         	$message.= $user->signature;
+        	 
         	
-        	var_dump($message);
+        	$upload_dir = $conf->ticket->dir_output."/".dol_sanitizeFileName($object->ref);
+        	$filearray = dol_dir_list($upload_dir, "files", 0, '', '\.meta$', $sortfield, (strtolower($sortorder) == 'desc' ? SORT_DESC : SORT_ASC), 1);
+        	
+        	var_dump($filearray);
         	exit;
         	
-        	
-        	
-        	
-        	require_once DOL_DOCUMENT_ROOT.'/core/class/CMailFile.class.php';
         	$mailfile = new CMailFile(
         			$subject,
         			$sendto,
