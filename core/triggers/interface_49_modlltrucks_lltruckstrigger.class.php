@@ -146,7 +146,7 @@ class Interfacelltruckstrigger
         	$message.= '<p class=MsoNormal>Vous recevez ce message car ';
         	$message.= $user->lastname . ' ' . $user->firstname;
         	$message.= 'vous a transféré la responsabilité d’un ticket d’assistance&nbsp;:';
-        	$message.= $objet->getNomUrl();
+        	$message.= print $objet->getNomUrl();
         	var_dump($message);
         	exit;
         	$message.= '<o:p></o:p></p>';
