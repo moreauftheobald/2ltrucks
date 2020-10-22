@@ -216,7 +216,8 @@ if($res>0){
 	print '<td>'.$langs->trans("action").'</td>';
 	print "</tr>\n";
 	
-	$pt_stat = 1;
+	$pt_stat = 0;
+	$nb_part = 0;
 	foreach ($object->lines as $line){
 		
 		if($line->product->type == 0){
@@ -230,7 +231,7 @@ if($res>0){
 			if($qtyUsed<$line->qty){
 				$qtyadjust= ($line->qty-$qtyUsed)*-1;
 			}
-			
+			$nb_part++;
 			print '<form method="post" action="orcheck.php">';
 			print '<input type="hidden" name="token" value="'.newToken().'">';
 			print '<input type="hidden" name="orid" value="'.$orid . '">';
@@ -243,9 +244,9 @@ if($res>0){
 			print '<td>' .price($line->total_ht) . '</td>';
 			if($conf->global->LLTRUCKS_PT_COEF_MIN<$coef_part && $coef_par<$conf->global->LLTRUCKS_PT_COEF_MAX){
 				print '<td colspan="2"> controle piece OK </td>';
-				$pt_stat = 0;
-			}else{
 				$pt_stat++;
+			}else{
+				$pt_stat=0;
 				print '<td>';
 				print '<div class="center">';
 				print '<input class="right maxwidth=30" type="text" name="debit" value="'.$qtyadjust.'">';
@@ -279,7 +280,8 @@ if($res>0){
 	print '<td>'.$langs->trans("orderedto").'</td>';
 	print '<td>'.$langs->trans("action").'</td>';
 	print "</tr>\n";
-	
+	$ext_stat = 0;
+	$nb_ext = 0;
 	foreach ($object->lines as $line){
 		
 		if($line->product->array_options['options_oorder_available_for_supplier_order']){
@@ -289,7 +291,7 @@ if($res>0){
 				$supplieroder = array_values($line->linkedObjects['order_supplier'])[0];
 				$supplieroder->fetch_thirdparty();
 			}
-						
+			$nb_ext++;
 			print '<form method="post" action="orcheck.php">';
 			print '<input type="hidden" name="token" value="'.newToken().'">';
 			print '<input type="hidden" name="orid" value="'.$orid . '">';
@@ -300,14 +302,10 @@ if($res>0){
 			print '<td>' .price($line->total_ht) . '</td>';
 			
 			if(empty($supplieroder)){
-				print '<td></td>';
-				print '<td></td>';
-				print '<td>';
-				print '		<div class="operation-order-det-element-element-action-btn">';
-				Print '           <a class="button-xs" href="orcheck.php?action=dialog-supplier-order&lineid='.$line->id.'" ><i class="fa fa-plus"></i> '.$langs->trans('CreateSupplierOrder').'</a>';
-				print '		</div>';
-				print '</td>';
+				$ext_stat = 0;
+				print '<td colspan ="3"> Veuillez emettre le bon de commande avant de cloturer cet OR</td>';
 			}Else{
+				$ext_stat++;
 				print '<td>'.$supplieroder->getNomUrl(1) . ' '  . $supplieroder->getLibStatut(3).'</td>';
 				print '<td>' .$supplieroder->thirdparty->getNomUrl(1). '</td>';
 				print '<td></td>';
@@ -319,127 +317,15 @@ if($res>0){
 	}
 	
 	print '</table>';
-		
+	
+	if($mo_stat == 1 && $pt_stat == $nb_part && $ext_stat == $nb_ext){
+		$chekor = 1;
+	}else{
+		$chekor = 0;
+	}
+	
+	print $chekor;
+	
 	llxFooter();
-}
-
-
-function _displayDialogSupplierOrder($lineid){
-	global $langs, $user, $conf, $object, $form;
-	
-	$line= new OperationOrderDet($object->db);
-	$res = $line->fetch($lineid);
-	
-	print '<div id="dialog-supplier-order" style="display: none;" >';
-	print '<div id="dialog-supplier-order-item_'.$lineid.'" class="dialog-supplier-order-form-wrap" title="'.$line->ref.'" >';
-	print '<div class="dialog-supplier-order-form-body" >';
-	if($res>0) {
-		// here the form
-		
-		
-		// Ancors
-		$actionUrl= '#item_' . $line->id;
-		$outForm = '<form name="create-supplier-order-form" action="' . $_SERVER["PHP_SELF"] . $actionUrl . '" method="POST">' . "\n";
-		$outForm.= '<input type="hidden" name="token" value="' . newToken() . '">' . "\n";
-		$outForm.= '<input type="hidden" name="id" value="' . $object->id . '">' . "\n";
-		$outForm.= '<input type="hidden" name="lineid" value="' . $line->id . '">' . "\n";
-		$outForm.= '<input type="hidden" name="action" value="create-supplier-order">' . "\n";
-		
-		$outForm.= '<table class="table-full">';
-		
-		// Cette partie permet une evolution du formulaire de creation de commandes fournisseur
-		$supplierOrder = new CommandeFournisseur($object->db);
-		$supplierOrder->fields['fk_soc']['label']='Supplier';
-		$TSupplierOrderFields = array('fk_soc');
-		foreach($TSupplierOrderFields as $key){
-			$outForm.=  getFieldCardOutputByOperationOrder($supplierOrder, $key, '', '', 'order_');
-		}
-		
-		$supplierOrderLine = new CommandeFournisseurLigne($object->db);
-		// Bon les champs sont pas définis... mais ils le serons un jour non ?
-		$supplierOrderLine->fields=array(
-		//'fk_product' => array ( 'type' => 'integer:Product:product/class/product.class.php:1', 'required' => 1, 'label' => 'Product', 'enabled' => 1, 'position' => 35, 'notnull' => -1, 'visible' => -1, 'index' => 1  ),
-		'subprice' => array ( 'type' => 'real', 'label' => 'UnitPrice', 'enabled' => 1, 'position' => 40, 'notnull' => 1, 'required' => 1, 'visible' => 1  ),
-		'desc' => array ( 'type' => 'html', 'label' => 'Description', 'enabled' => 1, 'position' => 40, 'notnull' => 1, 'visible' => 3  ),
-		'qty' => array ( 'type' => 'real', 'required' => 1, 'label' => 'Qty', 'enabled' => 1, 'position' => 45, 'notnull' => 1, 'visible' => 1, 'isameasure' => '1', 'css' => 'maxwidth75imp'  ),
-		'product_type' => array ( 'type' => 'select', 'required' => 1,'label' => 'ProductType', 'enabled' => 1, 'position' => 90, 'notnull' => 1, 'visible' => 1,  'arrayofkeyval' => array('0' =>"Product", '1'=>"Service") ),
-		'tva_tx'  => array ( 'type' => 'real', 'required' => 1,'label' => 'TVA', 'enabled' => 1, 'position' => 90, 'notnull' => 1, 'visible' => 1, 'fieldCallBack' => '_showVatField'),
-		);
-		
-		if(!empty($conf->global->OPODER_SUPPLIER_ORDER_LIMITED_TO_SERVICE)){
-			$supplierOrderLine->fields['product_type']['visible'] = 0;
-			$outForm.= '<input type="hidden" name="orderline_product_type" value="1">' . "\n";
-		}
-		
-		//$TSupplierOrderLineFields = array('product_type', 'subprice', 'tva_tx', 'qty', 'desc');
-		//Add same product as the poduct/service on the current line
-		$TSupplierOrderLineFields = array('desc');
-		
-		$params = array(
-				'OperationOrderDet' => $line
-		);
-		
-		foreach($TSupplierOrderLineFields as $key){
-			$outForm.=  getFieldCardOutputByOperationOrder($supplierOrderLine, $key, '', '', 'orderline_', '', '', $params);
-		}
-		
-		$outForm.= '</table>';
-		$outForm.= '</form>';
-		
-		
-		print $outForm;
-	}
-	else{
-		print $langs->trans('LineNotFound');
-	}
-	print '</div>';
-	print '</div>';
-	print '</div>';
-	
-	
-	// MISE A JOUR AJAX DE L'ORDRE DES LIGNES
-	print '
-	<script type="text/javascript">
-	$(function()
-	{
-		var cardUrl = "'.$_SERVER["PHP_SELF"].'?id='.$object->id.'";
-		var itemHash = "#item_'.$line->id.'";
-					
-		var dialogBox = jQuery("#dialog-supplier-order");
-		var width = $(window).width();
-		var height = $(window).height();
-		if(width > 700){ width = 700; }
-		if(height > 600){ height = 600; }
-		//console.log(height);
-		dialogBox.dialog({
-            autoOpen: true,
-            resizable: true,
-            //		height: height,
-            title: "'.dol_escape_js($langs->transnoentitiesnoconv('CreateSupplierOrder')).'",
-            width: width,
-            modal: true,
-            buttons: {
-                "'.$langs->transnoentitiesnoconv('Create').'": function() {
-                    dialogBox.find("form").submit();
-                },
-                "'.$langs->transnoentitiesnoconv('Cancel').'": function() {
-                    dialogBox.dialog( "close" );
-                }
-            },
-            close: function( event, ui ) {
-                window.location.replace(cardUrl + itemHash);
-            },
-            open: function(){
-                // center dialog verticaly on open
-                $([document.documentElement, document.body]).animate({
-                    scrollTop: $("#dialog-supplier-order").offset().top - 50 - $("#id-top").height()
-                }, 300);
-            }
-		});
-			
-		dialogBox.dialog( "open" );
-			
-	});
-	</script>';
 }
 ?>
