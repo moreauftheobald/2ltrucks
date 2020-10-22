@@ -37,6 +37,7 @@ $langs->loadLangs(array('admin', 'other', 'orders', 'propal', 'bills', 'errors',
 $id = GETPOST("id", 'int');
 $action = GETPOST('action', 'aZ09');
 $actionid=GETPOST('actionid');
+$actionid=GETPOST('moreparam');
 
 // Security check
 if ($user->socid) $id=$user->socid;
@@ -76,11 +77,11 @@ if ($action == 'add')
         $db->begin();
 
         $sql = "DELETE FROM ".MAIN_DB_PREFIX . "notifyplus_def";
-        $sql .= " WHERE fk_user=".$id." AND fk_action=".$actionid;
+        $sql .= " WHERE fk_user=".$id." AND fk_action=".$actionid . " AND moreparam ='" . $moreparam . "'";
         if ($db->query($sql))
         {
-            $sql = "INSERT INTO ".MAIN_DB_PREFIX. "notifyplus_def (datec,fk_user, fk_action)";
-            $sql .= " VALUES ('".$db->idate($now)."',".$id.",".$actionid.")";
+            $sql = "INSERT INTO ".MAIN_DB_PREFIX. "notifyplus_def (datec,fk_user, fk_action,moreparam)";
+            $sql .= " VALUES ('".$db->idate($now)."',".$id.",".$actionid.",'" .$moreparam . "')";
 
             if (! $db->query($sql))
             {
@@ -192,6 +193,7 @@ if ($result > 0)
     print_liste_field_titre("Target", $_SERVER["PHP_SELF"], "c.lastname,c.firstname", '', $param, '"width="45%"', $sortfield, $sortorder);
     print_liste_field_titre("Action", $_SERVER["PHP_SELF"], "", '', $param, '"width="35%"', $sortfield, $sortorder);
     print_liste_field_titre("Type", $_SERVER["PHP_SELF"], "n.type", '', $param, '"width="10%"', $sortfield, $sortorder);
+    print_liste_field_titre("pararmetres de filtres", $_SERVER["PHP_SELF"], "n.morparam", '', $param, '"width="10%"', $sortfield, $sortorder);
     print_liste_field_titre('');
 	print "</tr>\n";
 
@@ -229,12 +231,13 @@ if ($result > 0)
         $type=array('email'=>$langs->trans("EMail"));
         print $form->selectarray("typeid", $type);
         print '</td>';
-        print '<td class="right"><input type="submit" class="button" value="'.$langs->trans("Add").'"></td>';
+        print '<td><input size="32" name="moreparam" value="'.$conf->global->NOTIFY_PLUS_EMAIL_FROM.'">';
+        print '<td class="right"><input type="submit" class="button" value=""></td>';
         print '</tr>';
     }
     else
     {
-        print '<tr class="oddeven"><td colspan="4">';
+        print '<tr class="oddeven"><td colspan="5">';
         print $langs->trans("YouMustAssignUserMailFirst");
         print '</td></tr>';
     }
@@ -274,6 +277,7 @@ if ($result > 0)
     print_liste_field_titre("Target", $_SERVER["PHP_SELF"], "c.lastname,c.firstname", '', $param, '"width="45%"', $sortfield, $sortorder);
     print_liste_field_titre("Action", $_SERVER["PHP_SELF"], "", '', $param, '"width="35%"', $sortfield, $sortorder);
     print_liste_field_titre("Type", $_SERVER["PHP_SELF"], "n.type", '', $param, '"width="10%"', $sortfield, $sortorder);
+    print_liste_field_titre("pararmetres de filtres", $_SERVER["PHP_SELF"], "n.morparam", '', $param, '"width="10%"', $sortfield, $sortorder);
     print_liste_field_titre('', '', '');
     print '</tr>';
 
@@ -315,6 +319,7 @@ if ($result > 0)
             if ($obj->type == 'email') print $langs->trans("Email");
             if ($obj->type == 'sms') print $langs->trans("SMS");
             print '</td>';
+            print '<td>' . $obj->moreparam . '</td>';
             print '<td class="right"><a href="notify_plus_card.php?id='.$id.'&amp;action=delete&amp;actid='.$obj->rowid.'">'.img_delete().'</a></td>';
             print '</tr>';
             $i++;
