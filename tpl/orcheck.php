@@ -328,7 +328,7 @@ if($res>0){
 	}else{
 		$chekor = 0;
 	}
-	
+	$chekor = 1;
 	$actionUrl = $_SERVER["PHP_SELF"].'?orid='.$orid.'&amp;action=';
 	
 	print '<div class="tabsAction">'."\n";
