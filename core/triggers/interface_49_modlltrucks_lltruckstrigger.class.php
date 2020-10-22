@@ -138,20 +138,21 @@ class Interfacelltruckstrigger
         	$sendto = $userto->email;
         	if(empty($sendto)) return 0;
         	
-        	var_dump($message);
-        	exit;
+        	
         	
         	$message = '<div class=WordSection1>';
         	$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
         	$message.= '<p class=MsoNormal>Vous recevez ce message car ';
-        	$message.= $user->lastname . ' ' . $user.firstname ;
+        	$message.= $user->lastname . ' ' . $user->firstname;
         	$message.= 'vous a transféré laresponsabilité d’un ticket d’assistance&nbsp;:';
         	$message.= $objet->getNomUrl();
         	$message.= '<o:p></o:p></p>';
         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
         	$message.= $user->signature;
         	
+        	var_dump($message);
+        	exit;
         	
         	
         	
