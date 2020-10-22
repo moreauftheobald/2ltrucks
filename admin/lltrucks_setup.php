@@ -109,7 +109,7 @@ print '<td>' . $form->selectArray('LLTRUCKS_STATUT_AFTER_CHECK', $TOR, $conf->gl
 
 print '<tr class="oddeven">';
 print '<td width="300px">'.$langs->trans("defaultmailadress").'</td>';
-print '<td><input class="right maxwidth=300" name="NOTIFY_PLUS_EMAIL_FROM" value="'.$conf->global->NOTIFY_PLUS_EMAIL_FROM.'"></td></tr>';
+print '<td><input class="right maxwidth=500" name="NOTIFY_PLUS_EMAIL_FROM" value="'.$conf->global->NOTIFY_PLUS_EMAIL_FROM.'"></td></tr>';
 
 
 print '</table>';
