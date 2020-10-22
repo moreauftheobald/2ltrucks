@@ -256,6 +256,8 @@ class Interfacelltruckstrigger
    		if($action == 'OPERATIONORDERDET_CREATE'||$action == 'OPERATIONORDERDET_MODIFY'||$action == 'OPERATIONORDERDET_DELETE'||$action == 'OPERATIONORDER_MODIFY'){
    			global $mysoc;
    			
+   			
+   			var_dump($object);
    			print 'ok la';
    			exit;
    			
