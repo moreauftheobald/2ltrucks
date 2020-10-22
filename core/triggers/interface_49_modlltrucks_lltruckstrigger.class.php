@@ -102,10 +102,10 @@ class Interfacelltruckstrigger
     	$notify = new Notify_plus($this->db);
     	print_r($action);
     	print_r($notify->arrayofnotifsupported);
-    	exit;
+    	//exit;
     	
     	
-    	if (!in_array($action, $notify->arrayofnotifsupported)) return 0;
+    	if (array_search($action, $notify->arrayofnotifsupported)) return 0;
     	
     	dol_syslog("Trigger '".$this->name."' for action '$action' launched by ".__FILE__.". id=".$object->id);
     	$notify->send($action, $object);
