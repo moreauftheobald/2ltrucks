@@ -258,8 +258,7 @@ class Notify_plus
 		{
 			$num = $this->db->num_rows($result);
 			$projtitle='';
-			print 'ok la';
-			exit;
+			
 			if (! empty($object->fk_project))
 			{
 				require_once DOL_DOCUMENT_ROOT.'/projet/class/project.class.php';
@@ -273,6 +272,9 @@ class Notify_plus
 				$i = 0;
 				while ($i < $num && ! $error)	// For each notification couple defined (third party/actioncode)
 				{
+					
+					print 'ok la';
+					exit;
 					$obj = $this->db->fetch_object($result);
 
 					$sendto = dolGetFirstLastname($obj->firstname, $obj->lastname) . " <".$obj->email.">";
