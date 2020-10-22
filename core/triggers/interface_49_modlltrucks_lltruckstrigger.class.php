@@ -57,8 +57,6 @@ class Interfacelltruckstrigger
     	global $conf;
         $this->db = $db;
         $this->listofmanagedevents = explode(',',$conf->global->NOTIFY_PLUS_EVENT_FETCH);
-        print_r($this->listofmanagedevents);
-        exit;
         $this->name = preg_replace('/^Interface/i', '', get_class($this));
         $this->picto = 'lltrucks@lltrucks';
     }
