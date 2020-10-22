@@ -196,7 +196,7 @@ if($res>0){
 	print '<td>'.price($totplaned).'</td>';
 	print '<td>'.round($totspent,2).'</td>';
 	print '<td>'.price($totfact).'</td>';
-	print '<td>'.$coef_mo . ' ' . $mo_stat_label .  '</td>';
+	print '<td>Ecart MO faite / MO facturée ='.$coef_mo . '% ' . $mo_stat_label .  '</td>';
 	print "</tr>\n";
 	
 	print '</table>';
