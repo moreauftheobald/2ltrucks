@@ -260,7 +260,7 @@ class Interfacelltruckstrigger
    			$OR = new OperationOrder($object->db);
    			$OR->fetch($object->fk_operation_order);
    			$OR->array_options['options_orcheck']= 0;
-   			$OR->update($user);
+   			$OR->update($user,1);
    			   			
    			return 1;
    		}
