@@ -182,7 +182,10 @@ if($res>0){
 			$totfact +=  ($line->total_ht/$line->product->price);
 		}
 	}
-	$coef_mo = (($totfact-$totplaned)/$totplaned) *100;
+	$mo_stat = 0;
+	$mo_stat_label = 'MO a controler';
+	
+	$coef_mo = round((($totfact-$totplaned)/$totplaned) *100,2);
 	if($conf->global->LLTRUCKS_MO_COEF_MIN<$coef_mo<$conf->global->LLTRUCKS_MO_COEF_MAX){
 		$mo_stat = 1;
 		$mo_stat_label = 'Check OR MO OK';
@@ -193,7 +196,7 @@ if($res>0){
 	print '<td>'.price($totplaned).'</td>';
 	print '<td>'.round($totspent,2).'</td>';
 	print '<td>'.price($totfact).'</td>';
-	print '<td>'. $coef_mo . ' ' . $mo_stat_label .  '</td>';
+	print '<td>'.$coef_mo . ' ' . $mo_stat_label .  '</td>';
 	print "</tr>\n";
 	
 	print '</table>';
