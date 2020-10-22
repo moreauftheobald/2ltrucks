@@ -143,7 +143,7 @@ if($res>0){
 		}
 	}elseif ($action == 'valid'){
 		$object->array_options['options_orcheck']= 1;
-		$object->update($user);
+		$object->update($user,1);
 		$now=dol_now();
 		
 		$sql = "INSERT INTO llx_operationorderhistory(date_creation,fk_operationorder,title, description, fk_user_creat, entity) VALUES ('";
