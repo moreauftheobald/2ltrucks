@@ -28,5 +28,5 @@ create table IF NOT EXISTS llx_notifyplus_def
   fk_contact      integer,
   fk_user		  integer,
   type            varchar(16) DEFAULT 'email',	-- 'browser', 'email', 'sms', 'webservice', ...
-  filter		  varchar(16) DEFAULT NULL
+  moreparam		  varchar(255) DEFAULT NULL
 )ENGINE=innodb;
