@@ -300,14 +300,14 @@ class Notify_plus
 							$link=$object->getnomurl(1);
 						}
 						
-						print 'ok_la';
-						exit;
-											
-						$dir_output = $conf->$object->element->dir_output;
+						
+						
 						$object_type = $object->element;
+						$dir_output = $conf->$object_type->dir_output;
 						$mesg= $outputlangs->transnoentitiesnoconv("EMailText".$notifcode, $link);
 						
-						
+						print 'ok_la';
+						exit;
 
 
 						$ref = dol_sanitizeFileName($newref);
