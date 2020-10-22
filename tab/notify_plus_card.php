@@ -231,7 +231,7 @@ if ($result > 0)
         $type=array('email'=>$langs->trans("EMail"));
         print $form->selectarray("typeid", $type);
         print '</td>';
-        print '<td><input size="32" name="moreparam" value="'.$conf->global->NOTIFY_PLUS_EMAIL_FROM.'">';
+        print '<td><input size="32" name="moreparam" value="">';
         print '<td class="right"><input type="submit" class="button" value=""></td>';
         print '</tr>';
     }
