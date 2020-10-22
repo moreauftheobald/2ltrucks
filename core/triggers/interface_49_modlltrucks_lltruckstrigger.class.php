@@ -102,7 +102,8 @@ class Interfacelltruckstrigger
     	$notify = new Notify_plus($this->db);
     	print_r($action);
     	print_r($notify->arrayofnotifsupported);
-    	//exit;
+    	print array_search($action, $notify->arrayofnotifsupported);
+    	exit;
     	
     	
     	if (array_search($action, $notify->arrayofnotifsupported)) return 0;
