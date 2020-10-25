@@ -216,7 +216,9 @@ if($res>0){
 	if($nb_mo>0){
 		$coef_mo = round((($totfact-$totspent)/$totspent) *100,2);
 	}else{
-		$coef_mo = 0;	
+		$coef_mo = 0;
+		$mo_stat = 1;
+		$mo_stat_label = 'Check OR MO OK';
 	}
 	
 	if($conf->global->LLTRUCKS_MO_COEF_MIN<$coef_mo && $coef_mo<$conf->global->LLTRUCKS_MO_COEF_MAX && $nb_mo> 0){
