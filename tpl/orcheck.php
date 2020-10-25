@@ -176,10 +176,11 @@ if($res>0){
 	$totplaned = 0;
 	$totspent = 0;
 	$totfact= 0;
+	$nb_mo = 0;
 	
-	foreach ($object->lines as $line){
-		
+	foreach ($object->lines as $line){		
 		if($line->product->array_options['options_or_scan']){
+			$nb_mo++;
 			if(!empty($line->fk_parent_line)){
 				foreach ($object->lines as $linep){
 					if($linep->id == $line->fk_parent_line) $desc = $linep->product->label;
@@ -212,8 +213,13 @@ if($res>0){
 	$mo_stat = 0;
 	$mo_stat_label = 'MO a controler';
 	
-	$coef_mo = round((($totfact-$totspent)/$totplaned) *100,2);
-	if($conf->global->LLTRUCKS_MO_COEF_MIN<$coef_mo && $coef_mo<$conf->global->LLTRUCKS_MO_COEF_MAX && $totspent <> 0){
+	if($nb_mo>0){
+		$coef_mo = round((($totfact-$totspent)/$totspent) *100,2);
+	}else{
+		$coef_mo = 0;	
+	}
+	
+	if($conf->global->LLTRUCKS_MO_COEF_MIN<$coef_mo && $coef_mo<$conf->global->LLTRUCKS_MO_COEF_MAX && $nb_mo> 0){
 		$mo_stat = 1;
 		$mo_stat_label = 'Check OR MO OK';
 	}
