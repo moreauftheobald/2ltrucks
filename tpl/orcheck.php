@@ -160,13 +160,7 @@ if($res>0){
 		</script>
 		<?php
 	}
-	
-	
-		
-	if($action == 'dialog-supplier-order' && !empty($lineid) && !empty($user->rights->fournisseur->commande->creer) ){
-		print _displayDialogSupplierOrder($lineid);
-	}
-
+			
 	print load_fiche_titre($langs->trans("controleMO"), $linkback, 'title_setup');
 	print '<br>';
 	print '<table class="noborder centpercent">';
@@ -219,7 +213,7 @@ if($res>0){
 	$mo_stat_label = 'MO a controler';
 	
 	$coef_mo = round((($totfact-$totspent)/$totplaned) *100,2);
-	if($conf->global->LLTRUCKS_MO_COEF_MIN<$coef_mo && $coef_mo<$conf->global->LLTRUCKS_MO_COEF_MAX){
+	if($conf->global->LLTRUCKS_MO_COEF_MIN<$coef_mo && $coef_mo<$conf->global->LLTRUCKS_MO_COEF_MAX && $totspent <> 0){
 		$mo_stat = 1;
 		$mo_stat_label = 'Check OR MO OK';
 	}
