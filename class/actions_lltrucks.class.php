@@ -60,9 +60,12 @@ class Actionslltrucks
 	 * @param   HookManager	 $hookmanager	Hook manager propagated to allow calling another hook
 	 * @return  int							 < 0 on error, 0 on success, 1 to replace standard code
 	 */
-	function printCommonFooter($parameters, &$object, &$action, $hookmanager)
-	{
+	function printCommonFooter($parameters, &$object, &$action, $hookmanager){
 		
+		print_r($contextArray);
+		print 'aie';
+		exit;
+		return 0;
 	}
 	
 	/**
@@ -167,14 +170,6 @@ class Actionslltrucks
 			$conf->mc->entities['commande_fournisseur'] = $conf->mc->entities['supplier_order'];
 		}
 		
-		return 0;
-	}
-	
-	public function printCommonFooter($parameters, &$object, &$action, $hookmanager)
-	{
-		print_r($contextArray);
-		print 'aie';
-		exit;
 		return 0;
 	}
 }
