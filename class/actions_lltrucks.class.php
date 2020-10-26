@@ -147,7 +147,8 @@ class Actionslltrucks
 			exit;
 			
 		}
-		
+		print 'aie';
+		return 0;
 	}
 	 
 	 
