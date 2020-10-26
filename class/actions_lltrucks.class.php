@@ -76,6 +76,10 @@ class Actionslltrucks
 	 */
 	 public function doActions($parameters, &$object, &$action, $hookmanager)
 	 {
+	 	if (in_array('pricesuppliercard', $contextArray ) &&  $conf->entity > 1 && !$user->admin)
+	 	{
+	 		$object->cost_price = 0;
+		}	 	
 	 }
 	
 	 /**
@@ -141,7 +145,12 @@ class Actionslltrucks
 			?>
 					<script type="text/javascript">
 					$(document).ready(function () {
-						$('a[href*="fournisseurs.php?action=editcost_price"].butAction').hide();
+						var elem = document.getElementsByTagName('table')
+						for (var i=0; i<elem.lenght;i++){
+						    if (elem.getElementsByClassName(i) = "border tableforfield"){
+						        elem[i].style.display = "none";
+						    }
+						}
 					});
 					</script>
 				<?php
