@@ -145,21 +145,9 @@ class Actionslltrucks
 			
 			print 'ox';
 			exit;
-			?>
-					<script type="text/javascript">
-					$(document).ready(function () {
-						var elem = document.getElementsByTagName('table')
-						for (var i=0; i<elem.lenght;i++){
-						    if (elem.getElementsByClassName(i) = "border tableforfield"){
-						        elem[i].style.display = "none";
-						    }
-						}
-					});
-					</script>
-				<?php
+			
 		}
 		
-		return 0;
 	}
 	 
 	 
