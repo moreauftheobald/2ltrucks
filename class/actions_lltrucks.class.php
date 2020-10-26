@@ -76,10 +76,10 @@ class Actionslltrucks
 	 */
 	 public function doActions($parameters, &$object, &$action, $hookmanager)
 	 {
-	 	if (in_array('pricesuppliercard', $contextArray ) &&  $conf->entity > 1 && !$user->admin)
-	 	{
-	 		$object->cost_price = 0;
-		}	 	
+	 	//if (in_array('pricesuppliercard', $contextArray ) &&  $conf->entity > 1 && !$user->admin)
+	 	//{
+	 	//	$object->cost_price = 0;
+		//}	 	
 	 }
 	
 	 /**
@@ -142,6 +142,8 @@ class Actionslltrucks
 		
 		if (in_array('pricesuppliercard', $contextArray ) &&  $conf->entity > 1 )
 		{
+			
+			print 'ox';
 			?>
 					<script type="text/javascript">
 					$(document).ready(function () {
