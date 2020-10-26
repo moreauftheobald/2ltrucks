@@ -62,10 +62,6 @@ class Actionslltrucks
 	 */
 	function printCommonFooter($parameters, &$object, &$action, $hookmanager){
 		
-		print_r($contextArray);
-		print 'aie';
-		exit;
-		return 0;
 	}
 	
 	/**
@@ -79,10 +75,7 @@ class Actionslltrucks
 	 */
 	 public function doActions($parameters, &$object, &$action, $hookmanager)
 	 {
-	 	//if (in_array('pricesuppliercard', $contextArray ) &&  $conf->entity > 1 && !$user->admin)
-	 	//{
-	 	//	$object->cost_price = 0;
-		//}	 	
+	 	
 	 }
 	
 	 /**
@@ -101,9 +94,7 @@ class Actionslltrucks
 	 	$langs->loadLangs(array('lltrucks@lltrucks'));
 	 	
 	 	$contextArray = explode(':', $parameters['context']);
-	 	
-	 	print_r($contextArray);
-	 	
+	 		 		
 	 	if (in_array('operationordercard', $contextArray ) && empty($action) && $object->objStatus->code == $conf->global->LLTRUCKS_STATUT_BEFORE_CHECK && !$object->array_options['options_orcheck'])
 	 	{
 	 		$sql = "SELECT rowid ";
@@ -144,15 +135,21 @@ class Actionslltrucks
 				</script>
 				<?php
 		}
-		
-		if (in_array('pricesuppliercard', $contextArray ))
+		if (in_array('pricesuppliercard', $contextArray ) && !$user->admin)
 		{
-			
-			print 'ox';
-			exit;
-			
+			?>
+			<script type="text/javascript">
+			$(document).ready(function () {
+				$(document.getElementsByClassName('border tableforfield')[0].style.visibility = 'hidden');
+			});
+			</script>
+			<?php		
+					
+			$this->resprint = 1;
+					
 		}
-		print 'aie';
+			
+		
 		return 0;
 	}
 	 
