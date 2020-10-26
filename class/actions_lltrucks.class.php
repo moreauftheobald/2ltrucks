@@ -135,7 +135,18 @@ class Actionslltrucks
 				</script>
 				<?php
 		}
-
+		
+		if (in_array('operationordercard', $contextArray ) &&  $conf->entity > 1 )
+		{
+			?>
+					<script type="text/javascript">
+					$(document).ready(function () {
+						$('a[href*="fournisseurs.php?action=editcost_price"].butAction').hide();
+					});
+					</script>
+				<?php
+		}
+		
 		return 0;
 	}
 	 
