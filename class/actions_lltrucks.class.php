@@ -172,7 +172,9 @@ class Actionslltrucks
 	
 	public function printCommonFooter($parameters, &$object, &$action, $hookmanager)
 	{
+		print_r($contextArray);
 		print 'aie';
+		exit;
 		return 0;
 	}
 }
