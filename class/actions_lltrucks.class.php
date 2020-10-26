@@ -136,7 +136,7 @@ class Actionslltrucks
 				<?php
 		}
 		
-		if (in_array('operationordercard', $contextArray ) &&  $conf->entity > 1 )
+		if (in_array('pricesuppliercard', $contextArray ) &&  $conf->entity > 1 )
 		{
 			?>
 					<script type="text/javascript">
