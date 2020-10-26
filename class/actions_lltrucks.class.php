@@ -144,6 +144,7 @@ class Actionslltrucks
 		{
 			
 			print 'ox';
+			exit;
 			?>
 					<script type="text/javascript">
 					$(document).ready(function () {
