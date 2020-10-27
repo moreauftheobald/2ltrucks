@@ -255,7 +255,7 @@ class Interfacelltruckstrigger
    		
    		if(($action == 'OPERATIONORDERDET_CREATE'||$action == 'OPERATIONORDERDET_MODIFY'||$action == 'OPERATIONORDERDET_DELETE'||$action == 'OPERATIONORDER_MODIFY') && $object->array_options['options_orcheck'] == 1){
    			   			
-   			$sql = "UPDATE " .  MAIN_DB_PREFIX . "operationorder_extrafields SET orcheck = 0 WHERE fk_object = " . $object.id;
+   			$sql = "UPDATE " .  MAIN_DB_PREFIX . "operationorder_extrafields SET orcheck = 0 WHERE fk_object = " . $object->id;
    			$this->db->query($sql);
    			   			   			
    			return 1;
