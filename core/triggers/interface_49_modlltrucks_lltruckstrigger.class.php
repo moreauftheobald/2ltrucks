@@ -178,13 +178,13 @@ class Interfacelltruckstrigger
         			'notification' 
         			);
 	        
-//         	if ($mailfile->sendfile()){
-//         		return 1;
-//         	}else{
-//         		return 0;
-//         	}
+        	if ($mailfile->sendfile()){
+        		return 1;
+        	}else{
+        		return 0;
+        	}
 
-//         }
+        }
 
         if($action == 'ORDER_CREATE' && $object->lines[0]->origin == 'supplierorderdet'){
    			global $mysoc;
