@@ -122,15 +122,15 @@ class Interfacelltruckstrigger
         	require_once DOL_DOCUMENT_ROOT. '/core/lib/files.lib.php';
         	require_once DOL_DOCUMENT_ROOT. '/user/class/user.class.php';
         	        	
-//         	$langs->load("other");
-//         	$langs->load("lltrucks@lltrucks");
+        	$langs->load("other");
+        	$langs->load("lltrucks@lltrucks");
 	        
-//         	$application = 'Dolibarr';
-//         	if (! empty($conf->global->MAIN_APPLICATION_TITLE)) $application = $conf->global->MAIN_APPLICATION_TITLE;
-//         	$replyto = $user->email;
-//         	if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
+        	$application = 'Dolibarr';
+        	if (! empty($conf->global->MAIN_APPLICATION_TITLE)) $application = $conf->global->MAIN_APPLICATION_TITLE;
+        	$replyto = $user->email;
+        	if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
         	
-//         	$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("tikketassigned");
+        	$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("tikketassigned");
         	       	
 //         	$userto = new User($this->db);
 //         	$userto->fetch($object->fk_user_assign);
