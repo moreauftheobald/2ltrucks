@@ -117,10 +117,11 @@ class Interfacelltruckstrigger
      	if($action == 'TICKET_ASSIGNED' && !empty($object->fk_user_assign)){
         	global $mysoc;
         	
-        	dol_include_once('/core/class/CMailFile.class.php');
-        	dol_include_once('/core/lib/files.lib.php');
-        	dol_include_once('/user/class/user.class.php');
         	
+        	require_once DOL_DOCUMENT_ROOT. '/core/class/CMailFile.class.php';
+        	require_once DOL_DOCUMENT_ROOT. '/core/lib/files.lib.php';
+        	require_once DOL_DOCUMENT_ROOT. '/user/class/user.class.php';
+        	        	
 //         	$langs->load("other");
 //         	$langs->load("lltrucks@lltrucks");
 	        
