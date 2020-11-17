@@ -177,7 +177,7 @@ class Interfacelltruckstrigger
         			'',
         			'notification' 
         			);
-	        
+        	include_once DOL_DOCUMENT_ROOT.'/core/class/CMailFile.class.php';
         	if ($mailfile->sendfile()){
         		return 1;
         	}else{
