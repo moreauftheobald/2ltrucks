@@ -118,9 +118,9 @@ class Interfacelltruckstrigger
         	global $mysoc;
         	
         	//require '../htdocs/main.inc.php';
-        	//require_once DOL_DOCUMENT_ROOT. '/core/class/CMailFile.class.php';
-        	//require_once DOL_DOCUMENT_ROOT. '/core/lib/files.lib.php';
-        	//require_once DOL_DOCUMENT_ROOT. '/user/class/user.class.php';
+        	require_once DOL_DOCUMENT_ROOT. '/core/class/CMailFile.class.php';
+        	require_once DOL_DOCUMENT_ROOT. '/core/lib/files.lib.php';
+        	require_once DOL_DOCUMENT_ROOT. '/user/class/user.class.php';
         	        	
 //         	$langs->load("other");
 //         	$langs->load("lltrucks@lltrucks");
