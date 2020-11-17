@@ -159,24 +159,24 @@ class Interfacelltruckstrigger
         		$mimefilename_list[] = $file['name'];
         	}
         	        	
-//         	$mailfile = new CMailFile(
-//         			$subject,
-//         			$sendto,
-//         			$replyto,
-//         			$message,
-//         			$filename_list,
-//         			$mimetype_list,
-//         			$mimefilename_list,
-//         			'',
-//         			'',
-//         			0,
-//         			1,
-//         			'',
-//         			'',
-//         			$trackid,
-//         			'',
-//         			'notification' 
-//         			);
+        	$mailfile = new CMailFile(
+        			$subject,
+        			$sendto,
+        			$replyto,
+        			$message,
+        			$filename_list,
+        			$mimetype_list,
+        			$mimefilename_list,
+        			'',
+        			'',
+        			0,
+        			1,
+        			'',
+        			'',
+        			$trackid,
+        			'',
+        			'notification' 
+        			);
 	        
 //         	if ($mailfile->sendfile()){
 //         		return 1;
