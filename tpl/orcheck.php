@@ -14,6 +14,17 @@ $orid = GETPOST('orid', 'int');
 $action = GETPOST('action', 'alpha');
 $lineid=GETPOST('lineid');
 $qty=GETPOST('fact');
+//$docans=array();
+$docans = unserialize(html_entity_decode(GETPOST('docans')));
+
+if ($action == 'next')
+{
+	$steptodo = Count($docans);
+	$step=1;
+	header('Location: docoblig.php?step= ' .$step . '&docans=' . serialize($docans). '&orid='.$orid  . '&steptodo=' . $steptodo);
+	
+	
+}
 
 top_htmlhead('', '');
 
@@ -30,6 +41,10 @@ if ($action == 'cancel')
 	</script>
 	<?php
 }
+
+
+
+
 $lineupdated = new operationorderdet($db);
 $object = new OperationOrder($db);
 
@@ -37,60 +52,68 @@ $res=0;
 if(!empty($orid)){
 	$res= $object->fetch($orid, true);
 }
+
 if($res>0){
 	if(!empty($lineid)){
 		$lineupdated->fetch($lineid,true);
 	}
 	
-	if ($action == 'editline' && is_object($lineupdated))
-	{
+	$docoblig = array();
+	$docoblig_check = 1;
+	foreach($object->lines as $line){
+		if(!empty($line->product->array_options['options_doc_obl'])){
+			$docoblig[] = $line->product->array_options['options_doc_obl'];
+			$docoblig_check = 0;
+		}
+	}
+	if(!empty($docoblig)){
+	    $object->array_options['options_doc_ans'] = serialize($docans);
+	    $object->update($user,1);
+	}
+	
+	
+	if ($action == 'editline' && is_object($lineupdated)){
 		$result = $object->updateline(
-				$lineid, 
-				$lineupdated->description, 
-				$qty, 
-				$lineupdated->price, 
-				$lineupdated->fk_warehouse, 
-				$lineupdated->pc,
-				$lineupdated->time_planned, 
-				$lineupdated->time_spent,
-				$lineupdated->fk_product, 
-				$lineupdated->info_bits, 
-				$lineupdated->date_start, 
-				$lineupdated->date_end, 
-				$lineupdated->type, 
-				$lineupdated->fk_parent_line, 
-				$lineupdated->product->label, 
-				$lineupdated->special_code, 
-				$lineupdated->array_options);
-			
-			if ($result >= 0) {
-												
-				unset($_POST['fact']);
-				unset($_POST['action']);
-				unset($_POST['lineid']);
-								
-				
-			} else {
-				setEventMessages($object->error, $object->errors, 'errors');
-			}
+		$lineid, 
+		$lineupdated->description, 
+		$qty, 
+		$lineupdated->price, 
+		$lineupdated->fk_warehouse, 
+		$lineupdated->pc,
+		$lineupdated->time_planned, 
+		$lineupdated->time_spent,
+		$lineupdated->fk_product, 
+		$lineupdated->info_bits, 
+		$lineupdated->date_start, 
+		$lineupdated->date_end, 
+		$lineupdated->type, 
+		$lineupdated->fk_parent_line, 
+		$lineupdated->product->label, 
+		$lineupdated->special_code, 
+		$lineupdated->array_options);
+	
+		if ($result >= 0) {
+			unset($_POST['fact']);
+			unset($_POST['action']);
+			unset($_POST['lineid']);
+		} else {
+			setEventMessages($object->error, $object->errors, 'errors');
+		}
 	}elseif($action== 'deletline' && is_object($lineupdated)){
 						
-			$result = $object->removeChild($user, 'OperationOrderDet', $lineupdated->fk_parent_line);
-			if ($result)
-			{
-				if (empty($conf->global->MAIN_DISABLE_PDF_AUTOUPDATE)) {
-					$ret = $object->fetch($object->id); // Reload to get new records
-					$object->generateDocument($object->modelpdf, $outputlangs, $hidedetails, $hidedesc, $hideref);
-				}
-				$object->setTimePlannedT();
+		$result = $object->removeChild($user, 'OperationOrderDet', $lineupdated->fk_parent_line);
+		if ($result){
+			if (empty($conf->global->MAIN_DISABLE_PDF_AUTOUPDATE)) {
+				$ret = $object->fetch($object->id); // Reload to get new records
+				$object->generateDocument($object->modelpdf, $outputlangs, $hidedetails, $hidedesc, $hideref);
+			}
+			$object->setTimePlannedT();
 						
-				header('Location: '.$_SERVER["PHP_SELF"].'?orid='.$object->id);
-				exit;
-			}
-			else
-			{
-				setEventMessages($object->error, $object->errors, 'errors');
-			}
+			header('Location: '.$_SERVER["PHP_SELF"].'?orid='.$object->id);
+			exit;
+		}else{
+			setEventMessages($object->error, $object->errors, 'errors');
+		}
 	}elseif ($action=='debit-stock' && is_object($lineupdated)){
 		dol_include_once('/operationorder/class/operationorder.class.php');
 		require_once DOL_DOCUMENT_ROOT . '/product/stock/class/mouvementstock.class.php';
@@ -100,34 +123,31 @@ if($res>0){
 		
 		if(GETPOST("debit") >0){
 			$result = $mvt->livraison(
-					$user,
-					$lineupdated->product->id,
-					$lineupdated->fk_warehouse,
-					abs(GETPOST("debit")),
-					0,
-					$langs->trans('productUsedForOorder', $object->ref) . 'Debit manuel'
-					);
-			
-			
+				$user,
+				$lineupdated->product->id,
+				$lineupdated->fk_warehouse,
+				abs(GETPOST("debit")),
+				0,
+				$langs->trans('productUsedForOorder', $object->ref) . 'Debit manuel'
+			);
 		}else{
 			$result = $mvt->reception(
-					$user,
-					$lineupdated->product->id,
-					$lineupdated->fk_warehouse,
-					abs(GETPOST("debit")),
-					0,
-					$langs->trans('productNotUsedForOorder', $object->ref) . 'Debit manuel'
-					);
-			}
-		if ($result > 0)
-		{
+				$user,
+				$lineupdated->product->id,
+				$lineupdated->fk_warehouse,
+				abs(GETPOST("debit")),
+				0,
+				$langs->trans('productNotUsedForOorder', $object->ref) . 'Debit manuel'
+			);
+		}
+		if ($result > 0){
 			$oOHistory = new OperationOrderHistory($db);
 			$oOHistory->stockMvt($Oobject, $lineupdated->product, GETPOST("debit")*-1);
 		}
+
 	}elseif($action == 'deletline-piece' && is_object($lineupdated)){
 		$result = $object->removeChild($user, 'OperationOrderDet', $lineid);
-		if ($result)
-		{
+		if ($result){
 			if (empty($conf->global->MAIN_DISABLE_PDF_AUTOUPDATE)) {
 				$ret = $object->fetch($object->id); // Reload to get new records
 				$object->generateDocument($object->modelpdf, $outputlangs, $hidedetails, $hidedesc, $hideref);
@@ -136,11 +156,10 @@ if($res>0){
 			
 			header('Location: '.$_SERVER["PHP_SELF"].'?orid='.$object->id);
 			exit;
-		}
-		else
-		{
+		}else{
 			setEventMessages($object->error, $object->errors, 'errors');
 		}
+
 	}elseif ($action == 'valid'){
 		$object->array_options['options_orcheck']= 1;
 		$object->update($user,1);
@@ -153,14 +172,14 @@ if($res>0){
 		
 		?>
 		<script type="text/javascript">
-			$(document).ready(function () {
+		$(document).ready(function () {
 			window.parent.$('#orcheck').dialog('close');
 			window.parent.$('#orcheck').remove();
-			});
+		});
 		</script>
 		<?php
-	}
-			
+	}	
+
 	print load_fiche_titre($langs->trans("controleMO"), $linkback, 'title_setup');
 	print '<br>';
 	print '<table class="noborder centpercent">';
@@ -187,7 +206,6 @@ if($res>0){
 				}
 			}else{
 				$desc = $line->product->label . ' - ' . $line->desc;
-			
 			}
 			print '<form method="post" action="orcheck.php">';
 			print '<input type="hidden" name="token" value="'.newToken().'">';
@@ -220,7 +238,7 @@ if($res>0){
 		$mo_stat = 1;
 		$mo_stat_label = 'Check OR MO OK';
 	}
-	
+		
 	if($conf->global->LLTRUCKS_MO_COEF_MIN<$coef_mo && $coef_mo<$conf->global->LLTRUCKS_MO_COEF_MAX && $nb_mo> 0){
 		$mo_stat = 1;
 		$mo_stat_label = 'Check OR MO OK';
@@ -233,11 +251,9 @@ if($res>0){
 	print '<td>'.price($totfact).'</td>';
 	print '<td>Ecart MO faite / MO facturée ='.$coef_mo . '% ' . $mo_stat_label .  '</td>';
 	print "</tr>\n";
-	
 	print '</table>';
-	
 	print '<br><br>';
-	
+
 	print load_fiche_titre($langs->trans("controlepart"), $linkback, 'title_setup');
 	print '<br>';
 	print '<table class="noborder centpercent">';
@@ -250,18 +266,15 @@ if($res>0){
 	print '<td>'.$langs->trans("mouvstock").'</td>';
 	print '<td>'.$langs->trans("action").'</td>';
 	print "</tr>\n";
-	
+
 	$pt_stat = 0;
 	$nb_part = 0;
 	foreach ($object->lines as $line){
-		
 		if($line->product->type == 0){
 			$TLineQtyUsed = $object->getAlreadyUsedQtyLines();
 			$TLastLinesByProduct = $object->getLastLinesByProduct();
 			$qtyUsed = price($line->getQtyUsed($TLineQtyUsed, $TLastLinesByProduct));
-			
 			$coef_part = round(($qtyUsed-$line->qty)*100,2);
-			
 			$qtyadjust = 0;
 			if($qtyUsed<$line->qty){
 				$qtyadjust= ($line->qty-$qtyUsed)*-1;
@@ -275,10 +288,10 @@ if($res>0){
 			print '<td>'.$line->product->label.'</td>';
 			print '<td>'.price($line->qty) .'</td>';
 			print '<td>'.$qtyUsed .'</td>';
-			print '<td>'.price($line->price) .'</td>';
+			print '<td>'.price($line->price) .'</td>';	
 			print '<td>' .price($line->total_ht) . '</td>';
 			if($conf->global->LLTRUCKS_PT_COEF_MIN<$coef_part && $coef_par<$conf->global->LLTRUCKS_PT_COEF_MAX){
-				print '<td colspan="2"> controle piece OK </td>';
+				print '<td colspan="2"> controle piece OK </td>';	
 				$pt_stat++;
 			}else{
 				$pt_stat=0;
@@ -301,9 +314,9 @@ if($res>0){
 	}
 
 	print '</table>';
-	
+
 	print '<br><br>';
-	
+
 	print load_fiche_titre($langs->trans("controlext"), $linkback, 'title_setup');
 	print '<br>';
 	print '<table class="noborder centpercent">';
@@ -318,9 +331,7 @@ if($res>0){
 	$ext_stat = 0;
 	$nb_ext = 0;
 	foreach ($object->lines as $line){
-		
 		if($line->product->array_options['options_oorder_available_for_supplier_order']){
-			
 			$line->fetchObjectLinked();
 			if(!empty($line->linkedObjects['order_supplier'])){
 				$supplieroder = array_values($line->linkedObjects['order_supplier'])[0];
@@ -335,7 +346,6 @@ if($res>0){
 			print '<td>'.$line->product->label.'</td>';
 			print '<td>'.$line->description .'</td>';
 			print '<td>' .price($line->total_ht) . '</td>';
-			
 			if(empty($supplieroder)){
 				$ext_stat = 0;
 				print '<td colspan ="3"> Veuillez emettre le bon de commande avant de cloturer cet OR</td>';
@@ -344,28 +354,32 @@ if($res>0){
 				print '<td>'.$supplieroder->getNomUrl(1) . ' '  . $supplieroder->getLibStatut(3).'</td>';
 				print '<td>' .$supplieroder->thirdparty->getNomUrl(1). '</td>';
 				print '<td></td>';
-				
 			}
 			print '</tr>';
 			print '</form>';
 		}
 	}
-	
+
 	print '</table>';
-	
+
 	if($mo_stat == 1 && $pt_stat == $nb_part && $ext_stat == $nb_ext){
 		$chekor = 1;
 	}else{
 		$chekor = 0;
 	}
 	
-	$actionUrl = $_SERVER["PHP_SELF"].'?orid='.$orid.'&amp;action=';
+	//$actionUrl = $_SERVER["PHP_SELF"].'?orid='.$orid.'&amp;action=';
+	
+	$actionUrl = $_SERVER["PHP_SELF"].'?orid='.$orid.'&amp;docans=' . serialize($docoblig).'&amp;action=';
 	
 	print '<div class="tabsAction">'."\n";
 	print dolGetButtonAction($langs->trans("Cancel"), '', 'default', $actionUrl . 'cancel', '', 1);
-	print dolGetButtonAction($langs->trans("valid"), '', 'default', $actionUrl . 'valid', '', $chekor == 1);
+	if(count($docoblig)>0 && $step < count($docoblig)+1){
+		print dolGetButtonAction($langs->trans("next"), '', 'default', $actionUrl . 'next', '', $chekor == 1);
+	}else{
+		print dolGetButtonAction($langs->trans("valid"), '', 'default', $actionUrl . 'valid', '', $chekor == 1);
+	}
 	print '</div>'."\n";
-	
-	llxFooter();
 }
+llxFooter();
 ?>

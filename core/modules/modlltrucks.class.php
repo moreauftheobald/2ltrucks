@@ -91,11 +91,13 @@ class modlltrucks extends DolibarrModules
 		$this->module_parts = array(
 				'triggers' => 1, 
 				'hooks' => array('all','restrictedArea'),
+				'models'=>1
 		);
 
 		// Data directories to create when module is enabled.
 		// Example: this->dirs = array("/lltrucks/temp");
-		$this->dirs = array();
+		$this->dirs = array('/lltrucks',
+							'/lltrucks/modelpdf');
 
 		// Config pages. Put here list of php page, stored into lltrucks/admin directory, to use to setup module.
 		$this->config_page_url = array("lltrucks_setup.php@lltrucks");
@@ -153,22 +155,60 @@ class modlltrucks extends DolibarrModules
 		);
 
         // Dictionaries
-	    $this->dictionaries=array();
-        /* Example:
-        if (! isset($conf->lltrucks->enabled)) $conf->lltrucks->enabled=0;	// This is to avoid warnings
-        $this->dictionaries=array(
-            'langs'=>'mylangfile@lltrucks',
-            'tabname'=>array(MAIN_DB_PREFIX."table1",MAIN_DB_PREFIX."table2",MAIN_DB_PREFIX."table3"),		// List of tables we want to see into dictonnary editor
-            'tablib'=>array("Table1","Table2","Table3"),													// Label of tables
-            'tabsql'=>array('SELECT f.rowid as rowid, f.code, f.label, f.active FROM '.MAIN_DB_PREFIX.'table1 as f','SELECT f.rowid as rowid, f.code, f.label, f.active FROM '.MAIN_DB_PREFIX.'table2 as f','SELECT f.rowid as rowid, f.code, f.label, f.active FROM '.MAIN_DB_PREFIX.'table3 as f'),	// Request to select fields
-            'tabsqlsort'=>array("label ASC","label ASC","label ASC"),																					// Sort order
-            'tabfield'=>array("code,label","code,label","code,label"),																					// List of fields (result of select to show dictionary)
-            'tabfieldvalue'=>array("code,label","code,label","code,label"),																				// List of fields (list of fields to edit a record)
-            'tabfieldinsert'=>array("code,label","code,label","code,label"),																			// List of fields (list of fields for insert)
-            'tabrowid'=>array("rowid","rowid","rowid"),																									// Name of columns with primary key (try to always name it 'rowid')
-            'tabcond'=>array($conf->lltrucks->enabled,$conf->lltrucks->enabled,$conf->lltrucks->enabled)												// Condition to show each dictionary
-        );
-        */
+		if (! isset($conf->dolifleet->enabled))
+		{
+			$conf->dolifleet=new stdClass();
+			$conf->dolifleet->enabled=0;
+		}
+		$this->dictionaries=array(
+				'langs' => 'lltrucks@lltrucks',
+				'tabname' => array(
+						MAIN_DB_PREFIX.'c_docoblig_list',
+						MAIN_DB_PREFIX.'c_docoblig_zone',
+						MAIN_DB_PREFIX.'c_docoblig_value',
+				),
+				'tablib' => array(
+						'lltrucksdocobliglist',
+						'lltrucksdocobligzone',
+						'lltrucksdocobligvalue',
+						
+				),                                                    // Label of tables
+				'tabsql' => array(
+						'SELECT f.rowid, f.code, f.label, f.fk_product, f.nb_zone, f.active, f.entity FROM '.MAIN_DB_PREFIX.'c_docoblig_list as f WHERE f.entity IN (0, '.$conf->entity.')',
+						'SELECT f.rowid, f.code, f.label, f.fk_c_docoblig_list, f.type,f.page,f.posx,f.posy,f.step, f.active, f.entity FROM '.MAIN_DB_PREFIX.'c_docoblig_zone as f WHERE f.entity IN (0, '.$conf->entity.')',
+						'SELECT f.rowid, f.code, f.label, f.fk_c_docoblig_zone, f.type,f.posx,f.posy,f.value, f.max_len,f.lon, f.active, f.entity FROM '.MAIN_DB_PREFIX.'c_docoblig_value as f WHERE f.entity IN (0, '.$conf->entity.')'
+				),
+				'tabsqlsort' => array(
+						'code ASC, label ASC',
+						'code ASC, label ASC',
+						'code ASC, label ASC'
+				),
+				'tabfield' => array(
+						'code,label,fk_product,nb_zone,entity',
+						'code,label,fk_c_docoblig_list,type,page,posx,posy,step,active,entity',
+						'code,label,fk_c_docoblig_zone,type,posx,posy,max_len,lon,value,active,entity'
+				),
+				'tabfieldvalue' => array(
+						'code,label,fk_product,nb_zone,entity',
+						'code,label,fk_c_docoblig_list,type,page,posx,posy,step,active,entity',
+						'code,label,fk_c_docoblig_zone,type,posx,posy,max_len,lon,value,active,entity'
+				),
+				'tabfieldinsert' => array(
+						'code,label,fk_product,nb_zone,entity',
+						'code,label,fk_c_docoblig_list,type,page,posx,posy,step,entity',
+						'code,label,fk_c_docoblig_zone,type,posx,posy,max_len,lon,value,entity'
+				),
+				'tabrowid' => array(
+						'rowid',
+						'rowid',
+						'rowid'
+				),
+				'tabcond' => array(
+						$conf->lltrucks->enabled,
+						$conf->lltrucks->enabled,
+						$conf->lltrucks->enabled
+				)
+		);
 
         // Boxes
 		// Add here list of php file(s) stored in core/boxes that contains class to show a box.
@@ -259,7 +299,24 @@ class modlltrucks extends DolibarrModules
 		define('INC_FROM_DOLIBARR', true);
 
 		$result=$this->_load_tables('/lltrucks/sql/');
+		$resultFile = dol_copy(dol_buildpath('/lltrucks/core/doctemplate/lohr_V1.pdf'),
+				DOL_DATA_ROOT.'/lltrucks/modelpdf/lohr_V1.pdf',
+				0,
+				0);
+		
+		dol_include_once('/lltrucks/class/dictionarydocoblig.class.php');
+		$o=new dictionarydocobliglist($this->db);
+		$o->init_db_by_vars();
+		
+		$o=new dictionarydocobligzone($this->db);
+		$o->init_db_by_vars();
+		
+		$o=new dictionarydocobligvalue($this->db);
+		$o->init_db_by_vars();
+		
 		return $this->_init($sql, $options);
+		
+		
 	}
 
 	/**

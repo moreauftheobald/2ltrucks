@@ -123,7 +123,7 @@ class Actionslltrucks
 			?>
 				<script type="text/javascript">
 				function orcheck() {
-					$div = $('<div id="orcheck"  title="<?php print $langs->trans('orcontrole'); ?>"><iframe width="100%" height="100%" frameborder="0" src="<?php print dol_buildpath('/lltrucks/tpl/orcheck.php?orid=' . $object->id, 1) ; ?>"></iframe></div>');
+					$div = $('<div id="orcheck"  title="<?php print $langs->trans('orcontrole'); ?>"><iframe width="100%" height="100%" frameborder="0" src="<?php print dol_buildpath('/lltrucks/tpl/orcheck.php?step=1&orid=' . $object->id, 1) ; ?>"></iframe></div>');
 					$div.dialog({
 						modal:true
 						,width:"1600px"

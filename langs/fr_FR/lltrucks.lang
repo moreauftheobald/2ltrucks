@@ -31,3 +31,18 @@ tikketassigned = Ticket assigné
 defaultmailadress = Adresse mail par defaut pour l'envoi de mail de notification
 mofactvar = Variabilité facturation MO
 mofactvar = Variabilité facturation piece
+
+lltrucksdocobliglist = 2l Trucks - PDF - liste documents obligatoires
+lltrucksdocobligzone = 2l Trucks - PDF - zone des documents obligatoires
+lltrucksdocobligvalue = 2l Trucks - PDF - valeur sur documents obligatoires
+record = Enregistrer
+doc = parametres des documents obligatoires.
+
+#Traduction liées aux fichier PDF obligatoires. (CODE_VALUE = Affichage dans le formulaire)
+lohrv1z1v1 = Contrôle visuel général de l'équipement (casse, fissure, etc.)
+lohrv1z1v2 = Contrôle du niveau d'huile et du positionnement du sélecteur de circuit en position "monté" de la pompe casquette
+titre1 = Cotroles a réaliser
+titre2 = Conforme / réalié
+titre3 = observation
+lohrv1z5v1 = Contrôle de l'état du témoin d'usure des plaquettes de frein (clignotement ou éteint)(si équipé)
+lohrv1z5v2 = Contrôle d'absence de fuite d'air sur l'équipement

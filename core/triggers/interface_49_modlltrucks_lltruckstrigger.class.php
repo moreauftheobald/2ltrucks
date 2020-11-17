@@ -147,9 +147,9 @@ class Interfacelltruckstrigger
         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
         	$message.= $user->signature;
         	
-        	$filename_list = array();
-        	$mimefilename_list= array();
-        	$mimetype_list = array();
+         	$filename_list = array();
+         	$mimefilename_list= array();
+         	$mimetype_list = array();
         	
         	$upload_dir = $upload_dir = DOL_DATA_ROOT . "/ticket/".dol_sanitizeFileName($object->ref);
         	$filearray = dol_dir_list($upload_dir, "files", 0, '', '\.meta$', $sortfield, (strtolower($sortorder) == 'desc' ? SORT_DESC : SORT_ASC), 1);

@@ -37,6 +37,11 @@ function lltrucksAdminPrepareHead()
 	$head[$h][2] = 'settings';
 	$h++;
 	
+	$head[$h][0] = dol_buildpath("/lltrucks/admin/lltrucks_doc.php", 1);
+	$head[$h][1] = $langs->trans("doc");
+	$head[$h][2] = 'docs';
+	$h++;
+	
 	// Show more tabs from modules
 	// Entries must be declared in modules descriptor with line
 	//$this->tabs = array(
