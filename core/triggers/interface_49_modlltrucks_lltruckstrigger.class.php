@@ -115,73 +115,73 @@ class Interfacelltruckstrigger
      	}
     	
      	if($action == 'TICKET_ASSIGNED' && !empty($object->fk_user_assign)){
-//         	global $mysoc;
+        	global $mysoc;
         	
-//         	dol_include_once('/core/class/CMailFile.class.php');
-//         	dol_include_once('/core/lib/files.lib.php');
-//         	dol_include_once('/user/class/user.class.php');
+        	dol_include_once('/core/class/CMailFile.class.php');
+        	dol_include_once('/core/lib/files.lib.php');
+        	dol_include_once('/user/class/user.class.php');
         	
-//         	$langs->load("other");
-//         	$langs->load("lltrucks@lltrucks");
+        	$langs->load("other");
+        	$langs->load("lltrucks@lltrucks");
 	        
-//         	$application = 'Dolibarr';
-//         	if (! empty($conf->global->MAIN_APPLICATION_TITLE)) $application = $conf->global->MAIN_APPLICATION_TITLE;
-//         	$replyto = $user->email;
-//         	if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
+        	$application = 'Dolibarr';
+        	if (! empty($conf->global->MAIN_APPLICATION_TITLE)) $application = $conf->global->MAIN_APPLICATION_TITLE;
+        	$replyto = $user->email;
+        	if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
         	
-//         	$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("tikketassigned");
+        	$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("tikketassigned");
         	       	
-//         	$userto = new User($this->db);
-//         	$userto->fetch($object->fk_user_assign);
-//         	$sendto = $userto->email;
-//         	if(empty($sendto)) return 0;
+        	$userto = new User($this->db);
+        	$userto->fetch($object->fk_user_assign);
+        	$sendto = $userto->email;
+        	if(empty($sendto)) return 0;
         	       	    	
-//         	$message = '<div class=WordSection1>';
-//         	$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
-//         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
-//         	$message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
-//         	$message.=  $user->firstname . ' ' . $user->lastname;
-//         	$message.= ' vous a transféré la responsabilité d’un ticket d’assistance&nbsp;:';
-//         	$message.= DOL_URL_ROOT . $object->getNomUrl();
-//         	$message.= '<o:p></o:p></p>';
-//         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
-//         	$message.= $user->signature;
+        	$message = '<div class=WordSection1>';
+        	$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
+        	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+        	$message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
+        	$message.=  $user->firstname . ' ' . $user->lastname;
+        	$message.= ' vous a transféré la responsabilité d’un ticket d’assistance&nbsp;:';
+        	$message.= DOL_URL_ROOT . $object->getNomUrl();
+        	$message.= '<o:p></o:p></p>';
+        	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+        	$message.= $user->signature;
         	
-//          	$filename_list = array();
-//          	$mimefilename_list= array();
-//          	$mimetype_list = array();
+         	$filename_list = array();
+         	$mimefilename_list= array();
+         	$mimetype_list = array();
         	
-//         	$upload_dir = $upload_dir = DOL_DATA_ROOT . "/ticket/".dol_sanitizeFileName($object->ref);
-//         	$filearray = dol_dir_list($upload_dir, "files", 0, '', '\.meta$', $sortfield, (strtolower($sortorder) == 'desc' ? SORT_DESC : SORT_ASC), 1);
-//         	foreach ($filearray as $file){
-//         		$filename_list[] = $file['fullname'];
-//         		$mimefilename_list[] = $file['name'];
-//         	}
+        	$upload_dir = $upload_dir = DOL_DATA_ROOT . "/ticket/".dol_sanitizeFileName($object->ref);
+        	$filearray = dol_dir_list($upload_dir, "files", 0, '', '\.meta$', $sortfield, (strtolower($sortorder) == 'desc' ? SORT_DESC : SORT_ASC), 1);
+        	foreach ($filearray as $file){
+        		$filename_list[] = $file['fullname'];
+        		$mimefilename_list[] = $file['name'];
+        	}
         	        	
-//         	$mailfile = new CMailFile(
-//         			$subject,
-//         			$sendto,
-//         			$replyto,
-//         			$message,
-//         			$filename_list,
-//         			$mimetype_list,
-//         			$mimefilename_list,
-//         			'',
-//         			'',
-//         			0,
-//         			1,
-//         			'',
-//         			'',
-//         			$trackid,
-//         			'',
-//         			'notification' 
-//         			);
+        	$mailfile = new CMailFile(
+        			$subject,
+        			$sendto,
+        			$replyto,
+        			$message,
+        			$filename_list,
+        			$mimetype_list,
+        			$mimefilename_list,
+        			'',
+        			'',
+        			0,
+        			1,
+        			'',
+        			'',
+        			$trackid,
+        			'',
+        			'notification' 
+        			);
 	        
-//         	if ($mailfile->sendfile()){
-//         		return 1;
-//         	}else{
-//         		return 0;
-//         	}
+        	if ($mailfile->sendfile()){
+        		return 1;
+        	}else{
+        		return 0;
+        	}
 
         }
 
