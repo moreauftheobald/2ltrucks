@@ -132,10 +132,10 @@ class Interfacelltruckstrigger
         	
         	$subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . $langs->trans("tikketassigned");
         	       	
-//         	$userto = new User($this->db);
-//         	$userto->fetch($object->fk_user_assign);
-//         	$sendto = $userto->email;
-//         	if(empty($sendto)) return 0;
+        	$userto = new User($this->db);
+        	$userto->fetch($object->fk_user_assign);
+        	$sendto = $userto->email;
+        	if(empty($sendto)) return 0;
         	       	    	
 //         	$message = '<div class=WordSection1>';
 //         	$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
