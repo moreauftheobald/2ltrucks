@@ -137,16 +137,16 @@ class Interfacelltruckstrigger
         	$sendto = $userto->email;
         	if(empty($sendto)) return 0;
         	       	    	
-//         	$message = '<div class=WordSection1>';
-//         	$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
-//         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
-//         	$message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
-//         	$message.=  $user->firstname . ' ' . $user->lastname;
-//         	$message.= ' vous a transféré la responsabilité d’un ticket d’assistance&nbsp;:';
-//         	$message.= DOL_URL_ROOT . $object->getNomUrl();
-//         	$message.= '<o:p></o:p></p>';
-//         	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
-//         	$message.= $user->signature;
+        	$message = '<div class=WordSection1>';
+        	$message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
+        	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+        	$message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
+        	$message.=  $user->firstname . ' ' . $user->lastname;
+        	$message.= ' vous a transféré la responsabilité d’un ticket d’assistance&nbsp;:';
+        	$message.= DOL_URL_ROOT . $object->getNomUrl();
+        	$message.= '<o:p></o:p></p>';
+        	$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+        	$message.= $user->signature;
         	
 //          	$filename_list = array();
 //          	$mimefilename_list= array();
