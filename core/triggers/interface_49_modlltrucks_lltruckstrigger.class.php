@@ -261,6 +261,166 @@ class Interfacelltruckstrigger
    			   			   			
    			return 1;
    		}
+   		
+   		if($action == 'TICKET_CREATE' && empty($conf->global->TICKET_DISABLE_CUSTOMER_MAILS) && empty($object->context['disableticketemail']) && $object->notify_tiers_at_create){
+   		    
+   		    global $mysoc;
+   		    $contactid =  GETPOST('contactid', 'int');
+   		    
+   		    if(!empty($contactid)){
+   		        
+   		        require_once DOL_DOCUMENT_ROOT. '/contact/class/contact.class.php';
+       		    require_once DOL_DOCUMENT_ROOT. '/core/class/CMailFile.class.php';
+       		    require_once DOL_DOCUMENT_ROOT. '/core/lib/files.lib.php';
+      		    require_once DOL_DOCUMENT_ROOT. '/user/class/user.class.php';
+      		    
+      		    $langs->load("ticket");
+       		    $langs->load("other");
+      		    $langs->load("lltrucks@lltrucks");
+   		    
+       		    $application = 'Dolibarr';
+       		    if (! empty($conf->global->MAIN_APPLICATION_TITLE)) $application = $conf->global->MAIN_APPLICATION_TITLE;
+      		    $replyto = $user->email;
+       		    if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
+   		    
+      		    $subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . '-' .$langs->trans("tikketcreated");
+   		    
+   		   
+       		    $userto = new Contact($this->db);
+     		    $userto->fetch($contactid);
+      		    $sendto = $userto->email;
+      		    
+       		    if(empty($sendto)) return 0;
+       		    $url_public_ticket = ($conf->global->TICKET_URL_PUBLIC_INTERFACE ? $conf->global->TICKET_URL_PUBLIC_INTERFACE.'/view.php' : dol_buildpath('/public/ticket/view.php', 2));
+       		    $url_public_ticket.= '?track_id='.$object->track_id . '&email=' . $userto->email . '&action=view_ticket';
+       		    $message = '<div class=WordSection1>';
+      		    $message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
+      		    $message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+      		    $message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
+      		    $message.=  $user->firstname . ' ' . $user->lastname;
+      		    $message.= ' a créé un ticket d’assistance vous concernant&nbsp;';
+      		    $message.= ' Vous pouvez le consulter en suivant le lien suivant:';
+      		    $message.= $url_public_ticket;
+       		    $message.= '<o:p></o:p></p>';
+       		    $message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+      		    $message.= $user->signature;
+   		    
+       		    $filename_list = array();
+       		    $mimefilename_list= array();
+       		    $mimetype_list = array();
+   		    
+      		    $upload_dir = $upload_dir = DOL_DATA_ROOT . "/ticket/".dol_sanitizeFileName($object->ref);
+       		    $filearray = dol_dir_list($upload_dir, "files", 0, '', '\.meta$', $sortfield, (strtolower($sortorder) == 'desc' ? SORT_DESC : SORT_ASC), 1);
+       		    foreach ($filearray as $file){
+       		        $filename_list[] = $file['fullname'];
+      		        $mimefilename_list[] = $file['name'];
+       		    }
+   		    
+      		    $mailfile = new CMailFile(
+      		        $subject,
+      		        $sendto,
+       		        $replyto,
+      		        $message,
+       		        $filename_list,
+       		        $mimetype_list,
+      		        $mimefilename_list,
+      		        '',
+       		        '',
+      		        0,
+      		        1,
+      		        '',
+       		        '',
+      		        $trackid,
+      		        '',
+      		        'notification'
+      		        );
+      		   
+       		    if ($mailfile->sendfile()){
+       		        
+       		        $sql = "SELECT fk_socpeople, c.email ";
+       		        $sql.= "FROM " . MAIN_DB_PREFIX . "societe_contacts AS sc ";
+       		        $sql.= "INNER JOIN " . MAIN_DB_PREFIX . "socpeople AS c ON c.rowid = sc.fk_socpeople ";
+       		        $sql.= "WHERE sc.fk_soc =" .  $object->fk_soc . " ";
+       		        $sql.= "AND sc.fk_c_type_contact = 157 ";
+       		        $sql.= "AND c.statut = 1 ";
+       		        $sql.= "AND c.email IS NOT NULL ";
+       		        $sql.= "AND c.no_email =0";
+       		        
+       		        $res = $this->db->query($sql);
+       		        if($res){
+      		            while($obj = $this->db->fetch_object($res)){
+       		                $sendto = $obj->email;
+       		                
+       		                if(empty($sendto)) return 0;
+       		                $url_public_ticket= '';
+       		                if(!empty($conf->global->EACCESS_ROOT_URL))
+       		                {
+       		                    $url_public_ticket= $conf->global->EACCESS_ROOT_URL;
+       		                    if(substr($this->rootUrl, -1) !== '/') $this->rootUrl .= '/';
+       		                }
+       		                else
+       		                {
+       		                    $url_public_ticket = dol_buildpath('/externalaccess/www/',2);
+       		                }
+       		                
+       		                $url_public_ticket.= '?controller=tickets&track_id='.$object->track_id ;
+       		                $message = '<div class=WordSection1>';
+       		                $message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
+       		                $message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+       		                $message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
+       		                $message.=  $user->firstname . ' ' . $user->lastname;
+       		                $message.= ' a créé un ticket d’assistance vous concernant&nbsp;';
+       		                $message.= ' Vous pouvez le consulter en suivant le lien suivant:';
+       		                $message.= $url_public_ticket;
+       		                $message.= '<o:p></o:p></p>';
+       		                $message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+       		                $message.= $user->signature;
+       		                
+       		                $filename_list = array();
+       		                $mimefilename_list= array();
+       		                $mimetype_list = array();
+       		                
+       		                $upload_dir = $upload_dir = DOL_DATA_ROOT . "/ticket/".dol_sanitizeFileName($object->ref);
+       		                $filearray = dol_dir_list($upload_dir, "files", 0, '', '\.meta$', $sortfield, (strtolower($sortorder) == 'desc' ? SORT_DESC : SORT_ASC), 1);
+       		                foreach ($filearray as $file){
+       		                    $filename_list[] = $file['fullname'];
+       		                    $mimefilename_list[] = $file['name'];
+       		                }
+       		                
+       		                $mailfile = new CMailFile(
+       		                    $subject,
+       		                    $sendto,
+       		                    $replyto,
+       		                    $message,
+       		                    $filename_list,
+       		                    $mimetype_list,
+       		                    $mimefilename_list,
+       		                    '',
+       		                    '',
+       		                    0,
+       		                    1,
+       		                    '',
+       		                    '',
+       		                    $trackid,
+       		                    '',
+       		                    'notification'
+       		                    );
+       		                
+       		                if ($mailfile->sendfile()){
+       		                    return 1;
+       		                }
+       		            }
+       		        }else{
+       		            return 0;
+       		        }
+       		        
+       		        return 1;
+       		    }else{
+       		       
+       		        return 0;
+      		    }
+   		    }
+   		}
 	}
 }
 
