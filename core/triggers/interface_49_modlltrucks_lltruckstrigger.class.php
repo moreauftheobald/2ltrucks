@@ -220,10 +220,20 @@ class Interfacelltruckstrigger
    			$message.=  $user->firstname . ' ' . $user->lastname;
    			$message.= ' Viens de créer une commande client a votre intention&nbsp;:';
 	   		$message.= DOL_URL_ROOT . $object->getNomUrl();
-   			$message.= '<o:p></o:p></p>';
-   			$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+	   		$message.= '<o:p></o:p></p>';
+	   		$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+	   		
+	   		$message .= '<ul><li>'.$langs->trans('Title').' : '.$object->subject.'</li>';
+	   		$message .= '<li>'.$langs->trans('Type').' : '.$object->type_label.'</li>';
+	   		$message .= '<li>'.$langs->trans('Severity').' : '.$object->severity_label.'</li>';
+	   		$message .= '<li>'.$langs->trans('Vehicule').' : '.$extrafields->showOutputField('fk_vehicule', $object->array_options['options_fk_véhicule']).'</li>';
+	   		$message .= '<li>'.$langs->trans('Atelier').' : '.$extrafields->showOutputField('fk_entity', $object->array_options['options_fk_entity']).'</li>';
+	   		$message .= '<li>'.$langs->trans('Dispo').' : '.$extrafields->showOutputField('date_d', $object->array_options['options_date_d']);
+	   		$message .= ' et le :' . $extrafields->showOutputField('date_f', $object->array_options['options_date_f']) . '</li>';
+	   		
 	   		$message.= $user->signature;
-   		
+	   		$message = dol_nl2br($message);
+   			   		
    			$filename_list = array();
    			$mimefilename_list= array();
    			$mimetype_list = array();
@@ -266,7 +276,18 @@ class Interfacelltruckstrigger
    		    
    		    global $mysoc;
    		    $contactid =  GETPOST('contactid', 'int');
-   		    
+   		    $extrafields = new ExtraFields($this->db);
+   		    $object->context['disableticketemail'] = 1;
+   		    $object->loadCacheTypesTickets();
+   		    foreach ($object->cache_types_tickets as $key=>$code){
+   		        if($code['code'] == $object->type_code) $type_label =$code['label'];
+   		    }
+   		    $object->loadCacheSeveritiesTickets();
+   		    foreach ($object->cache_severity_tickets as $key=>$type){
+   		        if($type['code'] == $object->severity_code) $severity_label =$type['label'];
+   		    }
+   		    $extrafields->fetch_name_optionals_label($object->table_element);
+   		     		    
    		    if(!empty($contactid)){
    		        
    		        require_once DOL_DOCUMENT_ROOT. '/contact/class/contact.class.php';
@@ -282,8 +303,8 @@ class Interfacelltruckstrigger
        		    if (! empty($conf->global->MAIN_APPLICATION_TITLE)) $application = $conf->global->MAIN_APPLICATION_TITLE;
       		    $replyto = $user->email;
        		    if (empty($user->email)) $replyto = $conf->global->NOTIFY_PLUS_EMAIL_FROM;
-   		    
-      		    $subject = '['.$mysoc->name.'] '. $langs->trans("DolibarrNotification") . '-' .$langs->trans("tikketcreated");
+   		        
+       		    $subject = '['.$mysoc->name.'][' . $object->severity_code . '] '.$langs->transnoentities('TicketNewEmailSubject', $object->ref, $object->track_id);
    		    
    		   
        		    $userto = new Contact($this->db);
@@ -293,22 +314,29 @@ class Interfacelltruckstrigger
        		    if(empty($sendto)) return 0;
        		    $url_public_ticket = ($conf->global->TICKET_URL_PUBLIC_INTERFACE ? $conf->global->TICKET_URL_PUBLIC_INTERFACE.'/view.php' : dol_buildpath('/public/ticket/view.php', 2));
        		    $url_public_ticket.= '?track_id='.$object->track_id . '&email=' . $userto->email . '&action=view_ticket';
-       		    $message = '<div class=WordSection1>';
-      		    $message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
-      		    $message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+       		    $message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
       		    $message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
       		    $message.=  $user->firstname . ' ' . $user->lastname;
       		    $message.= ' a créé un ticket d’assistance vous concernant&nbsp;';
       		    $message.= ' Vous pouvez le consulter en suivant le lien suivant:';
       		    $message.= $url_public_ticket;
-       		    $message.= '<o:p></o:p></p>';
-       		    $message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+       		    $message.= '</p>';
+       		    $message .= '<ul><li>'.$langs->trans('Title').' : '.$object->subject.'</li>';
+       		    $message .= '<li>'.$langs->trans('Type').' : '.$type_label.'</li>';
+       		    $message .= '<li>'.$langs->trans('Severity').' : '.$severity_label.'</li>';
+       		    $message .= '<li>'.$langs->trans('Vehicule').' : '.$extrafields->showOutputField('fk_vehicule', $object->array_options['options_fk_vehicule']).'</li>';
+       		    $message .= '<li>'.$langs->trans('Atelier').' : '.$extrafields->showOutputField('fk_entity', $object->array_options['options_fk_entity']).'</li>';
+       		    $message .= '<li>'.$langs->trans('Dispo du').' : '.$extrafields->showOutputField('date_d', $object->array_options['options_date_d']);
+       		    $message .= ' au :' . $extrafields->showOutputField('date_f', $object->array_options['options_date_f']) . '</li>';
+       		    $message .= '</ul>';
+       		    $message .= '<p>'.$langs->trans('Message').' : <br>'.$object->message.'</p>';
       		    $message.= $user->signature;
-   		    
+   		        $message = dol_nl2br($message);
+      		    
        		    $filename_list = array();
        		    $mimefilename_list= array();
        		    $mimetype_list = array();
-   		    
+   		        
       		    $upload_dir = $upload_dir = DOL_DATA_ROOT . "/ticket/".dol_sanitizeFileName($object->ref);
        		    $filearray = dol_dir_list($upload_dir, "files", 0, '', '\.meta$', $sortfield, (strtolower($sortorder) == 'desc' ? SORT_DESC : SORT_ASC), 1);
        		    foreach ($filearray as $file){
@@ -346,7 +374,7 @@ class Interfacelltruckstrigger
        		        $sql.= "AND c.email IS NOT NULL ";
        		        $sql.= "AND c.no_email =0";
        		        
-       		        $res = $this->db->query($sql);
+       		        $res = $object->db->query($sql);
        		        if($res){
       		            while($obj = $this->db->fetch_object($res)){
        		                $sendto = $obj->email;
@@ -366,14 +394,21 @@ class Interfacelltruckstrigger
        		                $url_public_ticket.= '?controller=tickets&track_id='.$object->track_id ;
        		                $message = '<div class=WordSection1>';
        		                $message.= '<p class=MsoNormal>Bonjour,<o:p></o:p></p>';
-       		                $message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
        		                $message.= '<p class=MsoNormal>Vous recevez ce message car&nbsp ';
        		                $message.=  $user->firstname . ' ' . $user->lastname;
        		                $message.= ' a créé un ticket d’assistance vous concernant&nbsp;';
        		                $message.= ' Vous pouvez le consulter en suivant le lien suivant:';
        		                $message.= $url_public_ticket;
-       		                $message.= '<o:p></o:p></p>';
-       		                $message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
+       		                $message.= '</p>';       		                
+       		                $message .= '<ul><li>'.$langs->trans('Title').' : '.$object->subject.'</li>';
+       		                $message .= '<li>'.$langs->trans('Type').' : '.$type_label.'</li>';
+       		                $message .= '<li>'.$langs->trans('Severity').' : '.$severity_label.'</li>';
+       		                $message .= '<li>'.$langs->trans('Vehicule').' : '.$extrafields->showOutputField('fk_vehicule', $object->array_options['options_fk_vehicule']).'</li>';
+       		                $message .= '<li>'.$langs->trans('Atelier').' : '.$extrafields->showOutputField('fk_entity', $object->array_options['options_fk_entity']).'</li>';
+       		                $message .= '<li>'.$langs->trans('Dispo du').' : '.$extrafields->showOutputField('date_d', $object->array_options['options_date_d']);
+       		                $message .= ' au :' . $extrafields->showOutputField('date_f', $object->array_options['options_date_f']) . '</li>';
+       		                $message .= '</ul>';
+       		                $message .= '<p>'.$langs->trans('Message').' : <br>'.$object->message.'</p>';
        		                $message.= $user->signature;
        		                
        		                $filename_list = array();

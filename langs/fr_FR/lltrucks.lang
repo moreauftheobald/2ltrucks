@@ -37,8 +37,10 @@ lltrucksdocobligzone = 2l Trucks - PDF - zone des documents obligatoires
 lltrucksdocobligvalue = 2l Trucks - PDF - valeur sur documents obligatoires
 record = Enregistrer
 doc = parametres des documents obligatoires.
-ticketcreated = Nouveau ticket
+tikketcreated = Nouveau ticket
+Dispo = Véhicule disponible a l'atelier entre le
 TicketNewEmailSubjectAdmin = Nouveau ticket - Ref
+NewTicket = Créer Ticket
 
 #Traduction liées aux fichier PDF obligatoires. (CODE_VALUE = Affichage dans le formulaire)
 lohrv1z1v1 = Contrôle visuel général de l'équipement (casse, fissure, etc.)
