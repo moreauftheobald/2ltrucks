@@ -188,6 +188,8 @@ class Interfacelltruckstrigger
 
         if($action == 'ORDER_CREATE' && $object->lines[0]->origin == 'supplierorderdet'){
    			global $mysoc;
+   			
+   			$extrafields = new ExtraFields($this->db);
    			   			
    			dol_include_once('/core/class/CMailFile.class.php');
    			dol_include_once('/core/lib/files.lib.php');
@@ -222,15 +224,7 @@ class Interfacelltruckstrigger
 	   		$message.= DOL_URL_ROOT . $object->getNomUrl();
 	   		$message.= '<o:p></o:p></p>';
 	   		$message.= '<p class=MsoNormal><o:p>&nbsp;</o:p></p>';
-	   		
-	   		$message .= '<ul><li>'.$langs->trans('Title').' : '.$object->subject.'</li>';
-	   		$message .= '<li>'.$langs->trans('Type').' : '.$object->type_label.'</li>';
-	   		$message .= '<li>'.$langs->trans('Severity').' : '.$object->severity_label.'</li>';
-	   		$message .= '<li>'.$langs->trans('Vehicule').' : '.$extrafields->showOutputField('fk_vehicule', $object->array_options['options_fk_véhicule']).'</li>';
-	   		$message .= '<li>'.$langs->trans('Atelier').' : '.$extrafields->showOutputField('fk_entity', $object->array_options['options_fk_entity']).'</li>';
-	   		$message .= '<li>'.$langs->trans('Dispo').' : '.$extrafields->showOutputField('date_d', $object->array_options['options_date_d']);
-	   		$message .= ' et le :' . $extrafields->showOutputField('date_f', $object->array_options['options_date_f']) . '</li>';
-	   		
+	   		   		   		
 	   		$message.= $user->signature;
 	   		$message = dol_nl2br($message);
    			   		
