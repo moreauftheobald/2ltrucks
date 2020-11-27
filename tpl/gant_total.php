@@ -100,10 +100,8 @@ if (count($tasksarray)>0)
                 $tasks[$taskcursor]['task_css'] = 'gtaskblue';
             }
         }elseif($val->progress <100){
-            if($val->date_start >dol_now()){
-                $tasks[$taskcursor]['task_css'] = 'gtaskyellow';
-            }elseif($val->date_end <dol_now()){
-                $tasks[$taskcursor]['task_css'] = 'gtaskyellow';
+            if($val->date_start >dol_now()  && $val->date_end <dol_now()){
+                $tasks[$taskcursor]['task_css'] = 'gtaskred';
             }Else{
                 $tasks[$taskcursor]['task_css'] = 'gtaskgreen';
             }
@@ -225,16 +223,17 @@ else
 }
 ?>
 <script type="text/javascript">
-function initElement()
-{
-  var p = document.getElementById("GanttChartDIVchartTable");
-  p.onclick = showAlert;
+function edittask(id) {
+	$div = $('<div id="taskdlg"  title="<?php print $langs->trans('mise a jour des taches'); ?>"><iframe width="100%" height="100%" frameborder="0" src="<?php print dol_buildpath('/lltrucks/tpl/taskdlg.php?id=',1); ?>'+id +'"></iframe></div>');
+	$div.dialog({
+		modal:true
+		,width:"600px"
+		,height:$(window).height() - 500
+		,close:function() {document.location.reload(true);}
+	});
 };
 
-function showAlert()
-{
-  alert("Evènement de click détecté");
-}
+
 </script>
 
 <?php php;
