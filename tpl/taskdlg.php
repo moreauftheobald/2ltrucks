@@ -15,7 +15,6 @@ $canmodif=array();
 $object = new Task($db);
 
 top_htmlhead('', '');
-
 if(!empty($id)){
     $res = $object->fetch($id);
     $canmodif = $object->getListContactId();

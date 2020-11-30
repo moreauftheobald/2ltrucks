@@ -50,3 +50,5 @@ titre2 = Conforme / réalié
 titre3 = observation
 lohrv1z5v1 = Contrôle de l'état du témoin d'usure des plaquettes de frein (clignotement ou éteint)(si équipé)
 lohrv1z5v2 = Contrôle d'absence de fuite d'air sur l'équipement
+
+ProgressDeclared = Avancement de la tache
