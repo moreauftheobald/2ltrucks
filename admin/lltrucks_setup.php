@@ -62,7 +62,6 @@ $sql.= "FROM llx_operationorder_status ";
 $sql.= "WHERE status = 1 " ;
 $sql.= "AND entity = " . $conf->entity;
 
-
 $resql = $db->query($sql);
 if ($resql)
 {
@@ -72,6 +71,7 @@ if ($resql)
 	}
 }
 
+
 $sql = "SELECT DISTINCT label,code ";
 $sql.= "FROM llx_operationorderbarcode";
 
@@ -79,7 +79,8 @@ $sql.= "FROM llx_operationorderbarcode";
 $resql = $db->query($sql);
 if ($resql)
 {
-    while ($obj = $db->fetch_object($resql))
+
+while ($obj = $db->fetch_object($resql))
     {
         $IMPROR[$obj->code] = $obj->label;
     }
@@ -139,7 +140,6 @@ print '<tr class="oddeven">';
 print '<td width="300px">'.$langs->trans("ptfactvar").'</td>';
 print '<td><input class="right maxwidth=510" type="number" name="LLTRUCKS_PT_COEF_MIN" value="'.$conf->global->LLTRUCKS_PT_COEF_MIN.'"> ';
 print '<input class="right maxwidth=510" type="number" name="LLTRUCKS_PT_COEF_MAX" value="'.$conf->global->LLTRUCKS_PT_COEF_MAX.'"></td></tr>';
-
 
 $val=array();
 $val=json_decode($conf->global->LLTRUCKS_EXCLUDE_IMPRO);
