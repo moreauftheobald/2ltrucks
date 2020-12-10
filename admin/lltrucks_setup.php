@@ -72,20 +72,19 @@ if ($resql)
 }
 
 
-//selection des temps improductifs = à déduire du temps de travail
-$sql = "SELECT DISTINCT label ";
+$sql = "SELECT DISTINCT label,code ";
 $sql.= "FROM llx_operationorderbarcode";
 
 
 $resql = $db->query($sql);
 if ($resql)
 {
-	while ($obj = $db->fetch_object($resql))
-	{
-		$IMPROR[$obj->label] = $obj->label;
-	}
-}
 
+while ($obj = $db->fetch_object($resql))
+    {
+        $IMPROR[$obj->code] = $obj->label;
+    }
+}
 
 /*
  * View

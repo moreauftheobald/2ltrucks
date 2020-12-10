@@ -10,6 +10,7 @@ require_once DOL_DOCUMENT_ROOT.'/contact/class/contact.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formother.class.php';
 
 $object = new Project($db);
+$open = GETPOST('open');
 
 include DOL_DOCUMENT_ROOT.'/core/actions_fetchobject.inc.php';  // Must be include, not include_once
 if(! empty($conf->global->PROJECT_ALLOW_COMMENT_ON_PROJECT) && method_exists($object, 'fetchComments') && empty($object->comments)) $object->fetchComments();
@@ -74,7 +75,9 @@ if (count($tasksarray)>0)
         if(strlen($val->ref)==3){
             $tasks[$taskcursor]['task_open']=0;
         }
-                
+        if($val->id == $open){
+            $tasks[$taskcursor]['task_open']=1;
+        }
         $tasks[$taskcursor]['task_is_group'] = 0;
         $tasks[$taskcursor]['task_position'] = $val->rang;
         $tasks[$taskcursor]['task_planned_workload'] = $val->planned_workload;
@@ -100,10 +103,8 @@ if (count($tasksarray)>0)
                 $tasks[$taskcursor]['task_css'] = 'gtaskblue';
             }
         }elseif($val->progress <100){
-            if($val->date_start >dol_now()){
-                $tasks[$taskcursor]['task_css'] = 'gtaskyellow';
-            }elseif($val->date_end <dol_now()){
-                $tasks[$taskcursor]['task_css'] = 'gtaskyellow';
+            if($val->date_start >dol_now()  && $val->date_end <dol_now()){
+                $tasks[$taskcursor]['task_css'] = 'gtaskred';
             }Else{
                 $tasks[$taskcursor]['task_css'] = 'gtaskgreen';
             }
@@ -225,16 +226,18 @@ else
 }
 ?>
 <script type="text/javascript">
-function initElement()
-{
-  var p = document.getElementById("GanttChartDIVchartTable");
-  p.onclick = showAlert;
+function edittask(id,parent) {
+	$div = $('<div id="taskdlg"  title="<?php print $langs->trans('mise a jour des taches'); ?>"><iframe width="100%" height="100%" frameborder="0" src="<?php print dol_buildpath('/lltrucks/tpl/taskdlg.php?id=',1); ?>'+id +'"></iframe></div>');
+	$div.dialog({
+		modal:true
+		,width:"600px"
+		,height:$(window).height() - 500
+		,close:function() {document.location.href='<?php echo dol_buildpath('/lltrucks/tpl/gant_total.php',2).'?id=1&open=';?>'+parent;}
+		//,close:function() {document.location.reload(true);}
+	});
 };
 
-function showAlert()
-{
-  alert("Evènement de click détecté");
-}
+
 </script>
 
 <?php php;

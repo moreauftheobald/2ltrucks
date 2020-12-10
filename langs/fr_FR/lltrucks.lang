@@ -55,10 +55,12 @@ PointageBtnSubmitSearch = Rechercher
 Month = Mois
 Day = Jour
 Name = Nom de l'employé
-DateD�but = Premier pointage
+DateD�but = Premier pointage
 DateFin = Dernier pointage
 Amplitude = Amplitude journalière
 Duree = temps de travail effectif
 DateWeek = Jour de la semaine
 Htheorique = Temps prévu
 Hsup = Heures sups
+ProgressDeclared = Avancement de la tache
+
