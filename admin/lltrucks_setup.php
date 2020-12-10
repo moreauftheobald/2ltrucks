@@ -54,6 +54,7 @@ if ($action == 'setvalue' && $user->admin)
     dolibarr_set_const($db, "LLTRUCKS_MO_COEF_MAX", GETPOST("LLTRUCKS_MO_COEF_MAX"), 'chaine', 0, '', $conf->entity);
     dolibarr_set_const($db, "LLTRUCKS_PT_COEF_MIN", GETPOST("LLTRUCKS_PT_COEF_MIN"), 'chaine', 0, '', $conf->entity);
     dolibarr_set_const($db, "LLTRUCKS_PT_COEF_MAX", GETPOST("LLTRUCKS_PT_COEF_MAX"), 'chaine', 0, '', $conf->entity);
+    dolibarr_set_const($db, "LLTRUCKS_EXCLUDE_IMPRO", json_encode(GETPOST("LLTRUCKS_EXCLUDE_IMPRO")), 'chaine', 0, '', 0);
 }
 
 $sql = "SELECT code, label "; 
@@ -70,6 +71,20 @@ if ($resql)
 		$TOR[$obj->code] = $obj->label;
 	}
 }
+
+$sql = "SELECT DISTINCT label,code ";
+$sql.= "FROM llx_operationorderbarcode";
+
+
+$resql = $db->query($sql);
+if ($resql)
+{
+    while ($obj = $db->fetch_object($resql))
+    {
+        $IMPROR[$obj->code] = $obj->label;
+    }
+}
+
 /*
  * View
  */
@@ -124,6 +139,14 @@ print '<tr class="oddeven">';
 print '<td width="300px">'.$langs->trans("ptfactvar").'</td>';
 print '<td><input class="right maxwidth=510" type="number" name="LLTRUCKS_PT_COEF_MIN" value="'.$conf->global->LLTRUCKS_PT_COEF_MIN.'"> ';
 print '<input class="right maxwidth=510" type="number" name="LLTRUCKS_PT_COEF_MAX" value="'.$conf->global->LLTRUCKS_PT_COEF_MAX.'"></td></tr>';
+
+
+$val=array();
+$val=json_decode($conf->global->LLTRUCKS_EXCLUDE_IMPRO);
+print '<tr class="oddeven">';
+print '<td width="300px">'.$langs->trans("Excludeimpro").'</td>';
+print '<td>' . $form->multiselectarray('LLTRUCKS_EXCLUDE_IMPRO', $IMPROR, $val, $key_in_label = 0, $value_as_key = 0, '', 0, '100%', '', '', '', 1) . '</td></tr>';
+
 
 print '</table>';
 
