@@ -50,3 +50,15 @@ titre2 = Conforme / réalié
 titre3 = observation
 lohrv1z5v1 = Contrôle de l'état du témoin d'usure des plaquettes de frein (clignotement ou éteint)(si équipé)
 lohrv1z5v2 = Contrôle d'absence de fuite d'air sur l'équipement
+
+PointageBtnSubmitSearch = Rechercher
+Month = Mois
+Day = Jour
+Name = Nom de l'employé
+DateD�but = Premier pointage
+DateFin = Dernier pointage
+Amplitude = Amplitude journalière
+Duree = temps de travail effectif
+DateWeek = Jour de la semaine
+Htheorique = Temps prévu
+Hsup = Heures sups
