@@ -277,7 +277,7 @@ if($res>0){
 			$coef_part = round(($qtyUsed-$line->qty)*100,2);
 			$qtyadjust = 0;
 			if($qtyUsed<$line->qty){
-				$qtyadjust= ($line->qty-$qtyUsed)*-1;
+				$qtyadjust= ($line->qty-$qtyUsed);
 			}
 			$nb_part++;
 			print '<form method="post" action="orcheck.php">';
