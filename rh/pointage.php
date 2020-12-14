@@ -29,7 +29,7 @@ _fiche($fk_user);
  * View
  */
 
-//préparation de la requête avec un filtre qui récupère les données séléctionnées dans le tableau LLTRUCKS_EXCLUDE_IMPRO
+//prï¿½paration de la requï¿½te avec un filtre qui rï¿½cupï¿½re les donnï¿½es sï¿½lï¿½ctionnï¿½es dans le tableau LLTRUCKS_EXCLUDE_IMPRO
 $filter = '';
 $x = array();
 $x = json_decode($conf->global->LLTRUCKS_EXCLUDE_IMPRO);
@@ -37,7 +37,7 @@ if (is_array($x)){
 	foreach ($x as $key => $val){
 		$filter .= '"'.$val.'",';
 	}
-	//On enlève le dernier caractère de $filter ie la dernière virgule
+	//On enlï¿½ve le dernier caractï¿½re de $filter ie la derniï¿½re virgule
 	$filter=substr($filter, 0, -1);
 }
 
@@ -59,6 +59,7 @@ if ($action=='search'){
 	$sql .= ' GROUP BY u.rowid,  YEAR (op.task_datehour_d), MONTH (op.task_datehour_d), DAY (op.task_datehour_d)';
 	$sql .= ' ORDER BY op.task_datehour_d';
 	$resql=$db->query($sql);
+	print $sql;exit;
 	
 	if ($resql){
 		
@@ -82,7 +83,7 @@ if ($action=='search'){
 		print '<thead>';
 		print '<tr class="liste_titre_filter" >';
 		print ' <th class="liste_titre" colspan="2" >' . $langs->trans ( 'Day' ) . '</th>';
-		print ' <th class="liste_titre" >' . $langs->trans ( 'DateDébut' ) . '</th>';
+		print ' <th class="liste_titre" >' . $langs->trans ( 'DateDï¿½but' ) . '</th>';
 		print ' <th class="liste_titre" >' . $langs->trans ( 'DateFin' ) . '</th>';
 		print ' <th class="liste_titre" >' . $langs->trans ( 'Amplitude' ) . '</th>';
 		print ' <th class="liste_titre" >' . $langs->trans ( 'Duree' ) . '</th>';
@@ -93,7 +94,7 @@ if ($action=='search'){
 		
 		print '<tbody>';
 		
-		//préparation de 2 tableaux pour convertir avec str_replace les jours anglais rendus par le format date_format par des mots français lors de l'affichage
+		//prï¿½paration de 2 tableaux pour convertir avec str_replace les jours anglais rendus par le format date_format par des mots franï¿½ais lors de l'affichage
 		$jourAnglais = array("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
 		$jourFrancais = array("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche");
 		
@@ -167,7 +168,7 @@ if ($action=='search'){
 				$totalPrevuW = 0;
 				$totalHSupW = 0;				
 			}
-			//mise à jour de la valeur de jourprec avant la boucle suivante
+			//mise ï¿½ jour de la valeur de jourprec avant la boucle suivante
 			$jourprec = $valjour['jour_semaine'];
 			//calcul des totaux
 			$totalEffW += $valjour['total_duration'];
@@ -197,7 +198,7 @@ if ($action=='search'){
 			print '</tr>';			
 		}
 		
-		// affichage total dernière semaine		
+		// affichage total derniï¿½re semaine		
 			if($totalHSupW<0){
 				$sign = "-";
 			}else{
