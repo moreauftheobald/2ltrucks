@@ -137,7 +137,7 @@ if($res>0){
 				$lineupdated->fk_warehouse,
 				abs(GETPOST("debit")),
 				0,
-				$langs->trans('productNotUsedForOorder', $object->ref) . 'Debit manuel'
+				$langs->trans('productNotUsedForOorder', $object->ref) . 'retour manuel'
 			);
 		}
 		if ($result > 0){
