@@ -64,3 +64,11 @@ Htheorique = Temps prévu
 Hsup = Heures sups
 ProgressDeclared = Avancement de la tache
 
+OrderBtnSubmitSearch = Recherche par bon de commande
+ProductBtnSubmitSearch = Recherche par produit
+OrderNumber = Référence Fournisseur
+refFournisseur = Référence Fournisseur
+refTH = Référence Theobald
+refClient = Référence Client
+barcode = Code Barre
+label = Nom de l'article
