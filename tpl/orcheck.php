@@ -121,7 +121,7 @@ if($res>0){
 		$mvt = new MouvementStock($db);
 		$mvt->origin = $object;
 		
-		if(GETPOST("debit") <0){
+		if(GETPOST("debit") >0){
 			$result = $mvt->livraison(
 				$user,
 				$lineupdated->product->id,
