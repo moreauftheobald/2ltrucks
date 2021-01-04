@@ -59,7 +59,6 @@ if ($action=='search'){
 	$sql .= ' GROUP BY u.rowid,  YEAR (op.task_datehour_d), MONTH (op.task_datehour_d), DAY (op.task_datehour_d)';
 	$sql .= ' ORDER BY op.task_datehour_d';
 	$resql=$db->query($sql);
-	print $sql;exit;
 	
 	if ($resql){
 		
