@@ -106,7 +106,17 @@ class Interfacelltruckstrigger
                 $TLastLinesByProduct = $operation_order->getLastLinesByProduct();
                 $qtyUsed = $object->getQtyUsed($TLineQtyUsed, $TLastLinesByProduct);
                 if($qtyUsed<>0){
-                    $res= $object->product->correct_stock($user, $object->fk_warehouse, $qtyUsed, 0, 'Suppression ligne OR ' . $operation_order->ref,  0, '', 'operationorder', $operation_order->id);
+                    dol_include_once('/product/stock/class/mouvementstock.class.php');
+                    $mvt = new MouvementStock($object->db);
+                    $mvt->origin =  $operation_order;
+                    $result = $mvt->reception(
+                        $user,
+                        $object->fk_product,
+                        $object->fk_warehouse,
+                        $qtyUsed,
+                        0,
+                        'Suppression ligne OR ' . $operation_order->ref
+                        );
                 }
             }
          }
