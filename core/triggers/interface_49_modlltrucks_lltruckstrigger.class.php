@@ -96,6 +96,20 @@ class Interfacelltruckstrigger
         // Data and type of action are stored into $object and $action
         // Users
         
+         if($action == 'OPERATIONORDERDET_DELETE'){
+            global $user;
+            if($object->product_type == 0){
+                dol_include_once('operationorder/class/operationorder.class.php');
+                $operation_order = new OperationOrder($object->db);
+                $operation_order->fetch($object->fk_operation_order);
+                $TLineQtyUsed = $operation_order->getAlreadyUsedQtyLines();
+                $TLastLinesByProduct = $operation_order->getLastLinesByProduct();
+                $qtyUsed = $object->getQtyUsed($TLineQtyUsed, $TLastLinesByProduct);
+                if($qtyUsed<>0){
+                    $res= $object->product->correct_stock($user, $object->fk_warehouse, $qtyUsed, 0, 'Suppression ligne OR ' . $operation_order->ref,  0, '', 'operationorder', $operation_order->id);
+                }
+            }
+         }
     	    	    	   	    	    	
      	if($action == 'SUPPLIER_PRODUCT_BUYPRICE_UPDATE' && $conf->entity == 1){
      		global $newprice;
