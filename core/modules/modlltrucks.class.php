@@ -152,6 +152,7 @@ class modlltrucks extends DolibarrModules
 				'ticket:-tabTicketDocument:NU:1',
 				'ticket:+documents:documents:lltrucks@lltrucks:$conf->ticket->enabled:/lltrucks/tab/ticket_document.php?id=__ID__',
 				'supplierorder_admin:+multientitysharing:multientitysharing:lltrucks@lltrucks:$conf->fournisseur->enabled:/lltrucks/tab/multicompany_cf_sharing.php',
+		        'operationorder@operationorder:+pointage:pointage:lltrucks@lltrucks:1:/lltrucks/tab/operationorder_pointage.php?id=__ID__',
 		);
 
         // Dictionaries

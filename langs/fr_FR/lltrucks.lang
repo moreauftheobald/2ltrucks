@@ -72,3 +72,5 @@ refTH = Référence Theobald
 refClient = Référence Client
 barcode = Code Barre
 label = Nom de l'article
+
+OperationOrderPointageList=Liste des pointges de l'OR
