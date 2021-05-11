@@ -9,7 +9,7 @@ class lltrucks extends CommonObject
     }
 
 
- /*   public function getorlinkedHV($or) {
+    public function getorlinkedHV($or) {
 
         $sql = 'SELECT rowid';
         $sql .= ' FROM '.MAIN_DB_PREFIX.'dolifleet_vehicule_link';
@@ -45,7 +45,7 @@ class lltrucks extends CommonObject
         }
         return $out;
 
-    } */
+    }
 }
 
 
